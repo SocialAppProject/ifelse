@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "286129573775",
+    "firebase_url": "https://ifelse-e8f08.firebaseio.com",
+    "project_id": "ifelse-e8f08",
+    "storage_bucket": "ifelse-e8f08.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286129573775:android:4238b9c652544d69",
+        "android_client_info": {
+          "package_name": "com.socialappproject.ifelse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "286129573775-9vcmtosrd641nptle067i2e0rse066nc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcVG1okFCHzoP_yMbdFYuobcHhJTKpRnw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
