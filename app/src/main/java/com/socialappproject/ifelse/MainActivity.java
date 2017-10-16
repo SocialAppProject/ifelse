@@ -1,23 +1,29 @@
 package com.socialappproject.ifelse;
 
+import android.content.Intent;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import android.support.design.widget.BottomNavigationView;
+import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final String TAG = "MainActivity";
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+    private Button mLogoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
+        mFirebaseAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -33,52 +39,70 @@ public class MainActivity extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    Toast.makeText(getApplicationContext(), user.getEmail() + "님 안녕하세요!",
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
-                // ...
             }
         };
 
-        // show dialog when sign_up button clicked
-        findViewById(R.id.sign_up).setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        //여기에 이벤트를 적어주세요
-                        showInputID_Dialog();
-                    }
-                }
-        );
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        mLogoutButton = (Button) findViewById(R.id.test_logoutbutton);
+        mLogoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFirebaseAuth.signOut();
+            }
+        });
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+        mFirebaseAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
+            mFirebaseAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_newsfeed:
+                    Toast.makeText(MainActivity.this, "뉴스피드", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.navigation_mymenu:
+                    Toast.makeText(MainActivity.this, "마이메뉴", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.navigation_statistic:
+                    Toast.makeText(MainActivity.this, "통계", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.navigation_option:
+                    Toast.makeText(MainActivity.this, "옵션", Toast.LENGTH_SHORT).show();
+                    return true;
+            }
+            return false;
+        }
+
+    };
 
     private void endSplash() { // splash 이미지로 앱이 시작하여 2초 유지 후 본래 테마로 복귀
         SystemClock.sleep(2000);
         setTheme(R.style.AppTheme);
     }
 
-    private void showInputID_Dialog() { // show dialog method
-
-        FragmentManager fm = getSupportFragmentManager();
-        InputID_SignUpFragment inputIDSignUpFragment = InputID_SignUpFragment.newInstance("input_id");
-
-        inputIDSignUpFragment.show(fm, "fragment_input_id");
-
-    }
 
 }

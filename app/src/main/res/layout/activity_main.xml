@@ -1,77 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.socialappproject.ifelse.MainActivity">
 
-    <TextView
-        android:id="@+id/ifelse"
+    <FrameLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:text="{ if else }"
-        android:textColor="#FFFFFF"
-        android:textSize="50sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <TextView
-            android:id="@+id/ID"
-            style="@style/mainText"
-            android:layout_alignBottom="@+id/ifelse"
-            android:text="ID" />
-
-        <EditText
-            android:id="@+id/ID_input"
-            style="@style/mainText"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="e-mail" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/PW"
-            style="@style/mainText"
-            android:text="PW" />
-
-        <EditText
-            android:id="@+id/PW_input"
-            style="@style/mainText"
-            android:ems="10"
-            android:inputType="textPassword"
-            android:text="password" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/title_newsfeed"/>
 
         <Button
-            android:id="@+id/sign_up"
-            style="@style/mainText"
-            android:text="회원가입" />
+            android:id="@+id/test_logoutbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="logout_test"
+            />
 
-        <Button
-            android:id="@+id/findPW"
-            style="@style/mainText"
-            android:text="비밀번호 찾기" />
+    </FrameLayout>
 
-    </LinearLayout>
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/navigation"/>
 
 </LinearLayout>

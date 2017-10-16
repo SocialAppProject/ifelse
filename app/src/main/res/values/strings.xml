@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Ifelse</string>
+
+    <!-- Strings related to login -->
+    <string name="login">로그인</string>
+    <string name="register">회원가입</string>
+    <string name="go_register">아직 회원이 아니십니까? 지금 가입하세요</string>
+    <string name="already_member">이미 회원이세요? 지금 로그인하세요</string>
+
+    <!-- Strings related to User -->
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+
+
+    <string name="title_newsfeed">Newsfeed</string>
+    <string name="title_mymenu">Mymenu</string>
+    <string name="title_statistic">Statistic</string>
+    <string name="title_option">Option</string>
 </resources>

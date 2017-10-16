@@ -2,8 +2,10 @@
 <resources>
     <color name="colorPrimary">#A3CACC</color>
     <color name="colorPrimaryDark">#7D9B9E</color>
+    <color name="colorPrimaryDarker">#000000</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="iron">#CCCCCC</color>
 
 </resources>
