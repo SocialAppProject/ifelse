@@ -47,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signup();
+                register();
             }
         });
 
@@ -60,11 +60,11 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    public void signup() {
+    public void register() {
         Log.d(TAG, "Register");
 
         if (!validate()) {
-            onSignupFailed();
+            onRegisterFailed();
             return;
         }
 
@@ -86,24 +86,24 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "회원가입 : " + task.isSuccessful());
-                        if (task.isSuccessful()) {
-                            onSignupSuccess();
-                        } else {
-                            onSignupFailed();
-                        }
+                        if (task.isSuccessful())
+                            onRegisterSuccess();
+                        else
+                            onRegisterFailed();
+
                         progressDialog.dismiss();
                     }
                 });
     }
 
-    public void onSignupSuccess() {
+    public void onRegisterSuccess() {
         _signupButton.setEnabled(true);
         Toast.makeText(RegisterActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
         setResult(RESULT_OK, null);
         finish();
     }
 
-    public void onSignupFailed() {
+    public void onRegisterFailed() {
         _signupButton.setEnabled(true);
         Toast.makeText(RegisterActivity.this, "회원가입 실패", Toast.LENGTH_SHORT).show();
     }
