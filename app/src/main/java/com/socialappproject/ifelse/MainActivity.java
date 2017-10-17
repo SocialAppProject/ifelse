@@ -1,5 +1,9 @@
 package com.socialappproject.ifelse;
 
+/**
+ * Created by Kimjungmin on 2017. 10. 15..
+ */
+
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;

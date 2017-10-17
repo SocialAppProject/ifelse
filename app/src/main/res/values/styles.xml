@@ -47,8 +47,8 @@
         <item name="colorControlHighlight">@color/colorWhite</item>
         <item name="android:textColorHint">@color/colorWhite</item>
 
-        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
-        <item name="android:colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="colorButtonNormal">@color/colorPrimaryDarker</item>
+        <item name="android:colorButtonNormal">@color/colorPrimaryDarker</item>
     </style>
 
     <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">

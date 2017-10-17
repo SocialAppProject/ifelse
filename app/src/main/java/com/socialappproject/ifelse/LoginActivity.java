@@ -1,5 +1,9 @@
 package com.socialappproject.ifelse;
 
+/**
+ * Created by Kimjungmin on 2017. 10. 16..
+ */
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
