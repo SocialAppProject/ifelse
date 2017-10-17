@@ -23,11 +23,15 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    private static final int REQUEST_WRITE = 0;
+    private static final int REQUEST_ARTICLE = 1;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     private Button mLogoutButton;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mFirebaseAuth.signOut();
+            }
+        });
+
+        findViewById(R.id.test_writebutton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), WriteActivity.class);
+                startActivityForResult(intent, REQUEST_WRITE);
+            }
+        });
+
+        findViewById(R.id.test_articlebutton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ArticleActivity.class);
+                startActivityForResult(intent, REQUEST_ARTICLE);
             }
         });
     }
@@ -106,6 +126,19 @@ public class MainActivity extends AppCompatActivity {
     private void endSplash() { // splash 이미지로 앱이 시작하여 2초 유지 후 본래 테마로 복귀
         SystemClock.sleep(2000);
         setTheme(R.style.AppTheme);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_WRITE) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(MainActivity.this, "게시글을 성공적으로 작성하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (requestCode == REQUEST_ARTICLE) {
+            if (resultCode == RESULT_OK) {
+            }
+        }
     }
 
 

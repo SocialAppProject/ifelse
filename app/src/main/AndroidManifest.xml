@@ -27,7 +27,14 @@
         <activity
             android:name=".LoginActivity" android:theme="@style/AppTheme.Dark">
         </activity>
-        <activity android:name=".RegisterActivity" android:theme="@style/AppTheme.Dark">
+        <activity
+            android:name=".RegisterActivity" android:theme="@style/AppTheme.Dark">
+        </activity>
+        <activity
+            android:name=".WriteActivity" android:theme="@style/AppTheme.Dark">
+        </activity>
+        <activity
+            android:name=".ArticleActivity" android:theme="@style/AppTheme.Dark">
         </activity>
     </application>
 

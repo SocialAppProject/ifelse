@@ -13,6 +13,8 @@ public class Article {
     private String option2;
     private Date startTime;
     private Date endTime;
+    private int target_old;
+    private int target_gender;
     private String category;
     private String articleID;
     private String UserID;
@@ -40,6 +42,14 @@ public class Article {
 
     public Date getEndTime() {
         return endTime;
+    }
+
+    public int getTarget_old() {
+        return target_old;
+    }
+
+    public int getTarget_gender() {
+        return target_gender;
     }
 
     public String getCategory() {
@@ -76,6 +86,14 @@ public class Article {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public void setTarget_old(int target_old) {
+        this.target_old = target_old;
+    }
+
+    public void setTarget_gender(int target_gender) {
+        this.target_gender = target_gender;
     }
 
     public void setCategory(String category) {

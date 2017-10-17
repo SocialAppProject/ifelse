@@ -25,12 +25,29 @@
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/title_newsfeed"/>
 
-        <Button
-            android:id="@+id/test_logoutbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="logout_test"
-            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/test_logoutbutton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="logout_test" />
+
+            <Button
+                android:id="@+id/test_writebutton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="write_test" />
+
+            <Button
+                android:id="@+id/test_articlebutton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="article_test" />
+        </LinearLayout>
 
     </FrameLayout>
 

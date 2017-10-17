@@ -12,6 +12,17 @@
     <string name="password">Password</string>
     <string name="name">Name</string>
 
+    <!-- Strings related to Write and Article -->
+    <string name="title">제목</string>
+    <string name="description">설명</string>
+    <string name="startTime">시작 시간</string>
+    <string name="endTime">끝 시간</string>
+    <string name="option1">선택지</string>
+    <string name="option2">선택지</string>
+    <string name="target_old">나이</string>
+    <string name="target_gender">성별</string>
+    <string name="category">카테고리</string>
+
 
     <string name="title_newsfeed">Newsfeed</string>
     <string name="title_mymenu">Mymenu</string>
