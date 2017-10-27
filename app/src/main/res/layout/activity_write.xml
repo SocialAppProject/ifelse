@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:rsb="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true">
 
     <LinearLayout
@@ -43,20 +44,47 @@
         </android.support.design.widget.TextInputLayout>
 
         <!--  Gender Label -->
-        <android.support.design.widget.TextInputLayout
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/check_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:text="@string/gender_all" />
+
+            <CheckBox
+                android:id="@+id/check_men"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:text="@string/gender_men" />
+
+            <CheckBox
+                android:id="@+id/check_women"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:text="@string/gender_women" />
+        </LinearLayout>
+
+        <org.florescu.android.rangeseekbar.RangeSeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp">
-
-            <EditText
-                android:id="@+id/input_gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/description"
-                android:inputType="textCapWords"/>
-        </android.support.design.widget.TextInputLayout>
-
+            android:layout_marginTop="8dp"
+            rsb:absoluteMaxValue="100"
+            rsb:absoluteMinValue="0" />
 
         <!--  Options Label -->
         <LinearLayout
@@ -64,37 +92,58 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+
+            <TextView
+                android:id="@+id/input_option1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:text="@string/option1"
+                android:gravity="center" />
 
-                <EditText
-                    android:id="@+id/option1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/option1"
-                    android:inputType="textCapWords" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <TextView
+                android:id="@+id/input_option2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:text="@string/option2"
+                android:gravity="center" />
 
-                <EditText
-                    android:id="@+id/option2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/option2"
-                    android:inputType="textCapWords" />
-            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
 
+        <Spinner
+            android:id="@+id/spin_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cancel_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:text="@string/cancel" />
+
+            <Button
+                android:id="@+id/write_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:text="@string/ok" />
         </LinearLayout>
 
     </LinearLayout>

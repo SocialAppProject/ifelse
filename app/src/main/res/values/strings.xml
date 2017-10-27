@@ -20,8 +20,30 @@
     <string name="option1">선택지</string>
     <string name="option2">선택지</string>
     <string name="target_old">나이</string>
+
+    <!-- Strings related to Write -->
+    <string name="spinner">카테고리를 선택해주세요</string>
     <string name="target_gender">성별</string>
     <string name="category">카테고리</string>
+    <string name="gender_men">남성</string>
+    <string name="gender_women">여성</string>
+    <string name="gender_all">양성</string>
+    <string name="category_food">음식</string>
+    <string name="category_fashion">패</string>
+    <string name="category_love">연애</string>
+    <string name="category_study">진로 및 학업</string>
+    <string name="category_game">게임</string>
+    <string name="category_place">장소</string>
+    <string name="category_beauty">뷰티</string>
+    <string name="category_etc">기타</string>
+    <string name="cancel">취소</string>
+    <string name="ok">확인</string>
+
+
+    <string-array name="option_ary">
+        <item>사진 넣기</item>
+        <item>글로 쓰기</item>
+    </string-array>
 
 
     <string name="title_newsfeed">Newsfeed</string>

@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_WRITE) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(MainActivity.this, "게시글을 성공적으로 작성하였습니다.", Toast.LENGTH_SHORT).show();
             }
         }
         else if (requestCode == REQUEST_ARTICLE) {
