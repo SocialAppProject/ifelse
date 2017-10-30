@@ -1,13 +1,36 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- AppTheme -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- AppTheme.Dark -->
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowBackground">@color/colorPrimary</item>
+
+        <item name="colorControlNormal">@color/colorWhite</item>
+        <item name="colorControlActivated">@color/colorWhite</item>
+        <item name="colorControlHighlight">@color/colorWhite</item>
+        <item name="android:textColorHint">@color/colorWhite</item>
+
+        <item name="colorButtonNormal">@color/colorPrimaryDarker</item>
+        <item name="android:colorButtonNormal">@color/colorPrimaryDarker</item>
+    </style>
+
+    <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/colorWhite</item>
+        <item name="android:textColorPrimary">@color/iron</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <!-- SplashTheme -->
     <style name="SplashTheme" parent="AppTheme">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -34,28 +57,5 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
-    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
-        <item name="android:windowBackground">@color/colorPrimary</item>
-
-        <item name="colorControlNormal">@color/colorWhite</item>
-        <item name="colorControlActivated">@color/colorWhite</item>
-        <item name="colorControlHighlight">@color/colorWhite</item>
-        <item name="android:textColorHint">@color/colorWhite</item>
-
-        <item name="colorButtonNormal">@color/colorPrimaryDarker</item>
-        <item name="android:colorButtonNormal">@color/colorPrimaryDarker</item>
-    </style>
-
-    <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
-        <item name="colorAccent">@color/colorWhite</item>
-        <item name="android:textColorPrimary">@color/iron</item>
-        <item name="android:background">@color/colorPrimary</item>
-    </style>
-
 
 </resources>
