@@ -7,10 +7,14 @@
     <string name="go_register">아직 회원이 아니십니까? 지금 가입하세요</string>
     <string name="already_member">이미 회원이세요? 지금 로그인하세요</string>
 
-    <!-- Strings related to User -->
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="name">Name</string>
+    <!-- Strings related to Register -->
+    <string name="email">이메일</string>
+    <string name="password">비밀번호</string>
+    <string name="name">이름(닉네임)</string>
+    <string name="female">여성</string>
+    <string name="male">남성</string>
+    <string name="gender">성별</string>
+    <string name="old">나이</string>
 
     <!-- Strings related to Write and Article -->
     <string name="title">제목</string>

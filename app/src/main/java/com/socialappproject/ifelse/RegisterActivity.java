@@ -10,8 +10,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,18 +26,28 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
 
     private FirebaseAuth mFirebaseAuth;
 
-    @InjectView(R.id.input_name)
-    EditText _nameText;
+    private RadioButton femaleRadioButton;
+
     @InjectView(R.id.input_email)
     EditText _emailText;
     @InjectView(R.id.input_password)
     EditText _passwordText;
+    @InjectView(R.id.input_name)
+    EditText _nameText;
+    @InjectView(R.id.genderGroup)
+    RadioGroup _genderRadioGroup;
+    @InjectView(R.id.oldSpinner)
+    Spinner _oldSpinner;
     @InjectView(R.id.btn_signup)
     Button _signupButton;
     @InjectView(R.id.link_login)
@@ -45,6 +59,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
+        femaleRadioButton = (RadioButton) findViewById(R.id.option_female);
+        setSpinner();
 
         ButterKnife.inject(this);
 
@@ -58,7 +74,6 @@ public class RegisterActivity extends AppCompatActivity {
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Finish the registration screen and return to the Login activity
                 finish();
             }
         });
@@ -80,19 +95,20 @@ public class RegisterActivity extends AppCompatActivity {
         progressDialog.setMessage("회원가입중...");
         progressDialog.show();
 
-        // TODO: User의 다른 속성들 추가해서 User user = new User() 하면서 데이터베이스에도 추가해야됨
-        String name = _nameText.getText().toString();
-        String email = _emailText.getText().toString();
+        final User user = createUser();
+
+        String email = user.getEmail();
         String password = _passwordText.getText().toString();
 
         mFirebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "회원가입 : " + task.isSuccessful());
-                        if (task.isSuccessful())
+                        if (task.isSuccessful()) {
                             onRegisterSuccess();
-                        else
+                            DatabaseManager.databaseReference.child("USER")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
+                        } else
                             onRegisterFailed();
 
                         progressDialog.dismiss();
@@ -115,16 +131,9 @@ public class RegisterActivity extends AppCompatActivity {
     public boolean validate() {
         boolean valid = true;
 
-        String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
-
-        if (name.isEmpty() || name.length() < 2) {
-            _nameText.setError("최소 2글자 이상 입력해주세요");
-            valid = false;
-        } else {
-            _nameText.setError(null);
-        }
+        String name = _nameText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             _emailText.setError("올바른 이메일 형식을 입력하세요");
@@ -140,6 +149,40 @@ public class RegisterActivity extends AppCompatActivity {
             _passwordText.setError(null);
         }
 
+        if (name.isEmpty() || name.length() < 2) {
+            _nameText.setError("최소 2글자 이상 입력해주세요");
+            valid = false;
+        } else {
+            _nameText.setError(null);
+        }
+
         return valid;
+    }
+
+    public User createUser() {
+        String email = _emailText.getText().toString();
+        String name = _nameText.getText().toString();
+        int old = (int) _oldSpinner.getSelectedItem();
+        int gender;
+        if (femaleRadioButton.isChecked())
+            gender = 0;
+        else
+            gender = 1;
+
+        return new User(email, name, gender, old);
+    }
+
+    private void setSpinner() {
+        List age = new ArrayList<>();
+        for (int i = 1; i < 101; i++)
+            age.add(i);
+
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(
+                this, android.R.layout.simple_spinner_item, age);
+        adapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
+
+        _oldSpinner = (Spinner) findViewById(R.id.oldSpinner);
+        _oldSpinner.setAdapter(adapter);
     }
 }

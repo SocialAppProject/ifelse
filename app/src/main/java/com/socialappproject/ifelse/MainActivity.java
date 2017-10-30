@@ -29,9 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    private BottomNavigationView mNavigationView;
     private Button mLogoutButton;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,26 +38,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    Toast.makeText(getApplicationContext(), user.getEmail() + "님 안녕하세요!",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                }
-            }
-        };
+        authenticate();
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        mNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        mNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mLogoutButton = (Button) findViewById(R.id.test_logoutbutton);
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
@@ -85,20 +68,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mFirebaseAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mFirebaseAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -123,20 +92,54 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
-    private void endSplash() { // splash 이미지로 앱이 시작하여 2초 유지 후 본래 테마로 복귀
-        SystemClock.sleep(2000);
-        setTheme(R.style.AppTheme);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_WRITE) {
             if (resultCode == RESULT_OK) {
             }
-        }
-        else if (requestCode == REQUEST_ARTICLE) {
+        } else if (requestCode == REQUEST_ARTICLE) {
             if (resultCode == RESULT_OK) {
             }
+        }
+    }
+
+    // 회원 인증
+    private void authenticate() {
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {// 로그인 되어있음
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    Toast.makeText(getApplicationContext(), user.getEmail() + "님 안녕하세요!",
+                            Toast.LENGTH_SHORT).show();
+                } else {// 로그인 안되어있음
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                }
+            }
+        };
+    }
+
+    // splash 이미지로 앱이 시작하여 2초 유지 후 본래 테마로 복귀
+    private void endSplash() {
+        SystemClock.sleep(2000);
+        setTheme(R.style.AppTheme);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mFirebaseAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthListener);
         }
     }
 }

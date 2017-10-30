@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    xmlns:rsb="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true">
+            xmlns:rsb="http://schemas.android.com/apk/res-auto"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         android:paddingTop="24dp">
 
         <!--  Title Label -->
-            <android.support.design.widget.TextInputLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -57,7 +57,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="@string/gender_all" />
+                android:text="@string/gender_all"/>
 
             <CheckBox
                 android:id="@+id/check_men"
@@ -66,7 +66,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="@string/gender_men" />
+                android:text="@string/gender_men"/>
 
             <CheckBox
                 android:id="@+id/check_women"
@@ -75,7 +75,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="@string/gender_women" />
+                android:text="@string/gender_women"/>
         </LinearLayout>
 
         <org.florescu.android.rangeseekbar.RangeSeekBar
@@ -84,7 +84,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             rsb:absoluteMaxValue="100"
-            rsb:absoluteMinValue="0" />
+            rsb:absoluteMinValue="0"/>
 
         <!--  Options Label -->
         <LinearLayout
@@ -100,8 +100,8 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="@string/option1"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="@string/option1"/>
 
             <TextView
                 android:id="@+id/input_option2"
@@ -110,8 +110,8 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="@string/option2"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="@string/option2"/>
 
         </LinearLayout>
 
@@ -134,7 +134,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="@string/cancel" />
+                android:text="@string/cancel"/>
 
             <Button
                 android:id="@+id/write_btn"
@@ -143,7 +143,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="@string/ok" />
+                android:text="@string/ok"/>
         </LinearLayout>
 
     </LinearLayout>
