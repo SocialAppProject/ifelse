@@ -39,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     Button _loginButton;
     @InjectView(R.id.link_signup)
     TextView _signupLink;
+    @InjectView(R.id.link_find)
+    TextView _findLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,8 +63,16 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
+                Intent registerIntent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivityForResult(registerIntent, REQUEST_SIGNUP);
+            }
+        });
+
+        _findLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent findIntent = new Intent(LoginActivity.this, FindActivity.class);
+                LoginActivity.this.startActivity(findIntent);
             }
         });
     }

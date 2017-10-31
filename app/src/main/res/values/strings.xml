@@ -5,7 +5,7 @@
     <string name="login">로그인</string>
     <string name="register">회원가입</string>
     <string name="go_register">아직 회원이 아니십니까? 지금 가입하세요</string>
-    <string name="already_member">이미 회원이세요? 지금 로그인하세요</string>
+    <string name="go_find">비밀번호를 잊으셨나요?</string>
 
     <!-- Strings related to Register -->
     <string name="email">이메일</string>
@@ -15,6 +15,12 @@
     <string name="male">남성</string>
     <string name="gender">성별</string>
     <string name="old">나이</string>
+    <string name="already_member">이미 회원이세요? 지금 로그인하세요</string>
+
+    <!-- Strings related to Find password -->
+    <string name="find_password">비밀번호 찾기</string>
+    <string name="input_email">가입한 Email 주소를 입력하세요</string>
+    <string name="send_email">Email 발송</string>
 
     <!-- Strings related to Write and Article -->
     <string name="title">제목</string>

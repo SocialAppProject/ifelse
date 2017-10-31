@@ -18,23 +18,32 @@
             android:name=".MainActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"
-                        android:theme="@style/AppTheme.Dark"/>
+                <action
+                    android:name="android.intent.action.MAIN"
+                    android:theme="@style/AppTheme.Dark"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity" android:theme="@style/AppTheme.Dark">
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.Dark">
         </activity>
         <activity
-            android:name=".RegisterActivity" android:theme="@style/AppTheme.Dark">
+            android:name=".RegisterActivity"
+            android:theme="@style/AppTheme.Dark">
         </activity>
         <activity
-            android:name=".WriteActivity" android:theme="@style/AppTheme">
+            android:name=".WriteActivity"
+            android:theme="@style/AppTheme">
         </activity>
         <activity
-            android:name=".ArticleActivity" android:theme="@style/AppTheme">
+            android:name=".ArticleActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".FindActivity"
+            android:theme="@style/AppTheme.Dark">
         </activity>
     </application>
 
