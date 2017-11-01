@@ -11,11 +11,13 @@ public class Article {
     private String description;
     private String option1;
     private String option2;
+    private Boolean option1_flag;
+    private Boolean option2_flag;
     private Date startTime;
     private Date endTime;
     private int target_old;
     private int target_gender;
-    private String category;
+    private int category;
     private String articleID;
     private String UserID;
 
@@ -52,7 +54,7 @@ public class Article {
         return target_gender;
     }
 
-    public String getCategory() {
+    public int getCategory() {
         return category;
     }
 
@@ -96,7 +98,7 @@ public class Article {
         this.target_gender = target_gender;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 
@@ -106,5 +108,21 @@ public class Article {
 
     public void setUserID(String userID) {
         UserID = userID;
+    }
+
+    public Boolean getOption1_flag() {
+        return option1_flag;
+    }
+
+    public void setOption1_flag(Boolean option1_flag) {
+        this.option1_flag = option1_flag;
+    }
+
+    public Boolean getOption2_flag() {
+        return option2_flag;
+    }
+
+    public void setOption2_flag(Boolean option2_flag) {
+        this.option2_flag = option2_flag;
     }
 }

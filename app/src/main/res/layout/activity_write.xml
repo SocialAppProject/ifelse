@@ -45,38 +45,39 @@
 
         <!--  Gender Label -->
 
-        <LinearLayout
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal" >
 
-            <CheckBox
-                android:id="@+id/check_all"
+            <RadioButton
+                android:id="@+id/gender_all"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="@string/gender_all"/>
+                android:text="@string/gender_all" />
 
-            <CheckBox
-                android:id="@+id/check_men"
+            <RadioButton
+                android:id="@+id/gender_men"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="@string/gender_men"/>
+                android:text="@string/gender_men" />
 
-            <CheckBox
-                android:id="@+id/check_women"
+            <RadioButton
+                android:id="@+id/gender_women"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="@string/gender_women"/>
-        </LinearLayout>
+                android:text="@string/gender_women" />
+        </RadioGroup>
+
 
         <org.florescu.android.rangeseekbar.RangeSeekBar
             android:layout_width="match_parent"
@@ -85,6 +86,13 @@
             android:layout_marginTop="8dp"
             rsb:absoluteMaxValue="100"
             rsb:absoluteMinValue="0"/>
+
+        <Spinner
+            android:id="@+id/spin_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"/>
 
         <!--  Options Label -->
         <LinearLayout
@@ -95,6 +103,35 @@
 
             <TextView
                 android:id="@+id/input_option1"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/input_option2"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -104,7 +141,6 @@
                 android:text="@string/option1"/>
 
             <TextView
-                android:id="@+id/input_option2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -115,12 +151,6 @@
 
         </LinearLayout>
 
-        <Spinner
-            android:id="@+id/spin_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
