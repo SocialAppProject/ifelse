@@ -104,7 +104,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // 회원 인증
+    /*TODO : BUG - register한뒤 로그인 안하고 그냥 앱 나갔다 오면 자동으로 로그인 되어있음
+            회원가입시 authstatelistener가 로그인 된 상태로 인식하기 때문인거같음
+     */
     private void authenticate() {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -123,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    // splash 이미지로 앱이 시작하여 2초 유지 후 본래 테마로 복귀
     private void endSplash() {
         SystemClock.sleep(2000);
         setTheme(R.style.AppTheme);

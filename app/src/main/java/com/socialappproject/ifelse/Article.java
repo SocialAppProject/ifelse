@@ -13,8 +13,7 @@ public class Article {
     private String option2;
     private Boolean option1_flag;
     private Boolean option2_flag;
-    private Date startTime;
-    private Date endTime;
+    private Date time;
     private int target_old;
     private int target_gender;
     private int category;
@@ -38,12 +37,8 @@ public class Article {
         return option2;
     }
 
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
+    public Date getTime() {
+        return time;
     }
 
     public int getTarget_old() {
@@ -82,12 +77,8 @@ public class Article {
         this.option2 = option2;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     public void setTarget_old(int target_old) {
