@@ -6,8 +6,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,6 +53,8 @@ public class WriteActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference articleRef = database.getReference("ARTICLE");
 
+    private Article article = new Article();
+
     //TODO: 아무것도 입력하지 않은 칸이 있으면 경고
 
     @Override
@@ -59,59 +63,27 @@ public class WriteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_write);
 
         findViewById(R.id.input_option1).setBackgroundResource(R.drawable.option_plus_128);
-        findViewById(R.id.input_option2).setBackgroundResource(R.drawable.option_plus_128);
-
         findViewById(R.id.input_option1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(WriteActivity.this);
                 dialog.setItems(R.array.option_ary, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        if(which == 0) {
-                            Toast.makeText(WriteActivity.this, "카메라", Toast.LENGTH_SHORT).show();
-                            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                    requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
-                                } else {
-                                    requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
-                                }
-                            } else {
-                                doCaptureImage();
-                            }
-                        }
-                        else if(which == 1) {
-                            Toast.makeText(WriteActivity.this, "사진", Toast.LENGTH_SHORT).show();
-                            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                                if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                                } else {
-                                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                                }
-                            } else {
-                                doTakeAlbum();
-                            }
-                        }
-                        else {
-                            Toast.makeText(WriteActivity.this, "글", Toast.LENGTH_SHORT).show();
-                        }
+                        clickedOptionBtn(which, 1);
                     }
                 }).show();
 
 
             }
         });
+        findViewById(R.id.input_option2).setBackgroundResource(R.drawable.option_plus_128);
         findViewById(R.id.input_option2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(WriteActivity.this);
                 dialog.setItems(R.array.option_ary, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        if(which == 0) {
-                            Toast.makeText(WriteActivity.this, "사진", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Toast.makeText(WriteActivity.this, "글", Toast.LENGTH_SHORT).show();
-                        }
+                        clickedOptionBtn(which, 2);
                     }
                 }).show();
 
@@ -151,16 +123,46 @@ public class WriteActivity extends AppCompatActivity {
         fileUri = savedInstanceState.getParcelable("file_uri");
     }
 
+    public void clickedOptionBtn(int which, int option_num) {
+        if(which == 0) {
+            Toast.makeText(WriteActivity.this, "카메라", Toast.LENGTH_SHORT).show();
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
+                } else {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
+                }
+            } else {
+                doCaptureImage(option_num);
+            }
+        }
+        else if(which == 1) {
+            Toast.makeText(WriteActivity.this, "사진", Toast.LENGTH_SHORT).show();
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                } else {
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                }
+            } else {
+                doTakeAlbum(option_num);
+            }
+        }
+        else {
+            Toast.makeText(WriteActivity.this, "글", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-    public void doTakeAlbum(){
+
+    public void doTakeAlbum(int option_num){
         Intent intent=new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
         intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        startActivityForResult(intent, PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE + option_num);
 
     }
 
-    private void doCaptureImage() {
+    private void doCaptureImage(int option_num) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, getOutputMediaFile());
@@ -171,7 +173,7 @@ public class WriteActivity extends AppCompatActivity {
         }
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null) {
-            startActivityForResult(intent, PERMISSIONS_REQUEST_CAMERA);
+            startActivityForResult(intent, PERMISSIONS_REQUEST_CAMERA + option_num);
         }
     }
 
@@ -207,7 +209,7 @@ public class WriteActivity extends AppCompatActivity {
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    doCaptureImage();
+                    doCaptureImage(1);
 
                 } else {
 
@@ -227,7 +229,7 @@ public class WriteActivity extends AppCompatActivity {
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    doTakeAlbum();
+                    doTakeAlbum(1);
 
                 } else {
 
@@ -260,6 +262,43 @@ public class WriteActivity extends AppCompatActivity {
                 Toast.makeText(WriteActivity.this, "성공적으로 새 글이 작성되었습니다.", Toast.LENGTH_SHORT).show();
             }
         }
+
+        if (requestCode == PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE + 1 && resultCode == RESULT_OK && null != data) {
+            findViewById(R.id.input_option1).setBackground(new BitmapDrawable(getResources(),
+                    BitmapFactory.decodeFile(getPicturePath(data))));
+        }
+        else if (requestCode == (PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE + 2) && resultCode == RESULT_OK && null != data) {
+            findViewById(R.id.input_option2).setBackground(new BitmapDrawable(getResources(),
+                    BitmapFactory.decodeFile(getPicturePath(data))));
+        }
+
+        if (requestCode == PERMISSIONS_REQUEST_CAMERA + 1 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            findViewById(R.id.input_option1).setBackground(new BitmapDrawable(getResources(), imageBitmap));
+        }
+        else if (requestCode == PERMISSIONS_REQUEST_CAMERA + 2 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            findViewById(R.id.input_option2).setBackground(new BitmapDrawable(getResources(), imageBitmap));
+        }
+    }
+
+
+
+    public String getPicturePath(Intent data) {
+
+        Uri selectedImage = data.getData();
+        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+        cursor.moveToFirst();
+
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String picturePath = cursor.getString(columnIndex);
+        cursor.close();
+
+        return picturePath;
     }
 
     public static String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality) {
