@@ -11,12 +11,12 @@ public class Article {
     private String description;
     private String option1;
     private String option2;
-    private int option1_flag;
+    private int option1_flag; // 0: 없음, 1: 이미지, 2: 텍스트
     private int option2_flag;
     private Date time;
     private int target_min_old;
     private int target_max_old;
-    private int target_gender;
+    private int target_gender; // 2131296329: 양성, 2131296330: 남성 2131296331: 여성
     private int category;
     private String articleID;
     private String UserID;

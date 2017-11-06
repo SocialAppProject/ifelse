@@ -46,6 +46,7 @@
         <!--  Gender Label -->
 
         <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal" >
@@ -80,20 +81,20 @@
 
 
         <org.florescu.android.rangeseekbar.RangeSeekBar
+            android:id="@+id/old_seekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             rsb:absoluteMaxValue="100"
-            rsb:absoluteMinValue="0"
-            rsb:valuesAboveThumbs="true"/>
+            rsb:absoluteMinValue="0"/>
 
         <Spinner
             android:id="@+id/spin_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp" />
 
         <!--  Options Label -->
         <LinearLayout

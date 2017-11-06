@@ -3,13 +3,16 @@ package com.socialappproject.ifelse;
 import android.*;
 import android.Manifest;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,17 +29,23 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.florescu.android.rangeseekbar.RangeSeekBar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -63,12 +72,16 @@ public class WriteActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference articleRef = database.getReference("ARTICLE");
 
+    private FirebaseAuth mFirebaseAuth;
 
 
     private Article article = new Article();
 
     Spinner _spinner;
     TextView _option1, _option2;
+    EditText _title, _description;
+    RadioGroup _radioGroup;
+    RangeSeekBar _old;
 
     //TODO: 아무것도 입력하지 않은 칸이 있으면 경고
 
@@ -77,10 +90,17 @@ public class WriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
 
-        _spinner = (Spinner) findViewById(R.id.spin_category);
+        _title = (EditText) findViewById(R.id.input_title);
+        _description = (EditText) findViewById(R.id.input_description);
 
         _option1 = (TextView) findViewById(R.id.input_option1);
         _option2 = (TextView) findViewById(R.id.input_option2);
+
+        _spinner = (Spinner) findViewById(R.id.spin_category);
+        _radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        _old = (RangeSeekBar) findViewById(R.id.old_seekBar);
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
         // Application of the Array to the Spinner
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.category_ary));
@@ -125,11 +145,60 @@ public class WriteActivity extends AppCompatActivity {
         findViewById(R.id.write_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivityForResult(intent, REQUEST_WRITE);
+
+                if (_title.getText().toString().trim().equals("")) {
+                    Toast.makeText(getApplicationContext(), "제목을 입력해주세요.", Toast.LENGTH_LONG).show();
+                } else if (_description.getText().toString().trim().equals("")) {
+                    Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_LONG).show();
+                } else if (_radioGroup.getCheckedRadioButtonId() == -1) {
+                    Toast.makeText(getApplicationContext(), "성별을 체크해주세요.", Toast.LENGTH_LONG).show();
+                } else if (article.getOption1_flag() == 0) {
+                    Toast.makeText(getApplicationContext(), "첫번째 선택지를 채워주세요.", Toast.LENGTH_LONG).show();
+                } else if (article.getOption2_flag() == 0) {
+                    Toast.makeText(getApplicationContext(), "두번째 선택지를 채워주세요.", Toast.LENGTH_LONG).show();
+                } else {
+
+                    Log.d(TAG, "satisfied conditions");
+
+                    article.setTitle(_title.getText().toString().trim());
+                    article.setDescription(_description.getText().toString().trim());
+
+                    if(article.getOption1_flag() == 1) {
+                        article.setOption1(encodeToBase64(drawableToBitmap(_option1.getBackground()), Bitmap.CompressFormat.JPEG, 100));
+                    } else if(article.getOption1_flag() == 2) {
+                        article.setOption1(_option1.getText().toString().trim());
+                    }
+                    if(article.getOption2_flag() == 1) {
+                        article.setOption2(encodeToBase64(drawableToBitmap(_option2.getBackground()), Bitmap.CompressFormat.JPEG, 100));
+                    } else if(article.getOption2_flag() == 2) {
+                        article.setOption2(_option2.getText().toString().trim());
+                    }
+
+                    article.setCategory(_spinner.getSelectedItemPosition());
+                    article.setTarget_gender(_radioGroup.getCheckedRadioButtonId());
+                    article.setUserID(mFirebaseAuth.getCurrentUser().getEmail());
+                    article.setArticleID("test");
+                    article.setTarget_min_old(_old.getRight());
+                    article.setTarget_max_old(_old.getAccessibilityTraversalBefore());
+
+                    Date currentTime = Calendar.getInstance().getTime();
+                    article.setTime(currentTime);
+
+                    DatabaseManager.databaseReference.child("ARTICLE").push().setValue(article);
+
+                }
+            }
+        });
+
+        _radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton radioButton = (RadioButton)findViewById(i);
+                Toast.makeText(getApplicationContext(), "" + i + radioButton.getText(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -157,7 +226,7 @@ public class WriteActivity extends AppCompatActivity {
         } else if(option_num == 2) {
             _option2.setText("");
             _option2.setBackgroundResource(R.drawable.option_plus_128);
-            article.setOption1_flag(0);
+            article.setOption2_flag(0);
         }
 
         if(which == 0) {
@@ -172,7 +241,7 @@ public class WriteActivity extends AppCompatActivity {
                 if(option_num == 1) {
                     article.setOption1_flag(1);
                 } else if(option_num == 2) {
-                    article.setOption1_flag(1);
+                    article.setOption2_flag(1);
                 }
                 dispatchTakePictureIntent(option_num);
             }
@@ -189,7 +258,7 @@ public class WriteActivity extends AppCompatActivity {
                 if(option_num == 1) {
                     article.setOption1_flag(1);
                 } else if(option_num == 2) {
-                    article.setOption1_flag(1);
+                    article.setOption2_flag(1);
                 }
                 doTakeAlbum(option_num);
             }
@@ -218,7 +287,7 @@ public class WriteActivity extends AppCompatActivity {
                     } else if(option_num == 2) {
                         _option2.setBackgroundResource(0);
                         _option2.setText(value);
-                        article.setOption1_flag(2);
+                        article.setOption2_flag(2);
                     }
 
                     dialog.dismiss();     //닫기
@@ -393,6 +462,20 @@ public class WriteActivity extends AppCompatActivity {
         return picturePath;
     }
 
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
     public static String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality) {
         ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
         image.compress(compressFormat, quality, byteArrayOS);
@@ -404,17 +487,7 @@ public class WriteActivity extends AppCompatActivity {
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 
-    private void writeNewArticle(String title, String Description,
-                                 String option1, String option2,
-                                 Boolean option1_flag, Boolean option2_flag,
-                                 Date startTime, Date endTime,
-                                 int target_old, int target_gender, int category,
-                                 String articleID, String userID) {
 
-        Article article = new Article();
-
-        articleRef.push().setValue(article);
-    }
 
 
 }
