@@ -24,12 +24,6 @@
             android:text="logout_test" />
 
         <Button
-            android:id="@+id/test_writebutton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="write_test" />
-
-        <Button
             android:id="@+id/test_articlebutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
