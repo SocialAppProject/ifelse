@@ -14,7 +14,8 @@ public class Article {
     private Boolean option1_flag;
     private Boolean option2_flag;
     private Date time;
-    private int target_old;
+    private int target_min_old;
+    private int target_max_old;
     private int target_gender;
     private int category;
     private String articleID;
@@ -41,8 +42,12 @@ public class Article {
         return time;
     }
 
-    public int getTarget_old() {
-        return target_old;
+    public int getTarget_min_old() {
+        return target_min_old;
+    }
+
+    public int getTarget_max_old() {
+        return target_max_old;
     }
 
     public int getTarget_gender() {
@@ -81,8 +86,12 @@ public class Article {
         this.time = time;
     }
 
-    public void setTarget_old(int target_old) {
-        this.target_old = target_old;
+    public void setTarget_min_old(int target_min_old) {
+        this.target_min_old = target_min_old;
+    }
+
+    public void setTarget_max_old(int target_max_old) {
+        this.target_max_old = target_max_old;
     }
 
     public void setTarget_gender(int target_gender) {

@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresPermission;
 import android.support.v4.content.FileProvider;
@@ -321,6 +322,7 @@ public class WriteActivity extends AppCompatActivity {
                                  Date startTime, Date endTime,
                                  int target_old, int target_gender, int category,
                                  String articleID, String userID) {
+
         Article article = new Article();
 
         articleRef.push().setValue(article);
