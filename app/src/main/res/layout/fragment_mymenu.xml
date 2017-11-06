@@ -1,0 +1,39 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.socialappproject.ifelse.MymenuFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="mymenu"/>
+
+        <Button
+            android:id="@+id/test_logoutbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="logout_test" />
+
+        <Button
+            android:id="@+id/test_writebutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="write_test" />
+
+        <Button
+            android:id="@+id/test_articlebutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="article_test" />
+    </LinearLayout>
+
+</FrameLayout>

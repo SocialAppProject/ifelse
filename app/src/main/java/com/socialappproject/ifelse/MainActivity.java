@@ -7,6 +7,10 @@ package com.socialappproject.ifelse;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +25,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
     private static final String TAG = "MainActivity";
     private static final int REQUEST_WRITE = 0;
     private static final int REQUEST_ARTICLE = 1;
@@ -30,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     private BottomNavigationView mNavigationView;
-    private Button mLogoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +43,38 @@ public class MainActivity extends AppCompatActivity {
 
         authenticate();
 
-        mNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
-        mNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        if(getSupportFragmentManager().findFragmentById(R.id.fragment_container) == null)
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, NewsfeedFragment.newInstance()).commit();
 
-        mLogoutButton = (Button) findViewById(R.id.test_logoutbutton);
-        mLogoutButton.setOnClickListener(new View.OnClickListener() {
+
+        mNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        mNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectedFragment = null;
+                switch (item.getItemId()) {
+                    case R.id.navigation_newsfeed:
+                        selectedFragment = NewsfeedFragment.newInstance();
+                        break;
+                    case R.id.navigation_mymenu:
+                        selectedFragment = MymenuFragment.newInstance();
+                        break;
+                    case R.id.navigation_statistic:
+                        selectedFragment = StatisticFragment.newInstance();
+                        break;
+                    case R.id.navigation_setting:
+                        selectedFragment = SettingFragment.newInstance();
+                        break;
+                }
+
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, selectedFragment);
+                transaction.commit();
+                return true;
+            }
+        });
+/*
+        findViewById(R.id.test_logoutbutton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mFirebaseAuth.signOut();
@@ -66,32 +96,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_ARTICLE);
             }
         });
+        */
     }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_newsfeed:
-                    Toast.makeText(MainActivity.this, "뉴스피드", Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.navigation_mymenu:
-                    Toast.makeText(MainActivity.this, "마이메뉴", Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.navigation_statistic:
-                    Toast.makeText(MainActivity.this, "통계", Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.navigation_option:
-                    Toast.makeText(MainActivity.this, "옵션", Toast.LENGTH_SHORT).show();
-                    return true;
-            }
-            return false;
-        }
-
-    };
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
