@@ -179,7 +179,7 @@ public class WriteActivity extends AppCompatActivity {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
+                Uri photoURI = FileProvider.getUriForFile(getApplicationContext(),
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
@@ -192,14 +192,10 @@ public class WriteActivity extends AppCompatActivity {
     private File createImageFile() throws IOException {
 
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), IMAGE_DIRECTORY_NAME);
+        File image = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
