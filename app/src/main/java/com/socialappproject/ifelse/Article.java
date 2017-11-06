@@ -11,8 +11,8 @@ public class Article {
     private String description;
     private String option1;
     private String option2;
-    private Boolean option1_flag;
-    private Boolean option2_flag;
+    private int option1_flag;
+    private int option2_flag;
     private Date time;
     private int target_min_old;
     private int target_max_old;
@@ -110,19 +110,19 @@ public class Article {
         UserID = userID;
     }
 
-    public Boolean getOption1_flag() {
+    public int getOption1_flag() {
         return option1_flag;
     }
 
-    public void setOption1_flag(Boolean option1_flag) {
+    public void setOption1_flag(int option1_flag) {
         this.option1_flag = option1_flag;
     }
 
-    public Boolean getOption2_flag() {
+    public int getOption2_flag() {
         return option2_flag;
     }
 
-    public void setOption2_flag(Boolean option2_flag) {
+    public void setOption2_flag(int option2_flag) {
         this.option2_flag = option2_flag;
     }
 }

@@ -153,9 +153,11 @@ public class WriteActivity extends AppCompatActivity {
         if(option_num == 1) {
             _option1.setText("");
             _option1.setBackgroundResource(R.drawable.option_plus_128);
+            article.setOption1_flag(0);
         } else if(option_num == 2) {
             _option2.setText("");
             _option2.setBackgroundResource(R.drawable.option_plus_128);
+            article.setOption1_flag(0);
         }
 
         if(which == 0) {
@@ -167,7 +169,11 @@ public class WriteActivity extends AppCompatActivity {
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
                 }
             } else {
-                article.setOption1_flag(Boolean.TRUE);
+                if(option_num == 1) {
+                    article.setOption1_flag(1);
+                } else if(option_num == 2) {
+                    article.setOption1_flag(1);
+                }
                 dispatchTakePictureIntent(option_num);
             }
         }
@@ -180,12 +186,15 @@ public class WriteActivity extends AppCompatActivity {
                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
                 }
             } else {
-                article.setOption1_flag(Boolean.TRUE);
+                if(option_num == 1) {
+                    article.setOption1_flag(1);
+                } else if(option_num == 2) {
+                    article.setOption1_flag(1);
+                }
                 doTakeAlbum(option_num);
             }
         }
         else {
-            article.setOption1_flag(Boolean.FALSE);
             Toast.makeText(WriteActivity.this, "글", Toast.LENGTH_SHORT).show();
             AlertDialog.Builder optionTextDialog = new AlertDialog.Builder(WriteActivity.this);
 
@@ -205,9 +214,11 @@ public class WriteActivity extends AppCompatActivity {
                     if (option_num == 1) {
                         _option1.setBackgroundResource(0);
                         _option1.setText(value);
+                        article.setOption1_flag(2);
                     } else if(option_num == 2) {
                         _option2.setBackgroundResource(0);
                         _option2.setText(value);
+                        article.setOption1_flag(2);
                     }
 
                     dialog.dismiss();     //닫기
@@ -288,13 +299,14 @@ public class WriteActivity extends AppCompatActivity {
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+
+                    article.setOption1_flag(1);
                     dispatchTakePictureIntent(1);
 
                 } else {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-
                     Toast.makeText(this, "사용을 원하신다면, 앱 사용 권한을 허가해주시기 바랍니다.", Toast.LENGTH_LONG).show();
                     finish();
 
@@ -308,6 +320,7 @@ public class WriteActivity extends AppCompatActivity {
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+                    article.setOption1_flag(1);
                     doTakeAlbum(1);
 
                 } else {
@@ -353,7 +366,6 @@ public class WriteActivity extends AppCompatActivity {
             try {
                 Bitmap image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(mCurrentPhotoPath));
                 _option1.setBackground(new BitmapDrawable(getResources(), image));
-                Log.d(TAG, image.toString() + "asdf");
             } catch (IOException e) {
                 e.printStackTrace();
             }
