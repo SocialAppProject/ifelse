@@ -20,6 +20,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -39,7 +41,7 @@ import java.util.Locale;
 
 public class WriteActivity extends AppCompatActivity {
 
-    private static final String TAG = "ArticleActivity";
+    private static final String TAG = "WriteActivity";
 
     private static final int REQUEST_CANCEL = 0;
     private static final int REQUEST_WRITE= 1;
@@ -48,6 +50,7 @@ public class WriteActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 200;
 
     private Uri fileUri; // file url to store image
+    private String mCurrentPhotoPath;
     private static final String IMAGE_DIRECTORY_NAME = "ifelse";
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -133,7 +136,7 @@ public class WriteActivity extends AppCompatActivity {
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
                 }
             } else {
-                doCaptureImage(option_num);
+                dispatchTakePictureIntent(option_num);
             }
         }
         else if(which == 1) {
@@ -162,42 +165,46 @@ public class WriteActivity extends AppCompatActivity {
 
     }
 
-    private void doCaptureImage(int option_num) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, getOutputMediaFile());
-        } else {
-            File file = new File(getOutputMediaFile().getPath());
-            Uri photoUri = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".provider", file);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-        }
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null) {
-            startActivityForResult(intent, PERMISSIONS_REQUEST_CAMERA + option_num);
-        }
-    }
-
-    private static File getOutputMediaFile() {
-
-        // External sdcard location
-        File mediaStorageDir = new File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), IMAGE_DIRECTORY_NAME);
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                return null;
+    private void dispatchTakePictureIntent(int option_num) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Log.d(TAG, "error in photoFile");
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, PERMISSIONS_REQUEST_CAMERA + option_num);
             }
         }
 
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-                Locale.getDefault()).format(new Date());
-        File mediaFile;
+    }
 
-        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
+    private File createImageFile() throws IOException {
 
-        return mediaFile;
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+
     }
 
     @Override
@@ -209,7 +216,7 @@ public class WriteActivity extends AppCompatActivity {
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    doCaptureImage(1);
+                    dispatchTakePictureIntent(1);
 
                 } else {
 
