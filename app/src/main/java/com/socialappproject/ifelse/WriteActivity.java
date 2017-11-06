@@ -23,7 +23,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +39,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import butterknife.InjectView;
 
 /**
  * Created by junseon on 2017. 10. 18..
@@ -57,7 +63,12 @@ public class WriteActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference articleRef = database.getReference("ARTICLE");
 
+
+
     private Article article = new Article();
+
+    Spinner _spinner;
+    TextView _option1, _option2;
 
     //TODO: 아무것도 입력하지 않은 칸이 있으면 경고
 
@@ -66,8 +77,18 @@ public class WriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
 
-        findViewById(R.id.input_option1).setBackgroundResource(R.drawable.option_plus_128);
-        findViewById(R.id.input_option1).setOnClickListener(new View.OnClickListener() {
+        _spinner = (Spinner) findViewById(R.id.spin_category);
+
+        _option1 = (TextView) findViewById(R.id.input_option1);
+        _option2 = (TextView) findViewById(R.id.input_option2);
+
+        // Application of the Array to the Spinner
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.category_ary));
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        _spinner.setAdapter(spinnerArrayAdapter);
+
+        _option1.setBackgroundResource(R.drawable.option_plus_128);
+        _option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(WriteActivity.this);
@@ -80,8 +101,8 @@ public class WriteActivity extends AppCompatActivity {
 
             }
         });
-        findViewById(R.id.input_option2).setBackgroundResource(R.drawable.option_plus_128);
-        findViewById(R.id.input_option2).setOnClickListener(new View.OnClickListener() {
+        _option2.setBackgroundResource(R.drawable.option_plus_128);
+        _option2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(WriteActivity.this);
@@ -127,7 +148,16 @@ public class WriteActivity extends AppCompatActivity {
         fileUri = savedInstanceState.getParcelable("file_uri");
     }
 
-    public void clickedOptionBtn(int which, int option_num) {
+    public void clickedOptionBtn(int which, final int option_num) {
+
+        if(option_num == 1) {
+            _option1.setText("");
+            _option1.setBackgroundResource(R.drawable.option_plus_128);
+        } else if(option_num == 2) {
+            _option2.setText("");
+            _option2.setBackgroundResource(R.drawable.option_plus_128);
+        }
+
         if(which == 0) {
             Toast.makeText(WriteActivity.this, "카메라", Toast.LENGTH_SHORT).show();
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -137,6 +167,7 @@ public class WriteActivity extends AppCompatActivity {
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
                 }
             } else {
+                article.setOption1_flag(Boolean.TRUE);
                 dispatchTakePictureIntent(option_num);
             }
         }
@@ -149,11 +180,55 @@ public class WriteActivity extends AppCompatActivity {
                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
                 }
             } else {
+                article.setOption1_flag(Boolean.TRUE);
                 doTakeAlbum(option_num);
             }
         }
         else {
+            article.setOption1_flag(Boolean.FALSE);
             Toast.makeText(WriteActivity.this, "글", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder optionTextDialog = new AlertDialog.Builder(WriteActivity.this);
+
+            optionTextDialog.setTitle("텍스트를 써주세요.");       // 제목 설정
+
+            // EditText 삽입하기
+            final EditText editText = new EditText(WriteActivity.this);
+            optionTextDialog.setView(editText);
+
+            // 확인 버튼 설정
+            optionTextDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    // Text 값 받아서 로그 남기기
+                    String value = editText.getText().toString();
+                    if (option_num == 1) {
+                        _option1.setBackgroundResource(0);
+                        _option1.setText(value);
+                    } else if(option_num == 2) {
+                        _option2.setBackgroundResource(0);
+                        _option2.setText(value);
+                    }
+
+                    dialog.dismiss();     //닫기
+                    // Event
+                }
+            });
+
+            // 취소 버튼 설정
+            optionTextDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.v(TAG,"No Btn Click");
+                    dialog.dismiss();     //닫기
+                    // Event
+                }
+            });
+
+            optionTextDialog.show();
+
+
+
         }
     }
 
@@ -174,9 +249,8 @@ public class WriteActivity extends AppCompatActivity {
             File photoFile = null;
             try {
                 photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                Log.d(TAG, "error in photoFile");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -184,6 +258,7 @@ public class WriteActivity extends AppCompatActivity {
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                Log.d(TAG, "" + (PERMISSIONS_REQUEST_CAMERA + option_num));
                 startActivityForResult(takePictureIntent, PERMISSIONS_REQUEST_CAMERA + option_num);
             }
         }
@@ -257,34 +332,35 @@ public class WriteActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CANCEL) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(WriteActivity.this, "취소하셨습니다.", Toast.LENGTH_SHORT).show();
-            }
+                Toast.makeText(this, "취소하셨습니다.", Toast.LENGTH_LONG).show();
         }
         else if (requestCode == REQUEST_WRITE) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(WriteActivity.this, "성공적으로 새 글이 작성되었습니다.", Toast.LENGTH_SHORT).show();
-            }
+                Toast.makeText(this, "성공적으로 글을 작성하셨습니다.", Toast.LENGTH_LONG).show();
         }
 
         if (requestCode == PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE + 1 && resultCode == RESULT_OK && null != data) {
-            findViewById(R.id.input_option1).setBackground(new BitmapDrawable(getResources(),
+            _option1.setBackground(new BitmapDrawable(getResources(),
                     BitmapFactory.decodeFile(getPicturePath(data))));
         }
         else if (requestCode == (PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE + 2) && resultCode == RESULT_OK && null != data) {
-            findViewById(R.id.input_option2).setBackground(new BitmapDrawable(getResources(),
+            _option2.setBackground(new BitmapDrawable(getResources(),
                     BitmapFactory.decodeFile(getPicturePath(data))));
         }
 
-        if (requestCode == PERMISSIONS_REQUEST_CAMERA + 1 && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            findViewById(R.id.input_option1).setBackground(new BitmapDrawable(getResources(), imageBitmap));
+        //TODO: 카메라 사진 TextView background 로 들어가게 하기
+        if (requestCode == (PERMISSIONS_REQUEST_CAMERA + 1)) {
+
+            try {
+                Bitmap image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(mCurrentPhotoPath));
+                _option1.setBackground(new BitmapDrawable(getResources(), image));
+                Log.d(TAG, image.toString() + "asdf");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
-        else if (requestCode == PERMISSIONS_REQUEST_CAMERA + 2 && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            findViewById(R.id.input_option2).setBackground(new BitmapDrawable(getResources(), imageBitmap));
+        else if (requestCode == (PERMISSIONS_REQUEST_CAMERA + 2)) {
+            _option2.setBackground(new BitmapDrawable(getResources(), (Bitmap) data.getExtras().get("data")));
         }
     }
 

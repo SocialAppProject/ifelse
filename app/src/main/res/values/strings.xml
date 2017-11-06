@@ -56,6 +56,17 @@
         <item>글로 쓰기</item>
     </string-array>
 
+    <string-array name="category_ary">
+        <item>음식</item>
+        <item>패션</item>
+        <item>연애</item>
+        <item>진로 및 학업</item>
+        <item>엔터테인먼트</item>
+        <item>장소</item>
+        <item>뷰티</item>
+        <item>기타</item>
+    </string-array>
+
 
     <string name="title_newsfeed">Newsfeed</string>
     <string name="title_mymenu">Mymenu</string>

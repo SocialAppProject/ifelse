@@ -85,7 +85,8 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             rsb:absoluteMaxValue="100"
-            rsb:absoluteMinValue="0"/>
+            rsb:absoluteMinValue="0"
+            rsb:valuesAboveThumbs="true"/>
 
         <Spinner
             android:id="@+id/spin_category"
