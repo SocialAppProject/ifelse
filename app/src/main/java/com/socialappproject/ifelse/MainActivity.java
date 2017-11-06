@@ -73,30 +73,6 @@ public class MainActivity extends FragmentActivity {
                 return true;
             }
         });
-/*
-        findViewById(R.id.test_logoutbutton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFirebaseAuth.signOut();
-            }
-        });
-
-        findViewById(R.id.test_writebutton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), WriteActivity.class);
-                startActivityForResult(intent, REQUEST_WRITE);
-            }
-        });
-
-        findViewById(R.id.test_articlebutton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ArticleActivity.class);
-                startActivityForResult(intent, REQUEST_ARTICLE);
-            }
-        });
-        */
     }
 
     @Override

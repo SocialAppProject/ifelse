@@ -21,8 +21,6 @@ public class NewsfeedFragment extends Fragment {
 
     public static NewsfeedFragment newInstance() {
         NewsfeedFragment fragment = new NewsfeedFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
 
