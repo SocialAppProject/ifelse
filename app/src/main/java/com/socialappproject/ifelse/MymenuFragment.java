@@ -44,14 +44,6 @@ public class MymenuFragment extends Fragment {
             }
         });
 
-        view.findViewById(R.id.test_writebutton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), WriteActivity.class);
-                startActivityForResult(intent, REQUEST_WRITE);
-            }
-        });
-
         view.findViewById(R.id.test_articlebutton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

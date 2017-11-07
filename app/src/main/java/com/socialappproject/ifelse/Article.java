@@ -7,20 +7,34 @@ import java.util.Date;
  */
 
 public class Article {
+    private String key;
+    private String articleID;
+    private String UserID;
     private String title;
     private String description;
     private String option1;
     private String option2;
+    private int option1_num;
+    private int option2_num;
     private int option1_flag; // 0: 없음, 1: 이미지, 2: 텍스트
     private int option2_flag;
-    private Date time;
+    private String time;
     private int target_min_old;
     private int target_max_old;
     private int target_gender; // 2131296329: 양성, 2131296330: 남성 2131296331: 여성
     private int category;
-    private String articleID;
-    private String UserID;
 
+    public String getKey() {
+        return key;
+    }
+
+    public int getOption1_num() {
+        return option1_num;
+    }
+
+    public int getOption2_num() {
+        return option2_num;
+    }
 
     public String getTitle() {
         return title;
@@ -38,7 +52,7 @@ public class Article {
         return option2;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
@@ -82,7 +96,19 @@ public class Article {
         this.option2 = option2;
     }
 
-    public void setTime(Date time) {
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public void setOption1_num(int option1_num) {
+        this.option1_num = option1_num;
+    }
+
+    public void setOption2_num(int option2_num) {
+        this.option2_num = option2_num;
+    }
+
+    public void setTime(String time) {
         this.time = time;
     }
 

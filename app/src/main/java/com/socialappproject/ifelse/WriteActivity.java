@@ -44,6 +44,7 @@ import org.florescu.android.rangeseekbar.RangeSeekBar;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -74,8 +75,9 @@ public class WriteActivity extends AppCompatActivity {
 
     private FirebaseAuth mFirebaseAuth;
 
-
     private Article article = new Article();
+
+    private static final DateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
 
     Spinner _spinner;
     TextView _option1, _option2;
@@ -183,11 +185,14 @@ public class WriteActivity extends AppCompatActivity {
                     article.setTarget_min_old(_old.getRight());
                     article.setTarget_max_old(_old.getAccessibilityTraversalBefore());
 
+                    Calendar.getInstance().getTimeInMillis();
+
                     Date currentTime = Calendar.getInstance().getTime();
-                    article.setTime(currentTime);
+                    article.setTime(sdf.format(currentTime));
 
-                    DatabaseManager.databaseReference.child("ARTICLE").push().setValue(article);
-
+                    DatabaseReference articleRef = DatabaseManager.databaseReference.child("ARTICLE").push();
+                    article.setKey(articleRef.getKey());
+                    articleRef.setValue(article);
                 }
             }
         });
