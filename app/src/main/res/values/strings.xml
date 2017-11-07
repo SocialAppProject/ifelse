@@ -39,10 +39,10 @@
     <string name="gender_women">여성</string>
     <string name="gender_all">양성</string>
     <string name="category_food">음식</string>
-    <string name="category_fashion">패</string>
+    <string name="category_fashion">패션</string>
     <string name="category_love">연애</string>
     <string name="category_study">진로 및 학업</string>
-    <string name="category_game">게임</string>
+    <string name="category_entertainment">엔터테인먼트</string>
     <string name="category_place">장소</string>
     <string name="category_beauty">뷰티</string>
     <string name="category_etc">기타</string>
@@ -51,8 +51,8 @@
 
 
     <string-array name="option_ary">
-        <item>사진 찍기</item>
-        <item>사진 넣기</item>
+        <item>카메라로 찍기</item>
+        <item>갤러리에서 선택</item>
         <item>글로 쓰기</item>
     </string-array>
 

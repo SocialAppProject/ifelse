@@ -9,15 +9,11 @@
         android:id="@+id/newsfeed_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:dividerHeight="10dp"
+        android:layout_marginTop="10dp"
         android:divider="@color/colorIron"
-        >
-
-
-    </ListView>
+        android:dividerHeight="10dp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -28,7 +24,6 @@
         android:layout_marginRight="20dp"
         android:clickable="true"
         android:src="@drawable/ic_create_white_24dp"
-        app:backgroundTint="@color/colorPrimaryDarker"/>
-
+        app:backgroundTint="@color/colorPrimary"/>
 
 </FrameLayout>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -45,13 +46,26 @@ public class CustomAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_article, null);
         }
 
-        TextView tv_title = (TextView) convertView.findViewById(R.id.tv_title) ;
-        TextView tv_description = (TextView) convertView.findViewById(R.id.tv_description) ;
+        TextView title_tv = (TextView) convertView.findViewById(R.id.title_tv);
+        TextView description_tv = (TextView) convertView.findViewById(R.id.description_tv);
+        TextView option_1_tv = (TextView) convertView.findViewById(R.id.option_1_tv);
+        TextView option_2_tv = (TextView) convertView.findViewById(R.id.option_2_tv);
+        ImageView option_1_iv = (ImageView) convertView.findViewById(R.id.option_1_iv);
+        ImageView option_2_iv = (ImageView) convertView.findViewById(R.id.option_2_iv);
 
         Article article = articleList.get(getCount() - position - 1); // 최신순 정렬을 위해
 
-        tv_title.setText(article.getTitle());
-        tv_description.setText(article.getDescription());
+        title_tv.setText(article.getTitle());
+        description_tv.setText(article.getDescription());
+        if(article.getOption1_flag() == 1)
+            option_1_iv.setColorFilter(33);
+        else
+            option_1_tv.setText(article.getOption1());
+
+        if(article.getOption2_flag() == 1)
+            option_2_iv.setColorFilter(33);
+        else
+            option_2_tv.setText(article.getOption2());
 
         return convertView;
     }
