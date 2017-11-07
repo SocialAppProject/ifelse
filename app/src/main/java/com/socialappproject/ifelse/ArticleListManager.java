@@ -36,7 +36,12 @@ public class ArticleListManager {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                String key = dataSnapshot.getKey();
+                Article article = dataSnapshot.getValue(Article.class);
+                for(int i = 0; i < articleList.size(); i++) {
+                    if(articleList.get(i).getKey().equals(key))
+                        articleList.set(i, article);
+                }
             }
 
             @Override

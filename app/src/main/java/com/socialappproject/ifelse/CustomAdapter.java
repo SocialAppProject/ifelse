@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -52,11 +54,15 @@ public class CustomAdapter extends BaseAdapter {
         TextView option_2_tv = (TextView) convertView.findViewById(R.id.option_2_tv);
         ImageView option_1_iv = (ImageView) convertView.findViewById(R.id.option_1_iv);
         ImageView option_2_iv = (ImageView) convertView.findViewById(R.id.option_2_iv);
+        EditText option_1_et = (EditText) convertView.findViewById(R.id.option_1_et);
+        EditText option_2_et = (EditText) convertView.findViewById(R.id.option_2_et);
+        TextView category_tv = (TextView) convertView.findViewById(R.id.category_tv);
 
         Article article = articleList.get(getCount() - position - 1); // 최신순 정렬을 위해
 
         title_tv.setText(article.getTitle());
         description_tv.setText(article.getDescription());
+
         if(article.getOption1_flag() == 1)
             option_1_iv.setColorFilter(33);
         else
@@ -66,6 +72,21 @@ public class CustomAdapter extends BaseAdapter {
             option_2_iv.setColorFilter(33);
         else
             option_2_tv.setText(article.getOption2());
+
+        LinearLayout.LayoutParams option1 = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        option1.weight = article.getOption1_num();
+
+        LinearLayout.LayoutParams option2 = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        option2.weight = article.getOption2_num();
+
+        option_1_et.setLayoutParams(option1);
+        option_2_et.setLayoutParams(option2);
+        option_1_et.setText(""+article.getOption1_num());
+        option_2_et.setText(""+article.getOption2_num());
+
+        category_tv.setText(Category.get(context).getCategory_Name_byIndex(article.getCategory()));
 
         return convertView;
     }
