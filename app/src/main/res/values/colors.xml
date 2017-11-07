@@ -6,6 +6,6 @@
     <color name="colorAccent">#ff4081</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="iron">#CCCCCC</color>
+    <color name="colorIron">#ECECEC</color>
 
 </resources>
