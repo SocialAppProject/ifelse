@@ -178,6 +178,8 @@ public class WriteActivity extends AppCompatActivity {
                     article.setTarget_gender(_radioGroup.getCheckedRadioButtonId());
                     article.setUserID(mFirebaseAuth.getCurrentUser().getEmail());
                     article.setArticleID("test");
+
+                    //TODO: seek bar 에서 min max 찾기
                     article.setTarget_min_old(_old.getRight());
                     article.setTarget_max_old(_old.getAccessibilityTraversalBefore());
 
