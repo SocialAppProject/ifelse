@@ -71,7 +71,6 @@ public class WriteActivity extends AppCompatActivity {
     private static final String IMAGE_DIRECTORY_NAME = "ifelse";
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference articleRef = database.getReference("ARTICLE");
 
     private FirebaseAuth mFirebaseAuth;
 
@@ -84,8 +83,6 @@ public class WriteActivity extends AppCompatActivity {
     EditText _title, _description;
     RadioGroup _radioGroup;
     RangeSeekBar _old;
-
-    //TODO: 아무것도 입력하지 않은 칸이 있으면 경고
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,19 +177,19 @@ public class WriteActivity extends AppCompatActivity {
                     article.setTarget_gender(_radioGroup.getCheckedRadioButtonId());
                     article.setUserID(mFirebaseAuth.getCurrentUser().getEmail());
                     article.setArticleID("test");
-
-                    //TODO: seek bar 에서 min max 찾기
-                    article.setTarget_min_old(_old.getRight());
-                    article.setTarget_max_old(_old.getAccessibilityTraversalBefore());
+                    article.setTarget_min_old(_old.getSelectedMaxValue().intValue());
+                    article.setTarget_max_old(_old.getSelectedMinValue().intValue());
 
                     Calendar.getInstance().getTimeInMillis();
-
                     Date currentTime = Calendar.getInstance().getTime();
                     article.setTime(sdf.format(currentTime));
 
                     DatabaseReference articleRef = DatabaseManager.databaseReference.child("ARTICLE").push();
                     article.setKey(articleRef.getKey());
                     articleRef.setValue(article);
+
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivityForResult(intent, REQUEST_WRITE);
                 }
             }
         });
@@ -329,6 +326,8 @@ public class WriteActivity extends AppCompatActivity {
     }
 
     private void dispatchTakePictureIntent(int option_num) {
+
+
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -342,13 +341,14 @@ public class WriteActivity extends AppCompatActivity {
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(getApplicationContext(),
-                        "com.example.android.fileprovider",
+                        getApplicationContext().getPackageName() + ".provider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                Log.d(TAG, "" + (PERMISSIONS_REQUEST_CAMERA + option_num));
+                Log.d(TAG, photoURI.toString());
                 startActivityForResult(takePictureIntent, PERMISSIONS_REQUEST_CAMERA + option_num);
             }
         }
+
 
     }
 
@@ -356,8 +356,14 @@ public class WriteActivity extends AppCompatActivity {
 
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), IMAGE_DIRECTORY_NAME);
+
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
+            }
+        }
+
         File image = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
 
         // Save a file: path for use with ACTION_VIEW intents
@@ -448,7 +454,11 @@ public class WriteActivity extends AppCompatActivity {
 
         }
         else if (requestCode == (PERMISSIONS_REQUEST_CAMERA + 2)) {
-            _option2.setBackground(new BitmapDrawable(getResources(), (Bitmap) data.getExtras().get("data")));
+            try {
+                _option2.setBackground(new BitmapDrawable(getResources(), (Bitmap) data.getExtras().get("data")));
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -457,6 +467,7 @@ public class WriteActivity extends AppCompatActivity {
     public String getPicturePath(Intent data) {
 
         Uri selectedImage = data.getData();
+
         String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
         Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
@@ -464,6 +475,12 @@ public class WriteActivity extends AppCompatActivity {
 
         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
         String picturePath = cursor.getString(columnIndex);
+
+        Log.d(TAG, picturePath);
+        ///storage/emulated/0/Pictures/ifelse/IMG_20171105_030233.jpg
+        ///storage/emulated/0/DCIM/Camera/IMG_20171101_163847.jpg
+
+
         cursor.close();
 
         return picturePath;
@@ -488,13 +505,4 @@ public class WriteActivity extends AppCompatActivity {
         image.compress(compressFormat, quality, byteArrayOS);
         return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
     }
-
-    public static Bitmap decodeBase64(String input) {
-        byte[] decodedBytes = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-    }
-
-
-
-
 }

@@ -1,6 +1,9 @@
 package com.socialappproject.ifelse;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,13 +66,17 @@ public class CustomAdapter extends BaseAdapter {
         title_tv.setText(article.getTitle());
         description_tv.setText(article.getDescription());
 
-        if(article.getOption1_flag() == 1)
-            option_1_iv.setColorFilter(33);
+        if(article.getOption1_flag() == 1) {
+            Bitmap image = decodeBase64(article.getOption1());
+            option_1_iv.setImageBitmap(image);
+        }
         else
             option_1_tv.setText(article.getOption1());
 
-        if(article.getOption2_flag() == 1)
-            option_2_iv.setColorFilter(33);
+        if(article.getOption2_flag() == 1){
+            Bitmap image = decodeBase64(article.getOption2());
+            option_2_iv.setImageBitmap(image);
+        }
         else
             option_2_tv.setText(article.getOption2());
 
@@ -89,5 +96,10 @@ public class CustomAdapter extends BaseAdapter {
         category_tv.setText(Category.get(context).getCategory_Name_byIndex(article.getCategory()));
 
         return convertView;
+    }
+
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedBytes = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 }
