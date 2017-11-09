@@ -334,17 +334,22 @@ public class WriteActivity extends AppCompatActivity {
             // Create the File where the photo should go
             File photoFile = null;
             try {
-                photoFile = createImageFile();
-            } catch (IOException e) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, createImageFile());
+                } else {
+                    photoFile = new File(createImageFile().getPath());
+                    Uri photoURI = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".provider", photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                }
+            } catch (IOException | NullPointerException e) {
                 e.printStackTrace();
             }
+
+            takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            Log.d(TAG, photoFile.toString());
             // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(getApplicationContext(),
-                        getApplicationContext().getPackageName() + ".provider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                Log.d(TAG, photoURI.toString());
+            if (takePictureIntent.resolveActivity(getApplicationContext().getPackageManager()) != null) {
                 startActivityForResult(takePictureIntent, PERMISSIONS_REQUEST_CAMERA + option_num);
             }
         }
@@ -364,10 +369,10 @@ public class WriteActivity extends AppCompatActivity {
             }
         }
 
-        File image = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
-
-        // Save a file: path for use with ACTION_VIEW intents
+        File image;
+        image = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
         mCurrentPhotoPath = image.getAbsolutePath();
+        // Save a file: path for use with ACTION_VIEW intents
         return image;
 
     }
@@ -454,6 +459,7 @@ public class WriteActivity extends AppCompatActivity {
 
         }
         else if (requestCode == (PERMISSIONS_REQUEST_CAMERA + 2)) {
+
             try {
                 _option2.setBackground(new BitmapDrawable(getResources(), (Bitmap) data.getExtras().get("data")));
             } catch (NullPointerException e) {
@@ -477,8 +483,7 @@ public class WriteActivity extends AppCompatActivity {
         String picturePath = cursor.getString(columnIndex);
 
         Log.d(TAG, picturePath);
-        ///storage/emulated/0/Pictures/ifelse/IMG_20171105_030233.jpg
-        ///storage/emulated/0/DCIM/Camera/IMG_20171101_163847.jpg
+        //   /storage/emulated/0/Pictures/ifelse/IMG_20171105_030233.jpg
 
 
         cursor.close();
