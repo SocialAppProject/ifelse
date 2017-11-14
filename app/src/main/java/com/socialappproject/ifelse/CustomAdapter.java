@@ -82,11 +82,11 @@ public class CustomAdapter extends BaseAdapter {
 
         LinearLayout.LayoutParams option1 = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        option1.weight = article.getOption1_num();
+        option1.weight = Math.max(0.1f, article.getOption1_num());
 
         LinearLayout.LayoutParams option2 = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        option2.weight = article.getOption2_num();
+        option2.weight = Math.max(0.1f, article.getOption2_num());
 
         option_1_et.setLayoutParams(option1);
         option_2_et.setLayoutParams(option2);
