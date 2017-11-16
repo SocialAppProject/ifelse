@@ -8,4 +8,8 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorIron">#ECECEC</color>
 
+    <!-- color for gender -->
+    <color name="men">#6666FF</color>
+    <color name="women">#FF6666</color>
+
 </resources>
