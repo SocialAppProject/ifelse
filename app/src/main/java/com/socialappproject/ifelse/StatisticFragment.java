@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,22 +22,19 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link StatisticFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class StatisticFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "StatisticFragment";
 
+    private DatabaseReference userRef = DatabaseManager.databaseReference.child("USER");
 
     public StatisticFragment() {
         // Required empty public constructor
@@ -59,77 +57,155 @@ public class StatisticFragment extends Fragment {
 
         BarChart chart = (BarChart) view.findViewById(R.id.chart);
 
+
+
         BarData data = new BarData(getXAxisValues(), getDataSet());
         chart.setData(data);
 
-        chart.setDrawValuesForWholeStack(true);
+        chart.setDrawValuesForWholeStack(false);
         chart.setDrawBarShadow(false);
-        chart.setDrawValueAboveBar(false);
+        chart.setDrawValueAboveBar(true);
 
         chart.setHighlightEnabled(false);
-        chart.setDrawGridBackground(false);
+        chart.setDrawGridBackground(true);
         chart.setDescription("");
 
         XAxis x = chart.getXAxis();
-        x.setDrawGridLines(false);
         x.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        YAxis yLabels = chart.getAxisLeft();
-        yLabels.setDrawGridLines(false);
-        YAxis yLabels1 = chart.getAxisRight();
-        yLabels1.setEnabled(false);
+        YAxis yLabels_left = chart.getAxisLeft();
+        yLabels_left.setDrawLabels(false);
+        YAxis yLabels_right = chart.getAxisRight();
+        yLabels_right.setDrawLabels(false);
 
         Legend legend = chart.getLegend();
-        legend.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
+        legend.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
 
         chart.animateXY(2000, 2000);
         chart.invalidate();
 
         return view;
     }
-    private ArrayList<BarDataSet> getDataSet() {
-        ArrayList<BarDataSet> dataSets = null;
 
+    private ArrayList<BarDataSet> getDataSet() {
+
+        ArrayList<BarDataSet> dataSets = null;
+        ArrayList<BarEntry> valueSet0 = new ArrayList<>();
         ArrayList<BarEntry> valueSet1 = new ArrayList<>();
-        BarEntry v1e0 = new BarEntry(10.000f, 0); // 10대 미만 남
+
+        final BarEntry v0e0 = new BarEntry(0, 0); // 10대 미만 여
+        final BarEntry v0e1 = new BarEntry(0, 1); // 10대 여
+        final BarEntry v0e2 = new BarEntry(0, 2); // 20대 여
+        final BarEntry v0e3 = new BarEntry(0, 3); // 30대 여
+        final BarEntry v0e4 = new BarEntry(0, 4); // 40대 여
+        final BarEntry v0e5 = new BarEntry(0, 5); // 50대 여
+        final BarEntry v0e6 = new BarEntry(0, 6); // 60대 이상 여
+
+        final BarEntry v1e0 = new BarEntry(0, 0); // 10대 미만 남
+        final BarEntry v1e1 = new BarEntry(0, 1); // 10대 남
+        final BarEntry v1e2 = new BarEntry(0, 2); // 20대 남
+        final BarEntry v1e3 = new BarEntry(0, 3); // 30대 남
+        final BarEntry v1e4 = new BarEntry(0, 4); // 40대 남
+        final BarEntry v1e5 = new BarEntry(0, 5); // 50대 남
+        final BarEntry v1e6 = new BarEntry(0, 6); // 60대 이상 남
+
+
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Log.d(TAG, "======="+postSnapshot.child("name").getValue());
+                    Log.d(TAG, "======="+postSnapshot.child("gender").getValue());
+                    Log.d(TAG, "======="+postSnapshot.child("old").getValue());
+
+                    String snaped_gender = postSnapshot.child("gender").getValue().toString();
+                    int snaped_old = Integer.parseInt((postSnapshot.child("old").getValue().toString()));
+                    int men_count = 0, women_count = 0;
+
+                    switch (snaped_gender) {
+                        case "0": {
+                            if (snaped_old < 10) {
+                                v0e0.setVal(v0e0.getVal() + 1);
+                            } else if(snaped_old < 20) {
+                                v0e1.setVal(v0e1.getVal() + 1);
+                            } else if(snaped_old < 30) {
+                                v0e2.setVal(v0e2.getVal() + 1);
+                            } else if(snaped_old < 40) {
+                                v0e3.setVal(v0e3.getVal() + 1);
+                            } else if(snaped_old < 50) {
+                                v0e4.setVal(v0e4.getVal() + 1);
+                            } else if(snaped_old < 60) {
+                                v0e5.setVal(v0e5.getVal() + 1);
+                            } else {
+                                v0e6.setVal(v0e6.getVal() + 1);
+                            }
+                            break;
+                        }
+                        case "1": {
+                            if (snaped_old < 10) {
+                                v1e0.setVal(v1e0.getVal() + 1);
+                            } else if(snaped_old < 20) {
+                                v1e1.setVal(v1e1.getVal() + 1);
+                            } else if(snaped_old < 30) {
+                                v1e2.setVal(v1e2.getVal() + 1);
+                            } else if(snaped_old < 40) {
+                                v1e3.setVal(v1e3.getVal() + 1);
+                            } else if(snaped_old < 50) {
+                                v1e4.setVal(v1e4.getVal() + 1);
+                            } else if(snaped_old < 60) {
+                                v1e5.setVal(v1e5.getVal() + 1);
+                            } else {
+                                v1e6.setVal(v1e6.getVal() + 1);
+                            }
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.e(TAG, "Failed to read app title value.", error.toException());
+            }
+        });
+
+        //TODO: Problem of Synchronization
+
+        valueSet0.add(v0e0);
+        valueSet0.add(v0e1);
+        valueSet0.add(v0e2);
+        valueSet0.add(v0e3);
+        valueSet0.add(v0e4);
+        valueSet0.add(v0e5);
+        valueSet0.add(v0e6);
+
         valueSet1.add(v1e0);
-        BarEntry v1e1 = new BarEntry(100.000f, 1); // 10대 남
         valueSet1.add(v1e1);
-        BarEntry v1e2 = new BarEntry(60.000f, 2); // 20대 남
         valueSet1.add(v1e2);
-        BarEntry v1e3 = new BarEntry(90.000f, 3); // 30대 남
         valueSet1.add(v1e3);
-        BarEntry v1e4 = new BarEntry(40.000f, 4); // 40대 남
         valueSet1.add(v1e4);
-        BarEntry v1e5 = new BarEntry(10.000f, 5); // 50대 남
         valueSet1.add(v1e5);
-        BarEntry v1e6 = new BarEntry(0.000f, 6); // 60대 이상 남
         valueSet1.add(v1e6);
 
-        ArrayList<BarEntry> valueSet2 = new ArrayList<>();
-        BarEntry v2e0 = new BarEntry(50.000f, 0); // 10대 미만 여
-        valueSet2.add(v2e0);
-        BarEntry v2e1 = new BarEntry(90.000f, 1); // 10대 여
-        valueSet2.add(v2e1);
-        BarEntry v2e2 = new BarEntry(120.000f, 2); // 20대 여
-        valueSet2.add(v2e2);
-        BarEntry v2e3 = new BarEntry(60.000f, 3); // 30대 여
-        valueSet2.add(v2e3);
-        BarEntry v2e4 = new BarEntry(20.000f, 4); // 40대 여
-        valueSet2.add(v2e4);
-        BarEntry v2e5 = new BarEntry(20.000f, 5); // 50대 여
-        valueSet2.add(v2e5);
-        BarEntry v2e6 = new BarEntry(1.000f, 6); // 60대 이상 여
-        valueSet2.add(v2e6);
+        Log.d(TAG, ":::::::" + v1e2.getVal());
+        Log.d(TAG, ":::::::" + v0e2.getVal());
 
-        BarDataSet barDataSet1 = new BarDataSet(valueSet1, "Brand 1");
+
+        BarDataSet barDataSet1 = new BarDataSet(valueSet1, "남성");
+        barDataSet1.setDrawValues(false);
         barDataSet1.setColor(ContextCompat.getColor(this.getContext(), R.color.men));
-        BarDataSet barDataSet2 = new BarDataSet(valueSet2, "Brand 2");
+        BarDataSet barDataSet2 = new BarDataSet(valueSet0, "여성");
+        barDataSet2.setDrawValues(false);
         barDataSet2.setColor(ContextCompat.getColor(this.getContext(), R.color.women));
 
         dataSets = new ArrayList<>();
         dataSets.add(barDataSet1);
         dataSets.add(barDataSet2);
+
         return dataSets;
     }
 
@@ -146,6 +222,8 @@ public class StatisticFragment extends Fragment {
     }
 
 
+
+    /*
     public class MyBarValueFormatter implements ValueFormatter {
 
         private DecimalFormat mFormat;
@@ -182,7 +260,7 @@ public class StatisticFragment extends Fragment {
         }
     }
 
-    /*
+
     ScreenUtility screenUtility;
         BarChart bar;
         String nameOfChart,xAxisDesciption,yAxisDescription;
