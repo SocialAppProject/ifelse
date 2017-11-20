@@ -30,6 +30,7 @@
     <string name="option1">첫 번째 선택지</string>
     <string name="option2">두 번째 선택지</string>
     <string name="target_old">나이</string>
+    <string name="vote">투표하기</string>
 
     <!-- Strings related to Write -->
     <string name="spinner">카테고리를 선택해주세요</string>
