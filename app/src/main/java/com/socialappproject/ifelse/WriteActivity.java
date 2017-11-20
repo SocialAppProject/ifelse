@@ -177,8 +177,8 @@ public class WriteActivity extends AppCompatActivity {
                     article.setTarget_gender(_radioGroup.getCheckedRadioButtonId());
                     article.setUserID(mFirebaseAuth.getCurrentUser().getEmail());
                     article.setArticleID("test");
-                    article.setTarget_min_old(_old.getSelectedMaxValue().intValue());
-                    article.setTarget_max_old(_old.getSelectedMinValue().intValue());
+                    article.setTarget_min_old((int)_old.getSelectedMaxValue());
+                    article.setTarget_max_old((int)_old.getSelectedMinValue());
 
                     Calendar.getInstance().getTimeInMillis();
                     Date currentTime = Calendar.getInstance().getTime();

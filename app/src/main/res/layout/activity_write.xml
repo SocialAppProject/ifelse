@@ -86,8 +86,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            rsb:absoluteMaxValue="100"
-            rsb:absoluteMinValue="0"/>
+            rsb:showLabels="true"
+            rsb:valuesAboveThumbs="true"
+            rsb:textAboveThumbsColor="@color/colorPrimary"
+            rsb:absoluteMaxValue="0"
+            rsb:absoluteMinValue="100"/>
 
         <Spinner
             android:id="@+id/spin_category"

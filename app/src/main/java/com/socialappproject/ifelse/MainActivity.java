@@ -35,6 +35,8 @@ public class MainActivity extends FragmentActivity {
 
     private BottomNavigationView mNavigationView;
 
+    public User currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         endSplash();
@@ -42,6 +44,7 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         authenticate();
+        getUserInfo();
 
         if(getSupportFragmentManager().findFragmentById(R.id.fragment_container) == null)
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, NewsfeedFragment.newInstance()).commit();
@@ -105,6 +108,10 @@ public class MainActivity extends FragmentActivity {
                 }
             }
         };
+    }
+
+    private void getUserInfo() {
+
     }
 
     private void endSplash() {
