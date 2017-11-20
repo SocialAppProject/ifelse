@@ -174,7 +174,6 @@ public class WriteActivity extends AppCompatActivity {
                     }
 
                     article.setCategory(_spinner.getSelectedItemPosition());
-                    article.setTarget_gender(_radioGroup.getCheckedRadioButtonId());
                     article.setUserID(mFirebaseAuth.getCurrentUser().getEmail());
                     article.setArticleID("test");
                     article.setTarget_min_old((int)_old.getSelectedMaxValue());
@@ -198,7 +197,25 @@ public class WriteActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton radioButton = (RadioButton)findViewById(i);
-                Toast.makeText(getApplicationContext(), "" + i + radioButton.getText(), Toast.LENGTH_SHORT).show();
+
+                int gender;
+
+                switch(i) {
+                    case R.id.gender_all :
+                        gender = 2;
+                        break;
+                    case R.id.gender_men :
+                        gender = 1;
+                        break;
+                    case R.id.gender_women :
+                        gender = 0;
+                        break;
+                    default:
+                        gender = -1;
+                        break;
+                }
+                article.setTarget_gender(gender); // sssss
+                Toast.makeText(getApplicationContext(), "" + gender + radioButton.getText(), Toast.LENGTH_SHORT).show();
             }
         });
     }

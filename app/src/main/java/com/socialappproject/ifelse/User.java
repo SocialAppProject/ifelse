@@ -7,7 +7,7 @@ package com.socialappproject.ifelse;
 public class User {
     private String email; // 이메일
     private String name; // 이름
-    private int gender; // 성별 0-여자 1-남자
+    private int gender; // 성별 0-여자 1-남자 2-양성
     private int old; // 나이
 
     public User(String email, String name, int gender, int old) {
