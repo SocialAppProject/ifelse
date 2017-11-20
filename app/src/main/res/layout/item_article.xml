@@ -29,7 +29,7 @@
                 android:textSize="20dp"/>
 
             <EditText
-                android:id="@+id/category_tv"
+                android:id="@+id/category_et"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@color/colorPrimaryDark"
@@ -64,6 +64,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_alignParentLeft="true"
+                android:gravity="center_horizontal|center_vertical"
                 android:text="1"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
@@ -74,6 +75,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_alignParentRight="true"
+                android:gravity="center_horizontal|center_vertical"
                 android:text="2"
                 android:textAlignment="center"
                 android:textColor="@color/colorAccent"
