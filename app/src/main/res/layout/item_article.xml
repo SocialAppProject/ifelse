@@ -26,7 +26,10 @@
                 android:padding="10dp"
                 android:text="title"
                 android:textColor="@color/colorWhite"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:focusableInTouchMode="false"
+                android:focusable="false"
+                />
 
             <EditText
                 android:id="@+id/category_et"
@@ -39,7 +42,9 @@
                 android:paddingTop="10dp"
                 android:text="cate"
                 android:textColor="@color/colorWhite"
-                android:textSize="15dp"/>
+                android:textSize="15dp"
+                android:focusableInTouchMode="false"
+                android:focusable="false"/>
 
         </LinearLayout>
 
@@ -52,7 +57,9 @@
             android:paddingTop="5dp"
             android:text="description"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="15dp"/>
+            android:textSize="15dp"
+            android:focusableInTouchMode="false"
+            android:focusable="false"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -68,7 +75,9 @@
                 android:text="1"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
-                android:textSize="30dp"/>
+                android:textSize="30dp"
+                android:focusableInTouchMode="false"
+                android:focusable="false"/>
 
             <TextView
                 android:id="@+id/option_2_tv"
@@ -79,7 +88,9 @@
                 android:text="2"
                 android:textAlignment="center"
                 android:textColor="@color/colorAccent"
-                android:textSize="30dp"/>
+                android:textSize="30dp"
+                android:focusableInTouchMode="false"
+                android:focusable="false"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -89,7 +100,9 @@
                 android:text="VS"
                 android:textColor="@color/colorPrimaryDarker"
                 android:textSize="18dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:focusableInTouchMode="false"
+                android:focusable="false"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -108,7 +121,9 @@
                 android:editable="false"
                 android:text="0"
                 android:textAlignment="center"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:focusableInTouchMode="false"
+                android:focusable="false"/>
 
             <EditText
                 android:id="@+id/option_2_et"
@@ -119,7 +134,9 @@
                 android:editable="false"
                 android:text="0"
                 android:textAlignment="center"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:focusableInTouchMode="false"
+                android:focusable="false"/>
         </LinearLayout>
 
     </LinearLayout>

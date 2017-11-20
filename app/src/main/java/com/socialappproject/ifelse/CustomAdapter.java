@@ -67,22 +67,20 @@ public class CustomAdapter extends BaseAdapter {
         title_tv.setText(article.getTitle());
         description_tv.setText(article.getDescription());
 
-        if(article.getOption1_flag() == 1) {
+        if (article.getOption1_flag() == 1) {
             option_1_tv.setText("");
             Bitmap image = decodeBase64(article.getOption1());
             option_1_tv.setBackground(new BitmapDrawable(image));
-        }
-        else {
+        } else {
             option_1_tv.setBackground(null);
             option_1_tv.setText(article.getOption1());
         }
 
-        if(article.getOption2_flag() == 1){
+        if (article.getOption2_flag() == 1) {
             option_2_tv.setText("");
             Bitmap image = decodeBase64(article.getOption2());
             option_2_tv.setBackground(new BitmapDrawable(image));
-        }
-        else {
+        } else {
             option_2_tv.setBackground(null);
             option_2_tv.setText(article.getOption2());
         }
@@ -98,8 +96,8 @@ public class CustomAdapter extends BaseAdapter {
 
         option_1_et.setLayoutParams(option1);
         option_2_et.setLayoutParams(option2);
-        option_1_et.setText(""+article.getOption1_num());
-        option_2_et.setText(""+article.getOption2_num());
+        option_1_et.setText("" + article.getOption1_num());
+        option_2_et.setText("" + article.getOption2_num());
 
         category_tv.setText(Category.get(context).getCategory_Name_byIndex(article.getCategory()));
 

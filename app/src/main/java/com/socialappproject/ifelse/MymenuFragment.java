@@ -43,16 +43,6 @@ public class MymenuFragment extends Fragment {
                 mFirebaseAuth.signOut();
             }
         });
-
-        view.findViewById(R.id.test_articlebutton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ArticleActivity.class);
-                startActivityForResult(intent, REQUEST_ARTICLE);
-            }
-        });
-
-
         return view;
     }
 

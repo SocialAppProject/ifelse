@@ -63,6 +63,15 @@ public class NewsfeedFragment extends Fragment {
         customAdapter = new CustomAdapter(this.getContext(), articleList);
         newsfeedListView.setAdapter(customAdapter);
 
+        newsfeedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), ArticleActivity.class);
+                intent.putExtra("key", articleList.get(articleList.size()-position-1).getKey());
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 
