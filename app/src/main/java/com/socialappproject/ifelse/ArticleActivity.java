@@ -25,6 +25,8 @@ import static com.socialappproject.ifelse.CustomAdapter.decodeBase64;
  * Created by junseon on 2017. 10. 17..
  */
 
+// TODO: 댓글 기능 구현
+
 public class ArticleActivity extends AppCompatActivity {
     private static final String TAG = "ArticleActivity";
 
