@@ -24,6 +24,9 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 
 public class MainActivity extends FragmentActivity {
     private static final String TAG = "MainActivity";
@@ -102,6 +105,39 @@ public class MainActivity extends FragmentActivity {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     Toast.makeText(getApplicationContext(), user.getEmail() + "님 안녕하세요!",
                             Toast.LENGTH_SHORT).show();
+
+                    DatabaseManager.databaseReference.child("USER").orderByChild("email").equalTo(user.getEmail()).
+                            addChildEventListener(new ChildEventListener() {
+                                @Override
+                                public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                                    currentUser = new User(dataSnapshot.child("email").getValue().toString(),
+                                            dataSnapshot.child("name").getValue().toString(),
+                                            Integer.parseInt(dataSnapshot.child("gender").getValue().toString()),
+                                            Integer.parseInt(dataSnapshot.child("old").getValue().toString()));
+                                }
+
+                                @Override
+                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                }
+
+                                @Override
+                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+
+                                // ...
+                    });
                 } else {// 로그인 안되어있음
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
@@ -111,6 +147,8 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void getUserInfo() {
+
+
 
     }
 
