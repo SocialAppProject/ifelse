@@ -17,7 +17,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/title_tv"
+                android:id="@+id/art_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
@@ -133,6 +133,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"/>
         </LinearLayout>
+
 
     </LinearLayout>
 

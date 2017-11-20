@@ -3,7 +3,10 @@ package com.socialappproject.ifelse;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Base64;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +58,6 @@ public class CustomAdapter extends BaseAdapter {
         TextView description_tv = (TextView) convertView.findViewById(R.id.description_tv);
         TextView option_1_tv = (TextView) convertView.findViewById(R.id.option_1_tv);
         TextView option_2_tv = (TextView) convertView.findViewById(R.id.option_2_tv);
-        ImageView option_1_iv = (ImageView) convertView.findViewById(R.id.option_1_iv);
-        ImageView option_2_iv = (ImageView) convertView.findViewById(R.id.option_2_iv);
         EditText option_1_et = (EditText) convertView.findViewById(R.id.option_1_et);
         EditText option_2_et = (EditText) convertView.findViewById(R.id.option_2_et);
         TextView category_tv = (TextView) convertView.findViewById(R.id.category_tv);
@@ -66,19 +67,29 @@ public class CustomAdapter extends BaseAdapter {
         title_tv.setText(article.getTitle());
         description_tv.setText(article.getDescription());
 
+        option_1_tv.setGravity(Gravity.CENTER);
+        option_2_tv.setGravity(Gravity.CENTER);
+
         if(article.getOption1_flag() == 1) {
+            option_1_tv.setText("");
             Bitmap image = decodeBase64(article.getOption1());
-            option_1_iv.setImageBitmap(image);
+            option_1_tv.setBackground(new BitmapDrawable(image));
         }
-        else
+        else {
+            option_1_tv.setBackground(null);
             option_1_tv.setText(article.getOption1());
+        }
 
         if(article.getOption2_flag() == 1){
+            option_2_tv.setText("");
             Bitmap image = decodeBase64(article.getOption2());
-            option_2_iv.setImageBitmap(image);
+            option_2_tv.setBackground(new BitmapDrawable(image));
         }
-        else
+        else {
+            option_2_tv.setBackground(null);
             option_2_tv.setText(article.getOption2());
+        }
+
 
         LinearLayout.LayoutParams option1 = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
