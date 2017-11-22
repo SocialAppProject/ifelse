@@ -99,7 +99,7 @@
                 android:layout_centerVertical="true"
                 android:text="VS"
                 android:textColor="@color/colorPrimaryDarker"
-                android:textSize="18dp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 android:focusableInTouchMode="false"
                 android:focusable="false"/>
