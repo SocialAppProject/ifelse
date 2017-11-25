@@ -3,6 +3,7 @@ package com.socialappproject.ifelse;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Base64;
@@ -16,7 +17,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+
 import java.util.List;
+
+import javax.microedition.khronos.opengles.GL;
 
 /**
  * Created by Kimjungmin on 2017. 11. 7..
@@ -57,8 +64,8 @@ public class CustomAdapter extends BaseAdapter {
         TextView title_tv = (TextView) convertView.findViewById(R.id.title_tv);
         EditText category_tv = (EditText) convertView.findViewById(R.id.category_et);
         TextView description_tv = (TextView) convertView.findViewById(R.id.description_tv);
-        TextView option_1_tv = (TextView) convertView.findViewById(R.id.option_1_tv);
-        TextView option_2_tv = (TextView) convertView.findViewById(R.id.option_2_tv);
+        final TextView option_1_tv = (TextView) convertView.findViewById(R.id.option_1_tv);
+        final TextView option_2_tv = (TextView) convertView.findViewById(R.id.option_2_tv);
         EditText option_1_et = (EditText) convertView.findViewById(R.id.option_1_et);
         EditText option_2_et = (EditText) convertView.findViewById(R.id.option_2_et);
 
@@ -69,6 +76,7 @@ public class CustomAdapter extends BaseAdapter {
 
         if (article.getOption1_flag() == 1) {
             option_1_tv.setText("");
+
             Bitmap image = decodeBase64(article.getOption1());
             option_1_tv.setBackground(new BitmapDrawable(image));
         } else {
@@ -78,6 +86,7 @@ public class CustomAdapter extends BaseAdapter {
 
         if (article.getOption2_flag() == 1) {
             option_2_tv.setText("");
+
             Bitmap image = decodeBase64(article.getOption2());
             option_2_tv.setBackground(new BitmapDrawable(image));
         } else {
