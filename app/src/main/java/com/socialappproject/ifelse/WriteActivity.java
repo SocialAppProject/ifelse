@@ -71,8 +71,6 @@ public class WriteActivity extends AppCompatActivity {
     private String mCurrentPhotoPath;
     private static final String IMAGE_DIRECTORY_NAME = "ifelse";
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-
     private FirebaseAuth mFirebaseAuth;
 
     private Article article = new Article();
@@ -138,8 +136,9 @@ public class WriteActivity extends AppCompatActivity {
         findViewById(R.id.cancel_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivityForResult(intent, REQUEST_CANCEL);
+                //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                //startActivityForResult(intent, REQUEST_CANCEL);
+                finish();
             }
         });
         findViewById(R.id.write_btn).setOnClickListener(new View.OnClickListener() {
@@ -188,8 +187,9 @@ public class WriteActivity extends AppCompatActivity {
                     article.setKey(articleRef.getKey());
                     articleRef.setValue(article);
 
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivityForResult(intent, REQUEST_WRITE);
+                    //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    //startActivityForResult(intent, REQUEST_WRITE);
+                    finish();
                 }
             }
         });
@@ -371,8 +371,6 @@ public class WriteActivity extends AppCompatActivity {
                 startActivityForResult(takePictureIntent, PERMISSIONS_REQUEST_CAMERA + option_num);
             }
         }
-
-
     }
 
     private File createImageFile() throws IOException {

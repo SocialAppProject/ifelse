@@ -45,6 +45,8 @@ public class Category {
         return category_Name[i];
     }
 
+    public String[] getCategory_Name() { return category_Name; }
+
     public void setCategory_isOn_byIndex(int i, boolean bool) {
         category_isOn[i] = bool;
     }

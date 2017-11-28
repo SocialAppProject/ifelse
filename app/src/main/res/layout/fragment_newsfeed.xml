@@ -24,6 +24,6 @@
         android:layout_marginRight="20dp"
         android:clickable="true"
         android:src="@drawable/ic_create_white_24dp"
-        app:backgroundTint="@color/colorPrimary"/>
+        app:backgroundTint="@color/colorPrimaryDark"/>
 
 </FrameLayout>
