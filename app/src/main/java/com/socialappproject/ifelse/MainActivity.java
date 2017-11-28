@@ -38,7 +38,7 @@ public class MainActivity extends FragmentActivity {
 
     private BottomNavigationView mNavigationView;
 
-    public User currentUser;
+    public static User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,5 +169,9 @@ public class MainActivity extends FragmentActivity {
         if (mAuthListener != null) {
             mFirebaseAuth.removeAuthStateListener(mAuthListener);
         }
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
 }

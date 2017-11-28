@@ -1,10 +1,12 @@
 package com.socialappproject.ifelse;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,8 @@ public class ArticleListManager {
     private static ArticleListManager articleListManager;
     private List<Article> articleList;
 
+    private static final String TAG = "ArticleListManager";
+
     public static ArticleListManager get(Context context) {
         if(articleListManager == null)
             articleListManager = new ArticleListManager(context);
@@ -27,7 +31,29 @@ public class ArticleListManager {
     private ArticleListManager(Context context) {
         articleList = new ArrayList<>();
 
-        DatabaseManager.databaseReference.child("ARTICLE").addChildEventListener(new ChildEventListener() {
+        DatabaseManager.databaseReference.child("ARTICLE").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Article article = postSnapshot.getValue(Article.class);
+                    if(MainActivity.currentUser.getOld() >= article.getTarget_min_old() &&
+                            MainActivity.currentUser.getOld() <= article.getTarget_max_old() &&
+                            (MainActivity.currentUser.getGender() == article.getTarget_gender() || article.getTarget_gender() == 2)) {
+                        articleList.add(article);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        /*
+
+        {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Article article = dataSnapshot.getValue(Article.class);
@@ -63,6 +89,7 @@ public class ArticleListManager {
                 System.out.println("Database Error : " + databaseError);
             }
         });
+        */
     }
 
     public List<Article> getArticleList() {

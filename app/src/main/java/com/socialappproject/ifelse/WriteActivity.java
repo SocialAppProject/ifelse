@@ -176,8 +176,8 @@ public class WriteActivity extends AppCompatActivity {
                     article.setCategory(_spinner.getSelectedItemPosition());
                     article.setUserID(mFirebaseAuth.getCurrentUser().getEmail());
                     article.setArticleID("test");
-                    article.setTarget_min_old((int)_old.getSelectedMaxValue());
-                    article.setTarget_max_old((int)_old.getSelectedMinValue());
+                    article.setTarget_min_old((int)_old.getSelectedMinValue());
+                    article.setTarget_max_old((int)_old.getSelectedMaxValue());
 
                     Calendar.getInstance().getTimeInMillis();
                     Date currentTime = Calendar.getInstance().getTime();
