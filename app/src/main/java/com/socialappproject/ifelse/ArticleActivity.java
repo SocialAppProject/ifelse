@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -187,6 +188,9 @@ public class ArticleActivity extends AppCompatActivity {
                                     .child("option2_num").setValue(num);
                         }
                         dialog.dismiss();
+
+                        MainActivity.currentUser.setStar(MainActivity.currentUser.getStar() + 1);
+                        DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("star").setValue(MainActivity.currentUser.getStar());
                     }
                 });
         builder.setNegativeButton("아니오",

@@ -54,8 +54,12 @@ public class NewsfeedFragment extends Fragment {
         view.findViewById(R.id.floatingActionButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), WriteActivity.class);
-                startActivityForResult(intent, REQUEST_WRITE);
+                if(MainActivity.currentUser.getStar() >= 5) {
+                    Intent intent = new Intent(getActivity(), WriteActivity.class);
+                    startActivityForResult(intent, REQUEST_WRITE);
+                } else {
+                    Toast.makeText(getActivity(), "별 점수가 부족합니다.\n 투표를 진행해주세요.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

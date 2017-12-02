@@ -113,7 +113,8 @@ public class MainActivity extends FragmentActivity {
                                     currentUser = new User(dataSnapshot.child("email").getValue().toString(),
                                             dataSnapshot.child("name").getValue().toString(),
                                             Integer.parseInt(dataSnapshot.child("gender").getValue().toString()),
-                                            Integer.parseInt(dataSnapshot.child("old").getValue().toString()));
+                                            Integer.parseInt(dataSnapshot.child("old").getValue().toString()),
+                                            Integer.parseInt(dataSnapshot.child("star").getValue().toString()));
                                 }
 
                                 @Override
