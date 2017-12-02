@@ -5,6 +5,11 @@
              android:layout_height="match_parent"
              tools:context="com.socialappproject.ifelse.NewsfeedFragment">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
     <ListView
         android:id="@+id/newsfeed_listview"
         android:layout_width="match_parent"
@@ -14,6 +19,8 @@
         android:layout_marginTop="10dp"
         android:divider="@color/colorPrimary"
         android:dividerHeight="10dp"/>
+
+</android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"

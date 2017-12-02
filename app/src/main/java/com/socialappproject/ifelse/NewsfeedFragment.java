@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class NewsfeedFragment extends Fragment {
     private ListView newsfeedListView;
     private CustomAdapter customAdapter;
     private List<Article> articleList;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     public NewsfeedFragment() {
@@ -43,7 +45,6 @@ public class NewsfeedFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         articleList = ArticleListManager.get(getContext()).getArticleList();
-        update();
     }
 
     @Override
@@ -66,6 +67,7 @@ public class NewsfeedFragment extends Fragment {
         newsfeedListView = (ListView) view.findViewById(R.id.newsfeed_listview);
         customAdapter = new CustomAdapter(this.getContext(), articleList);
         newsfeedListView.setAdapter(customAdapter);
+        customAdapter.notifyDataSetChanged();
 
         newsfeedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -73,6 +75,15 @@ public class NewsfeedFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ArticleActivity.class);
                 intent.putExtra("key", articleList.get(articleList.size()-position-1).getKey());
                 startActivity(intent);
+            }
+        });
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                customAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -90,34 +101,5 @@ public class NewsfeedFragment extends Fragment {
             if (resultCode == RESULT_OK) {
             }
         }
-    }
-
-    public void update() {
-        DatabaseManager.databaseReference.child("ARTICLE").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                customAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                customAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                customAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Database Error : " + databaseError);
-            }
-        });
     }
 }
