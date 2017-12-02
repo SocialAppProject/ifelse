@@ -115,7 +115,7 @@ public class StatisticFragment extends Fragment {
         final BarEntry v1e6 = new BarEntry(0, 6); // 60대 이상 남
 
 
-        userRef.addValueEventListener(new ValueEventListener() {
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {

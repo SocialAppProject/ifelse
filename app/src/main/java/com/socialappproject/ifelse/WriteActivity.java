@@ -189,7 +189,7 @@ public class WriteActivity extends AppCompatActivity {
 
                     MainActivity.currentUser.setStar(MainActivity.currentUser.getStar() - 5);
                     DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("star").setValue(MainActivity.currentUser.getStar());
-
+                    DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WRITED_ARTICLE").push().setValue(article.getKey());
                     //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     //startActivityForResult(intent, REQUEST_WRITE);
                     finish();

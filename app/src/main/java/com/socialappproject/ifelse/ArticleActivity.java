@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -119,6 +120,44 @@ public class ArticleActivity extends AppCompatActivity {
         option_1_et.setText("" + article.getOption1_num());
         option_2_et.setText("" + article.getOption2_num());
 
+        DatabaseManager.databaseReference.child("USER").child("").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                child("VOTED_ARTICLE").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    if(postSnapshot.getValue().toString().equals(article.getKey())) {
+                        option_1_button.setEnabled(false);
+                        option_2_button.setEnabled(false);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseManager.databaseReference.child("USER").child("").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                child("WRITED_ARTICLE").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    if(postSnapshot.getValue().toString().equals(article.getKey())) {
+                        option_1_button.setEnabled(false);
+                        option_2_button.setEnabled(false);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         option_1_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,6 +230,7 @@ public class ArticleActivity extends AppCompatActivity {
 
                         MainActivity.currentUser.setStar(MainActivity.currentUser.getStar() + 1);
                         DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("star").setValue(MainActivity.currentUser.getStar());
+                        DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("VOTED_ARTICLE").push().setValue(article.getKey());
                     }
                 });
         builder.setNegativeButton("아니오",
