@@ -85,7 +85,7 @@ public class ArticleActivity extends AppCompatActivity {
 
     private void updateView(final Article article) {
         title_tv.setText(article.getTitle());
-        category_et.setText(Category.get(this).getCategory_Name_byIndex(article.getCategory()));
+        category_et.setText(Category.get().getCategory_Name_byIndex(article.getCategory()));
         description_tv.setText(article.getDescription());
 
         if (article.getOption1_flag() == 1) {

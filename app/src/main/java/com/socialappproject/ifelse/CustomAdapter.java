@@ -108,7 +108,7 @@ public class CustomAdapter extends BaseAdapter {
         option_1_et.setText("" + article.getOption1_num());
         option_2_et.setText("" + article.getOption2_num());
 
-        category_tv.setText(Category.get(context).getCategory_Name_byIndex(article.getCategory()));
+        category_tv.setText(Category.get().getCategory_Name_byIndex(article.getCategory()));
 
         return convertView;
     }

@@ -14,14 +14,14 @@ public class Category {
     private String[] category_Name;
     private int num = 8;
 
-    public static Category get(Context context) {
+    public static Category get() {
         if(category == null)
-            category = new Category(context);
+            category = new Category();
 
         return category;
     }
 
-    private Category(Context context) {
+    private Category() {
         category_isOn = new boolean[8];
         for(int i = 0; i < num; i++)
             category_isOn[i] = false;

@@ -42,12 +42,15 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        authenticate();
+        getUserInfo();
         endSplash();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        authenticate();
-        getUserInfo();
+        //authenticate();
+        //getUserInfo();
 
         if(getSupportFragmentManager().findFragmentById(R.id.fragment_container) == null)
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, NewsfeedFragment.newInstance()).commit();

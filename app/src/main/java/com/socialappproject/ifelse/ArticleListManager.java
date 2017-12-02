@@ -1,12 +1,10 @@
 package com.socialappproject.ifelse;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +17,15 @@ public class ArticleListManager {
     private static ArticleListManager articleListManager;
     private List<Article> articleList;
 
-    private static final String TAG = "ArticleListManager";
+    private List<Article> food_articleList;
+    private List<Article> fashion_articleList;
+    private List<Article> love_articleList;
+    private List<Article> study_articleList;
+    private List<Article> entertainment_articleList;
+    private List<Article> location_articleList;
+    private List<Article> beauty_articleList;
+    private List<Article> etc_articleList;
+
 
     public static ArticleListManager get(Context context) {
         if(articleListManager == null)
@@ -30,34 +36,22 @@ public class ArticleListManager {
 
     private ArticleListManager(Context context) {
         articleList = new ArrayList<>();
+        food_articleList = new ArrayList<>();
+        fashion_articleList = new ArrayList<>();
+        love_articleList = new ArrayList<>();
+        study_articleList = new ArrayList<>();
+        entertainment_articleList = new ArrayList<>();
+        location_articleList = new ArrayList<>();
+        beauty_articleList = new ArrayList<>();
+        etc_articleList = new ArrayList<>();
 
-        DatabaseManager.databaseReference.child("ARTICLE").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Article article = postSnapshot.getValue(Article.class);
-                    if(MainActivity.currentUser.getOld() >= article.getTarget_min_old() &&
-                            MainActivity.currentUser.getOld() <= article.getTarget_max_old() &&
-                            (MainActivity.currentUser.getGender() == article.getTarget_gender() || article.getTarget_gender() == 2)) {
-                        articleList.add(article);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-        /*
-
-        {
+        DatabaseManager.databaseReference.child("ARTICLE").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Article article = dataSnapshot.getValue(Article.class);
                 articleList.add(article);
+
+                categorize_add(article);
             }
 
             @Override
@@ -68,15 +62,20 @@ public class ArticleListManager {
                     if(articleList.get(i).getKey().equals(key))
                         articleList.set(i, article);
                 }
+
+                categorize_change(article);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 String key = dataSnapshot.getKey();
+                Article article = dataSnapshot.getValue(Article.class);
                 for(int i = 0; i < articleList.size(); i++) {
                     if(articleList.get(i).getKey().equals(key))
                         articleList.remove(i);
                 }
+
+                categorize_remove(article);
             }
 
             @Override
@@ -89,7 +88,113 @@ public class ArticleListManager {
                 System.out.println("Database Error : " + databaseError);
             }
         });
-        */
+    }
+
+    private void categorize_add(Article article) {
+        switch(article.getCategory()) {
+            case 0: //음식
+                food_articleList.add(article);
+                break;
+            case 1: //패션
+                fashion_articleList.add(article);
+                break;
+            case 2: //연애
+                love_articleList.add(article);
+                break;
+            case 3: //진로 및 학업
+                study_articleList.add(article);
+                break;
+            case 4: //엔터테인먼트
+                entertainment_articleList.add(article);
+                break;
+            case 5: //장소
+                location_articleList.add(article);
+                break;
+            case 6: //뷰티
+                beauty_articleList.add(article);
+                break;
+            case 7: //기타
+                etc_articleList.add(article);
+                break;
+        }
+
+        System.out.println("###" + Category.get().getCategory_Name_byIndex(article.getCategory()) + "add");
+    }
+
+    public void categorize_change(Article article) {
+        switch(article.getCategory()) {
+            case 0: //음식
+                change(article, food_articleList);
+                break;
+            case 1: //패션
+                change(article, fashion_articleList);
+                break;
+            case 2: //연애
+                change(article, love_articleList);
+                break;
+            case 3: //진로 및 학업
+                change(article, study_articleList);
+                break;
+            case 4: //엔터테인먼트
+                change(article, entertainment_articleList);
+                break;
+            case 5: //장소
+                change(article, location_articleList);
+                break;
+            case 6: //뷰티
+                change(article, beauty_articleList);
+                break;
+            case 7: //기타
+                change(article, etc_articleList);
+                break;
+        }
+
+        System.out.println("###" + Category.get().getCategory_Name_byIndex(article.getCategory()) + "change");
+    }
+
+    public void change(Article article, List<Article> articles) {
+        for(int i = 0; i < articles.size(); i++) {
+            if(articles.get(i).getKey().equals(article.getKey()))
+                articles.set(i, article);
+        }
+    }
+
+    public void categorize_remove(Article article) {
+        switch(article.getCategory()) {
+            case 0: //음식
+                remove(article, food_articleList);
+                break;
+            case 1: //패션
+                remove(article, fashion_articleList);
+                break;
+            case 2: //연애
+                remove(article, love_articleList);
+                break;
+            case 3: //진로 및 학업
+                remove(article, study_articleList);
+                break;
+            case 4: //엔터테인먼트
+                remove(article, entertainment_articleList);
+                break;
+            case 5: //장소
+                remove(article, location_articleList);
+                break;
+            case 6: //뷰티
+                remove(article, beauty_articleList);
+                break;
+            case 7: //기타
+                remove(article, etc_articleList);
+                break;
+        }
+
+        System.out.println("###" + Category.get().getCategory_Name_byIndex(article.getCategory()) + "remove");
+    }
+
+    public void remove(Article article, List<Article> articles) {
+        for(int i = 0; i < articles.size(); i++) {
+            if(articles.get(i).getKey().equals(article.getKey()))
+                articles.remove(i);
+        }
     }
 
     public List<Article> getArticleList() {
@@ -100,4 +205,35 @@ public class ArticleListManager {
         articleList.clear();
     }
 
+    public List<Article> getFood_articleList() {
+        return food_articleList;
+    }
+
+    public List<Article> getFashion_articleList() {
+        return fashion_articleList;
+    }
+
+    public List<Article> getLove_articleList() {
+        return love_articleList;
+    }
+
+    public List<Article> getStudy_articleList() {
+        return study_articleList;
+    }
+
+    public List<Article> getEntertainment_articleList() {
+        return entertainment_articleList;
+    }
+
+    public List<Article> getLocation_articleList() {
+        return location_articleList;
+    }
+
+    public List<Article> getBeauty_articleList() {
+        return beauty_articleList;
+    }
+
+    public List<Article> getEtc_articleList() {
+        return etc_articleList;
+    }
 }

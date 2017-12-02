@@ -17,7 +17,7 @@ public class CategoryFragment extends Fragment {
 
     public CategoryFragment() {
         for(int i = 0; i < 8; i++)
-            category_hash[i] = "#" + Category.get(getContext()).getCategory_Name_byIndex(i);
+            category_hash[i] = "#" + Category.get().getCategory_Name_byIndex(i);
     }
 
 
