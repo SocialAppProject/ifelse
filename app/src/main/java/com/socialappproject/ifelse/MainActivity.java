@@ -39,21 +39,21 @@ public class MainActivity extends FragmentActivity {
     private BottomNavigationView mNavigationView;
 
     public static User currentUser;
+    public static FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         authenticate();
         getUserInfo();
         endSplash();
 
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //authenticate();
-        //getUserInfo();
+        fm = getSupportFragmentManager();
 
-        if(getSupportFragmentManager().findFragmentById(R.id.fragment_container) == null)
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, NewsfeedFragment.newInstance()).commit();
+        if(fm.findFragmentById(R.id.fragment_container) == null)
+            fm.beginTransaction().add(R.id.fragment_container, CategoryFragment.newInstance()).commit();
 
 
         mNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
@@ -63,7 +63,7 @@ public class MainActivity extends FragmentActivity {
                 Fragment selectedFragment = null;
                 switch (item.getItemId()) {
                     case R.id.navigation_newsfeed:
-                        selectedFragment = NewsfeedFragment.newInstance();
+                        selectedFragment = CategoryFragment.newInstance();
                         break;
                     case R.id.navigation_mymenu:
                         selectedFragment = MymenuFragment.newInstance();
@@ -76,7 +76,7 @@ public class MainActivity extends FragmentActivity {
                         break;
                 }
 
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                FragmentTransaction transaction = fm.beginTransaction();
                 transaction.replace(R.id.fragment_container, selectedFragment);
                 transaction.commit();
                 return true;

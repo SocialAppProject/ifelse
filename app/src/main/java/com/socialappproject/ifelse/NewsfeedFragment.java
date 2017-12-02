@@ -30,7 +30,8 @@ public class NewsfeedFragment extends Fragment {
     private CustomAdapter customAdapter;
     private List<Article> articleList;
     private SwipeRefreshLayout swipeRefreshLayout;
-
+    private Bundle bundle;
+    private int category_num;
 
     public NewsfeedFragment() {
         // Required empty public constructor
@@ -44,7 +45,13 @@ public class NewsfeedFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        articleList = ArticleListManager.get(getContext()).getArticleList();
+
+        bundle = this.getArguments();
+
+        if(bundle != null)
+            category_num = bundle.getInt("category_num");
+
+        getArticelsByCategory(category_num);
     }
 
     @Override
@@ -100,6 +107,35 @@ public class NewsfeedFragment extends Fragment {
         } else if (requestCode == REQUEST_ARTICLE) {
             if (resultCode == RESULT_OK) {
             }
+        }
+    }
+
+    private void getArticelsByCategory(int category) {
+        switch(category) {
+            case 0: //음식
+                articleList = ArticleListManager.get(getContext()).getFood_articleList();
+                break;
+            case 1: //패션
+                articleList = ArticleListManager.get(getContext()).getFashion_articleList();
+                break;
+            case 2: //연애
+                articleList = ArticleListManager.get(getContext()).getLove_articleList();
+                break;
+            case 3: //진로 및 학업
+                articleList = ArticleListManager.get(getContext()).getStudy_articleList();
+                break;
+            case 4: //엔터테인먼트
+                articleList = ArticleListManager.get(getContext()).getEntertainment_articleList();
+                break;
+            case 5: //장소
+                articleList = ArticleListManager.get(getContext()).getLocation_articleList();
+                break;
+            case 6: //뷰티
+                articleList = ArticleListManager.get(getContext()).getBeauty_articleList();
+                break;
+            case 7: //기타
+                articleList = ArticleListManager.get(getContext()).getEtc_articleList();
+                break;
         }
     }
 }
