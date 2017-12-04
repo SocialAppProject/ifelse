@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#60C4C1</color>
-    <color name="colorPrimaryDark">#0F1D49</color>
-    <color name="colorPrimaryDarker">#071D49</color>
-    <color name="colorAccent">#ff4081</color>
+    <color name="colorPrimaryDark">#122854</color>
+    <color name="colorPrimaryDarker">#122854</color>
+    <color name="colorAccent">#ff7b7b</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorIron">#ECECEC</color>
 
     <!-- color for gender -->
-    <color name="men">#6666FF</color>
-    <color name="women">#FF6666</color>
+    <color name="men">#122854</color>
+    <color name="women">#ff7b7b</color>
 
 </resources>
