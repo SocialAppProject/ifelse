@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
@@ -36,9 +37,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 
@@ -62,8 +67,7 @@ public class WriteActivity extends AppCompatActivity {
     private static final String TAG = "WriteActivity";
 
     private static final int REQUEST_CANCEL = 0;
-    private static final int REQUEST_WRITE= 1;
-
+    private static final int REQUEST_WRITE = 1;
     private static final int PERMISSIONS_REQUEST_CAMERA = 100;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 200;
 
@@ -77,11 +81,21 @@ public class WriteActivity extends AppCompatActivity {
 
     private static final DateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
 
+    private Uri uri_option1;
+    private Uri uri_option2;
+
+    private Bitmap bitmap_option1;
+    private Bitmap bitmap_option2;
+
+    private int flag1 = 0;
+    private int flag2 = 0; // 1-카메라, 2-갤러리
+
     Spinner _spinner;
     TextView _option1, _option2;
     EditText _title, _description;
     RadioGroup _radioGroup;
     RangeSeekBar _old;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,8 +150,6 @@ public class WriteActivity extends AppCompatActivity {
         findViewById(R.id.cancel_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                //startActivityForResult(intent, REQUEST_CANCEL);
                 finish();
             }
         });
@@ -157,41 +169,100 @@ public class WriteActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "두번째 선택지를 채워주세요.", Toast.LENGTH_LONG).show();
                 } else {
 
+                    progressDialog = new ProgressDialog(WriteActivity.this);
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    progressDialog.setMessage("업로드중..");
+                    progressDialog.show();
+
+                    final DatabaseReference articleRef = DatabaseManager.databaseReference.child("ARTICLE").push();
+
                     Log.d(TAG, "satisfied conditions");
 
                     article.setTitle(_title.getText().toString().trim());
                     article.setDescription(_description.getText().toString().trim());
-
-                    if(article.getOption1_flag() == 1) {
-                        article.setOption1(encodeToBase64(drawableToBitmap(_option1.getBackground()), Bitmap.CompressFormat.JPEG, 100));
-                    } else if(article.getOption1_flag() == 2) {
-                        article.setOption1(_option1.getText().toString().trim());
-                    }
-                    if(article.getOption2_flag() == 1) {
-                        article.setOption2(encodeToBase64(drawableToBitmap(_option2.getBackground()), Bitmap.CompressFormat.JPEG, 100));
-                    } else if(article.getOption2_flag() == 2) {
-                        article.setOption2(_option2.getText().toString().trim());
-                    }
-
                     article.setCategory(_spinner.getSelectedItemPosition());
                     article.setUserID(mFirebaseAuth.getCurrentUser().getEmail());
                     article.setArticleID("test");
-                    article.setTarget_min_old((int)_old.getSelectedMinValue());
-                    article.setTarget_max_old((int)_old.getSelectedMaxValue());
-
+                    article.setTarget_min_old((int) _old.getSelectedMinValue());
+                    article.setTarget_max_old((int) _old.getSelectedMaxValue());
                     Calendar.getInstance().getTimeInMillis();
                     Date currentTime = Calendar.getInstance().getTime();
                     article.setTime(sdf.format(currentTime));
-
-                    DatabaseReference articleRef = DatabaseManager.databaseReference.child("ARTICLE").push();
                     article.setKey(articleRef.getKey());
+
+                    if (article.getOption1_flag() == 1) {
+                        article.setOption1("null");
+                        StorageReference filePath = StorageManager.storageReference.child("Images").child(articleRef.getKey()).child("option_1");
+                        if (flag1 == 1) {
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            bitmap_option1.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                            byte[] data = baos.toByteArray();
+
+                            UploadTask uploadTask = filePath.putBytes(data);
+                            uploadTask.addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle unsuccessful uploads
+                                }
+                            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    String url = taskSnapshot.getDownloadUrl().toString();
+                                    DatabaseManager.databaseReference.child("ARTICLE").child(article.getKey()).child("option1").setValue(url);
+                                }
+                            });
+                        } else if (flag1 == 2) {
+                            filePath.putFile(uri_option1).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    String url = taskSnapshot.getDownloadUrl().toString();
+                                    DatabaseManager.databaseReference.child("ARTICLE").child(article.getKey()).child("option1").setValue(url);
+                                }
+                            });
+                        }
+                    } else if (article.getOption1_flag() == 2)
+                        article.setOption1(_option1.getText().toString().trim());
+
+                    if (article.getOption2_flag() == 1) {
+                        article.setOption2("null");
+                        StorageReference filePath = StorageManager.storageReference.child("Images").child(articleRef.getKey()).child("option_2");
+                        if (flag2 == 1) {
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            bitmap_option1.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                            byte[] data = baos.toByteArray();
+
+                            UploadTask uploadTask = filePath.putBytes(data);
+                            uploadTask.addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle unsuccessful uploads
+                                }
+                            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    String url = taskSnapshot.getDownloadUrl().toString();
+                                    DatabaseManager.databaseReference.child("ARTICLE").child(article.getKey()).child("option2").setValue(url);
+                                }
+                            });
+                        } else if(flag2 == 2) {
+                            filePath.putFile(uri_option2).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    String url = taskSnapshot.getDownloadUrl().toString();
+                                    DatabaseManager.databaseReference.child("ARTICLE").child(article.getKey()).child("option2").setValue(url);
+                                }
+                            });
+                        }
+                    } else if (article.getOption2_flag() == 2)
+                        article.setOption2(_option2.getText().toString().trim());
+
                     articleRef.setValue(article);
 
                     MainActivity.currentUser.setStar(MainActivity.currentUser.getStar() - 5);
                     DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("star").setValue(MainActivity.currentUser.getStar());
                     DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WRITED_ARTICLE").push().setValue(article.getKey());
-                    //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    //startActivityForResult(intent, REQUEST_WRITE);
+
+                    progressDialog.dismiss();
                     finish();
                 }
             }
@@ -200,18 +271,18 @@ public class WriteActivity extends AppCompatActivity {
         _radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton radioButton = (RadioButton)findViewById(i);
+                RadioButton radioButton = (RadioButton) findViewById(i);
 
                 int gender;
 
-                switch(i) {
-                    case R.id.gender_all :
+                switch (i) {
+                    case R.id.gender_all:
                         gender = 2;
                         break;
-                    case R.id.gender_men :
+                    case R.id.gender_men:
                         gender = 1;
                         break;
-                    case R.id.gender_women :
+                    case R.id.gender_women:
                         gender = 0;
                         break;
                     default:
@@ -244,17 +315,17 @@ public class WriteActivity extends AppCompatActivity {
 
     public void clickedOptionBtn(int which, final int option_num) {
 
-        if(option_num == 1) {
+        if (option_num == 1) {
             _option1.setText("");
             _option1.setBackgroundResource(R.drawable.option_plus_128);
             article.setOption1_flag(0);
-        } else if(option_num == 2) {
+        } else if (option_num == 2) {
             _option2.setText("");
             _option2.setBackgroundResource(R.drawable.option_plus_128);
             article.setOption2_flag(0);
         }
 
-        if(which == 0) {
+        if (which == 0) {
             Toast.makeText(WriteActivity.this, "카메라", Toast.LENGTH_SHORT).show();
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
@@ -263,15 +334,16 @@ public class WriteActivity extends AppCompatActivity {
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
                 }
             } else {
-                if(option_num == 1) {
+                if (option_num == 1) {
                     article.setOption1_flag(1);
-                } else if(option_num == 2) {
+                    flag1 = 1;
+                } else if (option_num == 2) {
                     article.setOption2_flag(1);
+                    flag2 = 1;
                 }
                 dispatchTakePictureIntent(option_num);
             }
-        }
-        else if(which == 1) {
+        } else if (which == 1) {
             Toast.makeText(WriteActivity.this, "사진", Toast.LENGTH_SHORT).show();
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -280,15 +352,16 @@ public class WriteActivity extends AppCompatActivity {
                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
                 }
             } else {
-                if(option_num == 1) {
+                if (option_num == 1) {
                     article.setOption1_flag(1);
-                } else if(option_num == 2) {
+                    flag1 = 2;
+                } else if (option_num == 2) {
                     article.setOption2_flag(1);
+                    flag2 = 2;
                 }
                 doTakeAlbum(option_num);
             }
-        }
-        else {
+        } else {
             Toast.makeText(WriteActivity.this, "글", Toast.LENGTH_SHORT).show();
             AlertDialog.Builder optionTextDialog = new AlertDialog.Builder(WriteActivity.this);
 
@@ -309,7 +382,7 @@ public class WriteActivity extends AppCompatActivity {
                         _option1.setBackgroundResource(0);
                         _option1.setText(value);
                         article.setOption1_flag(2);
-                    } else if(option_num == 2) {
+                    } else if (option_num == 2) {
                         _option2.setBackgroundResource(0);
                         _option2.setText(value);
                         article.setOption2_flag(2);
@@ -324,7 +397,7 @@ public class WriteActivity extends AppCompatActivity {
             optionTextDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.v(TAG,"No Btn Click");
+                    Log.v(TAG, "No Btn Click");
                     dialog.dismiss();     //닫기
                     // Event
                 }
@@ -333,13 +406,12 @@ public class WriteActivity extends AppCompatActivity {
             optionTextDialog.show();
 
 
-
         }
     }
 
 
-    public void doTakeAlbum(int option_num){
-        Intent intent=new Intent(Intent.ACTION_PICK);
+    public void doTakeAlbum(int option_num) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
         intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE + option_num);
@@ -347,53 +419,14 @@ public class WriteActivity extends AppCompatActivity {
     }
 
     private void dispatchTakePictureIntent(int option_num) {
-
-
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
+
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, createImageFile());
-                } else {
-                    photoFile = new File(createImageFile().getPath());
-                    Uri photoURI = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".provider", photoFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                }
-            } catch (IOException | NullPointerException e) {
-                e.printStackTrace();
-            }
+            startActivityForResult(takePictureIntent, PERMISSIONS_REQUEST_CAMERA + option_num);
 
             takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-            Log.d(TAG, photoFile.toString());
-            // Continue only if the File was successfully created
-            if (takePictureIntent.resolveActivity(getApplicationContext().getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, PERMISSIONS_REQUEST_CAMERA + option_num);
-            }
         }
-    }
-
-    private File createImageFile() throws IOException {
-
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), IMAGE_DIRECTORY_NAME);
-
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                return null;
-            }
-        }
-
-        File image;
-        image = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
-        mCurrentPhotoPath = image.getAbsolutePath();
-        // Save a file: path for use with ACTION_VIEW intents
-        return image;
-
     }
 
     @Override
@@ -446,54 +479,43 @@ public class WriteActivity extends AppCompatActivity {
         }
     }
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CANCEL) {
-                Toast.makeText(this, "취소하셨습니다.", Toast.LENGTH_LONG).show();
-        }
-        else if (requestCode == REQUEST_WRITE) {
-                Toast.makeText(this, "성공적으로 글을 작성하셨습니다.", Toast.LENGTH_LONG).show();
-        }
+        if (requestCode == REQUEST_CANCEL)
+            Toast.makeText(this, "취소하셨습니다.", Toast.LENGTH_LONG).show();
+        else if (requestCode == REQUEST_WRITE)
+            Toast.makeText(this, "성공적으로 글을 작성하셨습니다.", Toast.LENGTH_LONG).show();
 
         if (requestCode == PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE + 1 && resultCode == RESULT_OK && null != data) {
+            uri_option1 = data.getData();
             _option1.setBackground(new BitmapDrawable(getResources(),
                     BitmapFactory.decodeFile(getPicturePath(data))));
-        }
-        else if (requestCode == (PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE + 2) && resultCode == RESULT_OK && null != data) {
+        } else if (requestCode == (PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE + 2) && resultCode == RESULT_OK && null != data) {
+            uri_option2 = data.getData();
             _option2.setBackground(new BitmapDrawable(getResources(),
                     BitmapFactory.decodeFile(getPicturePath(data))));
         }
 
-        //TODO: 카메라 사진 TextView background 로 들어가게 하기
         if (requestCode == (PERMISSIONS_REQUEST_CAMERA + 1)) {
+            Bundle extras = data.getExtras();
+            bitmap_option1 = (Bitmap) extras.get("data");
+            Drawable drawable = new BitmapDrawable(getResources(), bitmap_option1);
+            _option1.setBackground(drawable);
 
-            try {
-                Bitmap image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(mCurrentPhotoPath));
-                _option1.setBackground(new BitmapDrawable(getResources(), image));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-        else if (requestCode == (PERMISSIONS_REQUEST_CAMERA + 2)) {
-
-            try {
-                _option2.setBackground(new BitmapDrawable(getResources(), (Bitmap) data.getExtras().get("data")));
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
+        } else if (requestCode == (PERMISSIONS_REQUEST_CAMERA + 2)) {
+            Bundle extras = data.getExtras();
+            bitmap_option2 = (Bitmap) extras.get("data");
+            Drawable drawable = new BitmapDrawable(getResources(), bitmap_option2);
+            _option2.setBackground(drawable);
         }
     }
-
 
 
     public String getPicturePath(Intent data) {
 
         Uri selectedImage = data.getData();
 
-        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
         Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
         cursor.moveToFirst();
@@ -502,45 +524,10 @@ public class WriteActivity extends AppCompatActivity {
         String picturePath = cursor.getString(columnIndex);
 
         Log.d(TAG, picturePath);
-        //   /storage/emulated/0/Pictures/ifelse/IMG_20171105_030233.jpg
 
 
         cursor.close();
 
         return picturePath;
     }
-
-    public static Bitmap drawableToBitmap (Drawable drawable) {
-
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
-    }
-
-    public static String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality) {
-        ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
-        image.compress(compressFormat, quality, byteArrayOS);
-        return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
-    }
-    /*
-    public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-        // CREATE A MATRIX FOR THE MANIPULATION
-        Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
-        matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height,
-                matrix, false);
-        return resizedBitmap; }
-        */
 }
