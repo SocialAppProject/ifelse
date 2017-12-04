@@ -17,9 +17,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -68,6 +69,8 @@ public class CustomAdapter extends BaseAdapter {
         final TextView option_2_tv = (TextView) convertView.findViewById(R.id.option_2_tv);
         EditText option_1_et = (EditText) convertView.findViewById(R.id.option_1_et);
         EditText option_2_et = (EditText) convertView.findViewById(R.id.option_2_et);
+        ImageView option_1_iv = (ImageView) convertView.findViewById(R.id.option_1_iv);
+        ImageView option_2_iv = (ImageView) convertView.findViewById(R.id.option_2_iv);
 
         Article article = articleList.get(getCount() - position - 1); // 최신순 정렬을 위해
 
@@ -75,25 +78,30 @@ public class CustomAdapter extends BaseAdapter {
         description_tv.setText(article.getDescription());
 
         if (article.getOption1_flag() == 1) {
-            option_1_tv.setText("");
+            option_1_iv.setVisibility(View.VISIBLE);
+            option_1_tv.setVisibility(View.INVISIBLE);
+            Glide.with(context).load(StorageManager.storageReference.child("Images").child(article.getKey())
+                    .child("option_1")).into(option_1_iv);
 
-            Bitmap image = decodeBase64(article.getOption1());
-            option_1_tv.setBackground(new BitmapDrawable(image));
         } else {
+            option_1_tv.setVisibility(View.VISIBLE);
+            option_1_iv.setVisibility(View.INVISIBLE);
             option_1_tv.setBackground(null);
             option_1_tv.setText(article.getOption1());
         }
 
         if (article.getOption2_flag() == 1) {
-            option_2_tv.setText("");
+            option_2_iv.setVisibility(View.VISIBLE);
+            option_2_tv.setVisibility(View.INVISIBLE);
+            Glide.with(context).load(StorageManager.storageReference.child("Images").child(article.getKey())
+                    .child("option_2")).into(option_2_iv);
 
-            Bitmap image = decodeBase64(article.getOption2());
-            option_2_tv.setBackground(new BitmapDrawable(image));
         } else {
+            option_2_tv.setVisibility(View.VISIBLE);
+            option_2_iv.setVisibility(View.INVISIBLE);
             option_2_tv.setBackground(null);
             option_2_tv.setText(article.getOption2());
         }
-
 
         LinearLayout.LayoutParams option1 = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -111,10 +119,5 @@ public class CustomAdapter extends BaseAdapter {
         category_tv.setText(Category.get().getCategory_Name_byIndex(article.getCategory()));
 
         return convertView;
-    }
-
-    public static Bitmap decodeBase64(String input) {
-        byte[] decodedBytes = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 }

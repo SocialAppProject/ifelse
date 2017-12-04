@@ -496,13 +496,13 @@ public class WriteActivity extends AppCompatActivity {
                     BitmapFactory.decodeFile(getPicturePath(data))));
         }
 
-        if (requestCode == (PERMISSIONS_REQUEST_CAMERA + 1)) {
+        if (requestCode == (PERMISSIONS_REQUEST_CAMERA + 1) && resultCode == RESULT_OK && null != data) {
             Bundle extras = data.getExtras();
             bitmap_option1 = (Bitmap) extras.get("data");
             Drawable drawable = new BitmapDrawable(getResources(), bitmap_option1);
             _option1.setBackground(drawable);
 
-        } else if (requestCode == (PERMISSIONS_REQUEST_CAMERA + 2)) {
+        } else if (requestCode == (PERMISSIONS_REQUEST_CAMERA + 2) && resultCode == RESULT_OK && null != data) {
             Bundle extras = data.getExtras();
             bitmap_option2 = (Bitmap) extras.get("data");
             Drawable drawable = new BitmapDrawable(getResources(), bitmap_option2);
