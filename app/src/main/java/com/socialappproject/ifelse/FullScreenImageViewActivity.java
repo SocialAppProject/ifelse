@@ -6,11 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-
-import static com.socialappproject.ifelse.CustomAdapter.decodeBase64;
 
 public class FullScreenImageViewActivity extends AppCompatActivity {
 
@@ -48,12 +47,13 @@ public class FullScreenImageViewActivity extends AppCompatActivity {
     }
 
     private void updateView(Article article) {
-        if (select == 1)
-            image = decodeBase64(article.getOption1());
-        else
-            image = decodeBase64(article.getOption2());
-
         full_iv = (ImageView) findViewById(R.id.full_iv);
-        full_iv.setImageBitmap(image);
+
+        if (select == 1)
+            Glide.with(this).load(StorageManager.storageReference.child("Images").child(article.getKey())
+                    .child("option_1")).into(full_iv);
+        else
+            Glide.with(this).load(StorageManager.storageReference.child("Images").child(article.getKey())
+                    .child("option_2")).into(full_iv);
     }
 }

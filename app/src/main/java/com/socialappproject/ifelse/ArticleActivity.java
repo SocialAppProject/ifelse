@@ -2,26 +2,21 @@ package com.socialappproject.ifelse;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-
-import static com.socialappproject.ifelse.CustomAdapter.decodeBase64;
 
 /**
  * Created by junseon on 2017. 10. 17..
@@ -44,6 +39,8 @@ public class ArticleActivity extends AppCompatActivity {
     private EditText option_2_et;
     private Button option_1_button;
     private Button option_2_button;
+    private ImageView option_1_iv;
+    private ImageView option_2_iv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +58,8 @@ public class ArticleActivity extends AppCompatActivity {
         option_2_et = (EditText) findViewById(R.id.art_option_2_et);
         option_1_button = (Button) findViewById(R.id.art_option1_vote);
         option_2_button = (Button) findViewById(R.id.art_option2_vote);
+        option_1_iv = (ImageView) findViewById(R.id.article_option_1_iv);
+        option_2_iv = (ImageView) findViewById(R.id.article_option_2_iv);
     }
 
     private void update() {
@@ -88,21 +87,26 @@ public class ArticleActivity extends AppCompatActivity {
         title_tv.setText(article.getTitle());
         category_et.setText(Category.get().getCategory_Name_byIndex(article.getCategory()));
         description_tv.setText(article.getDescription());
-
         if (article.getOption1_flag() == 1) {
-            option_1_tv.setText("");
-            Bitmap image = decodeBase64(article.getOption1());
-            option_1_tv.setBackground(new BitmapDrawable(image));
+            option_1_iv.setVisibility(View.VISIBLE);
+            option_1_tv.setVisibility(View.INVISIBLE);
+            Glide.with(this).load(StorageManager.storageReference.child("Images").child(article.getKey())
+                    .child("option_1")).into(option_1_iv);
         } else {
+            option_1_tv.setVisibility(View.VISIBLE);
+            option_1_iv.setVisibility(View.INVISIBLE);
             option_1_tv.setBackground(null);
             option_1_tv.setText(article.getOption1());
         }
 
         if (article.getOption2_flag() == 1) {
-            option_2_tv.setText("");
-            Bitmap image = decodeBase64(article.getOption2());
-            option_2_tv.setBackground(new BitmapDrawable(image));
+            option_2_iv.setVisibility(View.VISIBLE);
+            option_2_tv.setVisibility(View.INVISIBLE);
+            Glide.with(this).load(StorageManager.storageReference.child("Images").child(article.getKey())
+                    .child("option_2")).into(option_2_iv);
         } else {
+            option_2_tv.setVisibility(View.VISIBLE);
+            option_2_iv.setVisibility(View.INVISIBLE);
             option_2_tv.setBackground(null);
             option_2_tv.setText(article.getOption2());
         }
@@ -171,7 +175,7 @@ public class ArticleActivity extends AppCompatActivity {
             }
         });
 
-        option_1_tv.setOnClickListener(new View.OnClickListener() {
+        option_1_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (article.getOption1_flag() == 1) {
@@ -183,7 +187,7 @@ public class ArticleActivity extends AppCompatActivity {
             }
         });
 
-        option_2_tv.setOnClickListener(new View.OnClickListener() {
+        option_2_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (article.getOption2_flag() == 1) {

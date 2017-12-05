@@ -4,6 +4,7 @@ package com.socialappproject.ifelse;
  * Created by Kimjungmin on 2017. 10. 15..
  */
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -22,11 +23,18 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Registry;
+import com.bumptech.glide.module.AppGlideModule;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.InputStream;
 
 public class MainActivity extends FragmentActivity {
     private static final String TAG = "MainActivity";
@@ -52,7 +60,7 @@ public class MainActivity extends FragmentActivity {
 
         fm = getSupportFragmentManager();
 
-        if(fm.findFragmentById(R.id.fragment_container) == null)
+        if (fm.findFragmentById(R.id.fragment_container) == null)
             fm.beginTransaction().add(R.id.fragment_container, CategoryFragment.newInstance()).commit();
 
 
@@ -122,7 +130,7 @@ public class MainActivity extends FragmentActivity {
 
                                 @Override
                                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                                    currentUser.setStar(Integer.parseInt(dataSnapshot.child("star").getValue().toString()));
                                 }
 
                                 @Override
@@ -141,7 +149,7 @@ public class MainActivity extends FragmentActivity {
                                 }
 
                                 // ...
-                    });
+                            });
                 } else {// 로그인 안되어있음
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
@@ -151,7 +159,6 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void getUserInfo() {
-
 
 
     }
