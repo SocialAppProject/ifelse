@@ -4,6 +4,7 @@ import android.*;
 import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -28,6 +29,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -370,6 +372,8 @@ public class WriteActivity extends AppCompatActivity {
             // EditText 삽입하기
             final EditText editText = new EditText(WriteActivity.this);
             optionTextDialog.setView(editText);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
 
             // 확인 버튼 설정
             optionTextDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -387,7 +391,8 @@ public class WriteActivity extends AppCompatActivity {
                         _option2.setText(value);
                         article.setOption2_flag(2);
                     }
-
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                     dialog.dismiss();     //닫기
                     // Event
                 }
@@ -398,6 +403,8 @@ public class WriteActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Log.v(TAG, "No Btn Click");
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                     dialog.dismiss();     //닫기
                     // Event
                 }

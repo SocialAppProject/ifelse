@@ -6,7 +6,7 @@
     <color name="colorAccent">#ff7b7b</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorIron">#ECECEC</color>
+    <color name="colorIron">#FFFFFF</color>
 
     <!-- color for gender -->
     <color name="men">#122854</color>

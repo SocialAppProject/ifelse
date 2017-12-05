@@ -1,22 +1,31 @@
 package com.socialappproject.ifelse;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by junseon on 2017. 10. 17..
@@ -41,6 +50,11 @@ public class ArticleActivity extends AppCompatActivity {
     private Button option_2_button;
     private ImageView option_1_iv;
     private ImageView option_2_iv;
+    private EditText comment_et;
+    private Button comment_bt;
+    private ListView comments_lv;
+    private CommentAdapter commentAdapter;
+    private List<Comment> commentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +74,58 @@ public class ArticleActivity extends AppCompatActivity {
         option_2_button = (Button) findViewById(R.id.art_option2_vote);
         option_1_iv = (ImageView) findViewById(R.id.article_option_1_iv);
         option_2_iv = (ImageView) findViewById(R.id.article_option_2_iv);
+        comment_et = findViewById(R.id.comment_et);
+        comment_bt = findViewById(R.id.comment_bt);
+        comments_lv = findViewById(R.id.comments_lv);
+
+        commentList = new ArrayList<>();
+
+        commentAdapter = new CommentAdapter(this, commentList);
+        comments_lv.setAdapter(commentAdapter);
+        commentAdapter.notifyDataSetChanged();
+
+        comment_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Comment comment = new Comment();
+                comment.setName(MainActivity.currentUser.getName());
+                comment.setText(comment_et.getText().toString());
+                DatabaseManager.databaseReference.child("ARTICLE").child(key).child("Comment").push()
+                        .setValue(comment);
+                comment_et.setText("");
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(comment_et.getWindowToken(), 0);
+            }
+        });
+
+        DatabaseManager.databaseReference.child("ARTICLE").child(key).child("Comment").
+                addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        commentList.add(dataSnapshot.getValue(Comment.class));
+                        commentAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     private void update() {

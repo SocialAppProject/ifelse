@@ -1,6 +1,6 @@
 package com.socialappproject.ifelse;
 
-import java.util.Date;
+import java.util.List;
 
 /**
  * Created by junseon on 2017. 10. 16..
@@ -150,5 +150,27 @@ public class Article {
 
     public void setOption2_flag(int option2_flag) {
         this.option2_flag = option2_flag;
+    }
+}
+
+class Comment {
+    private String name;
+    private String text;
+    public Comment() {}
+
+    public String getName() {
+        return name;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }
