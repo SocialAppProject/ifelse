@@ -2,9 +2,12 @@ package com.socialappproject.ifelse;
 
 import android.content.Context;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,9 @@ import java.util.List;
  */
 
 public class ArticleListManager {
+    private FirebaseAuth firebaseAuth;
+    private String UID;
+
     private static ArticleListManager articleListManager;
     private List<Article> articleList;
 
@@ -26,15 +32,23 @@ public class ArticleListManager {
     private List<Article> beauty_articleList;
     private List<Article> etc_articleList;
 
+    private List<String> written_keys;
+    private List<String> voted_keys;
+    private List<Article> written_articleList;
+    private List<Article> voted_articleList;
+
 
     public static ArticleListManager get(Context context) {
-        if(articleListManager == null)
+        if (articleListManager == null)
             articleListManager = new ArticleListManager(context);
 
         return articleListManager;
     }
 
     private ArticleListManager(Context context) {
+        firebaseAuth = FirebaseAuth.getInstance();
+        UID = firebaseAuth.getCurrentUser().getUid();
+
         articleList = new ArrayList<>();
         food_articleList = new ArrayList<>();
         fashion_articleList = new ArrayList<>();
@@ -44,6 +58,12 @@ public class ArticleListManager {
         location_articleList = new ArrayList<>();
         beauty_articleList = new ArrayList<>();
         etc_articleList = new ArrayList<>();
+
+        written_keys = new ArrayList<>();
+        voted_keys = new ArrayList<>();
+
+        written_articleList = new ArrayList<>();
+        voted_articleList = new ArrayList<>();
 
         DatabaseManager.databaseReference.child("ARTICLE").addChildEventListener(new ChildEventListener() {
             @Override
@@ -58,8 +78,8 @@ public class ArticleListManager {
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 String key = dataSnapshot.getKey();
                 Article article = dataSnapshot.getValue(Article.class);
-                for(int i = 0; i < articleList.size(); i++) {
-                    if(articleList.get(i).getKey().equals(key))
+                for (int i = 0; i < articleList.size(); i++) {
+                    if (articleList.get(i).getKey().equals(key))
                         articleList.set(i, article);
                 }
 
@@ -70,8 +90,8 @@ public class ArticleListManager {
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 String key = dataSnapshot.getKey();
                 Article article = dataSnapshot.getValue(Article.class);
-                for(int i = 0; i < articleList.size(); i++) {
-                    if(articleList.get(i).getKey().equals(key))
+                for (int i = 0; i < articleList.size(); i++) {
+                    if (articleList.get(i).getKey().equals(key))
                         articleList.remove(i);
                 }
 
@@ -88,10 +108,90 @@ public class ArticleListManager {
                 System.out.println("Database Error : " + databaseError);
             }
         });
+
+        DatabaseManager.databaseReference.child("USER").child(UID).child("WRITED_ARTICLE")
+                .addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        DatabaseManager.databaseReference.child("ARTICLE").child(dataSnapshot.getValue().toString())
+                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        written_articleList.add((Article)dataSnapshot.getValue(Article.class));
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+        DatabaseManager.databaseReference.child("USER").child(UID).child("VOTED_ARTICLE")
+                .addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        DatabaseManager.databaseReference.child("ARTICLE").child(dataSnapshot.getValue().toString())
+                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        voted_articleList.add((Article)dataSnapshot.getValue(Article.class));
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     private void categorize_add(Article article) {
-        switch(article.getCategory()) {
+        switch (article.getCategory()) {
             case 0: //음식
                 food_articleList.add(article);
                 break;
@@ -117,12 +217,10 @@ public class ArticleListManager {
                 etc_articleList.add(article);
                 break;
         }
-
-        System.out.println("###" + Category.get().getCategory_Name_byIndex(article.getCategory()) + "add");
     }
 
     public void categorize_change(Article article) {
-        switch(article.getCategory()) {
+        switch (article.getCategory()) {
             case 0: //음식
                 change(article, food_articleList);
                 break;
@@ -148,19 +246,17 @@ public class ArticleListManager {
                 change(article, etc_articleList);
                 break;
         }
-
-        System.out.println("###" + Category.get().getCategory_Name_byIndex(article.getCategory()) + "change");
     }
 
     public void change(Article article, List<Article> articles) {
-        for(int i = 0; i < articles.size(); i++) {
-            if(articles.get(i).getKey().equals(article.getKey()))
+        for (int i = 0; i < articles.size(); i++) {
+            if (articles.get(i).getKey().equals(article.getKey()))
                 articles.set(i, article);
         }
     }
 
     public void categorize_remove(Article article) {
-        switch(article.getCategory()) {
+        switch (article.getCategory()) {
             case 0: //음식
                 remove(article, food_articleList);
                 break;
@@ -186,16 +282,16 @@ public class ArticleListManager {
                 remove(article, etc_articleList);
                 break;
         }
-
-        System.out.println("###" + Category.get().getCategory_Name_byIndex(article.getCategory()) + "remove");
     }
 
     public void remove(Article article, List<Article> articles) {
-        for(int i = 0; i < articles.size(); i++) {
-            if(articles.get(i).getKey().equals(article.getKey()))
+        for (int i = 0; i < articles.size(); i++) {
+            if (articles.get(i).getKey().equals(article.getKey()))
                 articles.remove(i);
         }
     }
+
+
 
     public List<Article> getArticleList() {
         return articleList;
@@ -235,5 +331,13 @@ public class ArticleListManager {
 
     public List<Article> getEtc_articleList() {
         return etc_articleList;
+    }
+
+    public List<Article> getWritten_articleList() {
+        return written_articleList;
+    }
+
+    public List<Article> getVoted_articleList() {
+        return voted_articleList;
     }
 }

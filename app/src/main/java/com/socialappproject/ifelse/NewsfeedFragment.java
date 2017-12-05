@@ -34,7 +34,7 @@ public class NewsfeedFragment extends Fragment {
     private int category_num;
 
     public NewsfeedFragment() {
-        // Required empty public constructor
+
     }
 
     public static NewsfeedFragment newInstance() {

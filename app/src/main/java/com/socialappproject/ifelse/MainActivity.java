@@ -60,7 +60,7 @@ public class MainActivity extends FragmentActivity {
 
         fm = getSupportFragmentManager();
 
-        if(fm.findFragmentById(R.id.fragment_container) == null)
+        if (fm.findFragmentById(R.id.fragment_container) == null)
             fm.beginTransaction().add(R.id.fragment_container, CategoryFragment.newInstance()).commit();
 
 
@@ -130,7 +130,7 @@ public class MainActivity extends FragmentActivity {
 
                                 @Override
                                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                                    currentUser.setStar(Integer.parseInt(dataSnapshot.child("star").getValue().toString()));
                                 }
 
                                 @Override
@@ -149,7 +149,7 @@ public class MainActivity extends FragmentActivity {
                                 }
 
                                 // ...
-                    });
+                            });
                 } else {// 로그인 안되어있음
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
@@ -159,7 +159,6 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void getUserInfo() {
-
 
 
     }

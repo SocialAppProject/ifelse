@@ -21,7 +21,7 @@ public class Article {
     private String time;
     private int target_min_old;
     private int target_max_old;
-    private int target_gender; // 2131296329: 양성, 2131296330: 남성 2131296331: 여성
+    private int target_gender;
     private int category;
 
     public String getKey() {
