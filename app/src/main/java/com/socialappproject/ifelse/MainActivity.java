@@ -52,9 +52,17 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        authenticate();
-        getUserInfo();
-        endSplash();
+        try {
+            authenticate();
+            getUserInfo();
+            ArticleListManager.get(getApplicationContext());
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+        finally {
+            endSplash();
+        }
 
         setContentView(R.layout.activity_main);
 
@@ -103,9 +111,6 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    /*TODO : BUG - register한뒤 로그인 안하고 그냥 앱 나갔다 오면 자동으로 로그인 되어있음
-            회원가입시 authstatelistener가 로그인 된 상태로 인식하기 때문인거같음
-     */
     private void authenticate() {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -113,10 +118,6 @@ public class MainActivity extends FragmentActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {// 로그인 되어있음
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    Toast.makeText(getApplicationContext(), user.getEmail() + "님 안녕하세요!",
-                            Toast.LENGTH_SHORT).show();
-
                     DatabaseManager.databaseReference.child("USER").orderByChild("email").equalTo(user.getEmail()).
                             addChildEventListener(new ChildEventListener() {
                                 @Override

@@ -65,6 +65,11 @@ public class ArticleListManager {
         written_articleList = new ArrayList<>();
         voted_articleList = new ArrayList<>();
 
+        attachListenerToWholeList();
+        attachListenerToMyList();
+    }
+
+    private void attachListenerToWholeList() {
         DatabaseManager.databaseReference.child("ARTICLE").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -108,7 +113,9 @@ public class ArticleListManager {
                 System.out.println("Database Error : " + databaseError);
             }
         });
+    }
 
+    private void attachListenerToMyList() {
         DatabaseManager.databaseReference.child("USER").child(UID).child("WRITED_ARTICLE")
                 .addChildEventListener(new ChildEventListener() {
                     @Override
@@ -290,8 +297,6 @@ public class ArticleListManager {
                 articles.remove(i);
         }
     }
-
-
 
     public List<Article> getArticleList() {
         return articleList;

@@ -9,15 +9,10 @@ import android.view.ViewGroup;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SettingFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+public class SettingFragment extends Fragment { // 계정, 앱정보, 개발자정보
     FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     public SettingFragment() {
-        // Required empty public constructor
     }
 
 

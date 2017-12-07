@@ -121,7 +121,6 @@ public class WriteActivity extends AppCompatActivity {
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         _spinner.setAdapter(spinnerArrayAdapter);
 
-        _option1.setBackgroundResource(R.drawable.option_plus_128);
         _option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,7 +134,7 @@ public class WriteActivity extends AppCompatActivity {
 
             }
         });
-        _option2.setBackgroundResource(R.drawable.option_plus_128);
+
         _option2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

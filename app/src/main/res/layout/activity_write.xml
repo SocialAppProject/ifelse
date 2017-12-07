@@ -59,7 +59,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/gender_all" />
+                android:text="@string/gender_all"/>
 
             <RadioButton
                 android:id="@+id/gender_men"
@@ -69,7 +69,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/gender_men" />
+                android:text="@string/gender_men"/>
 
             <RadioButton
                 android:id="@+id/gender_women"
@@ -79,7 +79,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/gender_women" />
+                android:text="@string/gender_women"/>
         </RadioGroup>
 
 
@@ -89,19 +89,19 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            rsb:showLabels="true"
-            rsb:valuesAboveThumbs="true"
-            rsb:textAboveThumbsColor="@color/colorPrimary"
             rsb:absoluteMaxValue="0"
-            rsb:absoluteMinValue="100"/>
+            rsb:absoluteMinValue="100"
+            rsb:showLabels="true"
+            rsb:textAboveThumbsColor="@color/colorPrimary"
+            rsb:valuesAboveThumbs="true"/>
 
         <Spinner
             android:id="@+id/spin_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/spinnerbox"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:background="@drawable/spinnerbox"/>
 
         <!--  Options Label -->
         <LinearLayout
@@ -115,10 +115,11 @@
                 android:layout_width="128dp"
                 android:layout_height="128dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
+                android:background="@drawable/ic_add_24dp"
                 android:gravity="center"/>
 
             <TextView
@@ -126,10 +127,11 @@
                 android:layout_width="128dp"
                 android:layout_height="128dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
+                android:background="@drawable/ic_add_24dp"
                 android:gravity="center"/>
 
         </LinearLayout>
