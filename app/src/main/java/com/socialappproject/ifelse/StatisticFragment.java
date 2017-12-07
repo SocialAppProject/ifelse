@@ -50,6 +50,12 @@ public class StatisticFragment extends Fragment {
     private DatabaseReference userRef = DatabaseManager.databaseReference.child("USER");
     private DatabaseReference articleRef = DatabaseManager.databaseReference.child("ARTICLE");
 
+    BarChart _barChart;
+    LineChart _lineChart;
+    PieChart _pieChart;
+    ScatterChart _scatterChart;
+
+
     private static final BarData null_data = new BarData();
 
     private static int CHART_FLAG = 100;
@@ -81,16 +87,27 @@ public class StatisticFragment extends Fragment {
                 dialog.setItems(R.array.chart_ary, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(getContext(), which + "", Toast.LENGTH_SHORT).show();
-                        CHART_FLAG = which;
+                        if(which == 0) { // 막대 그래프
+                            drawChart();
+                        } else if(which == 1) { // 원 그래프
+
+                        } else if(which == 2) { // 선 그래프
+
+                        } else {
+                            _barChart.clear();
+                            _lineChart.clear();
+                            _pieChart.clear();
+                            _scatterChart.clear();
+                        }
                     }
                 }).show();
             }
         });
 
-        BarChart _barChart = (BarChart) view.findViewById(R.id.bar_chart);
-        LineChart _lineChart = (LineChart) view.findViewById(R.id.line_chart);
-        PieChart _pieChart = (PieChart) view.findViewById(R.id.pie_chart);
-        ScatterChart _scatterChart = (ScatterChart) view.findViewById(R.id.scatter_chart);
+        _barChart = (BarChart) view.findViewById(R.id.bar_chart);
+        _lineChart = (LineChart) view.findViewById(R.id.line_chart);
+        _pieChart = (PieChart) view.findViewById(R.id.pie_chart);
+        _scatterChart = (ScatterChart) view.findViewById(R.id.scatter_chart);
 
         _barChart.setNoDataText("");
         _lineChart.setNoDataText("");
@@ -110,47 +127,43 @@ public class StatisticFragment extends Fragment {
         시나이로10: 성별 + 연령 별 카테고리 게시물 수 비율 - 스택바차트
          */
 
-        if(CHART_FLAG == 0) { // 막대 그래프
-            BarData data = new BarData(getXAxisValues(), getDataSet());
-            _barChart.setData(data);
 
-            _barChart.setDrawValuesForWholeStack(false);
-            _barChart.setDrawBarShadow(false);
-            _barChart.setDrawValueAboveBar(true);
-
-            _barChart.setHighlightEnabled(false);
-            _barChart.setDrawGridBackground(true);
-            _barChart.setDescription("");
-
-            XAxis x = _barChart.getXAxis();
-            x.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-            YAxis yLabels_left = _barChart.getAxisLeft();
-            yLabels_left.setDrawLabels(false);
-            yLabels_left.setAxisMinValue(0);
-            yLabels_left.setAxisMaxValue(100);
-            YAxis yLabels_right = _barChart.getAxisRight();
-            yLabels_right.setDrawLabels(false);
-
-            Legend legend = _barChart.getLegend();
-            legend.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
-
-            _barChart.animateXY(2000, 2000);
-            _barChart.invalidate();
-        } else if(CHART_FLAG == 1) { // 원 그래프
-
-        } else if(CHART_FLAG == 2) { // 선 그래프
-
-        } else {
-            _barChart.clear();
-            _lineChart.clear();
-            _pieChart.clear();
-            _scatterChart.clear();
-        }
 
 
         return view;
     }
+
+    private void drawChart() {
+        BarData data = new BarData(getXAxisValues(), getDataSet());
+        _barChart.setData(data);
+
+        _barChart.setDrawValuesForWholeStack(false);
+        _barChart.setDrawBarShadow(false);
+        _barChart.setDrawValueAboveBar(true);
+
+        _barChart.setHighlightEnabled(false);
+        _barChart.setDrawGridBackground(true);
+        _barChart.setDescription("");
+
+        XAxis x = _barChart.getXAxis();
+        x.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        YAxis yLabels_left = _barChart.getAxisLeft();
+        yLabels_left.setDrawLabels(false);
+        yLabels_left.setAxisMinValue(0);
+        yLabels_left.setAxisMaxValue(100);
+        YAxis yLabels_right = _barChart.getAxisRight();
+        yLabels_right.setDrawLabels(false);
+
+        Legend legend = _barChart.getLegend();
+        legend.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
+
+        _barChart.animateXY(2000, 2000);
+        _barChart.invalidate();
+
+        Log.d(TAG, "asdf");
+    }
+
 
     private ArrayList<BarDataSet> getDataSet() {
 
