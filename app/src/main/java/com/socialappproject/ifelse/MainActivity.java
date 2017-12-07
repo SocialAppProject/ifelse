@@ -165,7 +165,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void endSplash() {
-        SystemClock.sleep(2000);
+        SystemClock.sleep(1000);
         setTheme(R.style.AppTheme);
     }
 
