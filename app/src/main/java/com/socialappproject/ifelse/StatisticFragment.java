@@ -3,17 +3,24 @@ package com.socialappproject.ifelse;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -43,6 +50,9 @@ public class StatisticFragment extends Fragment {
     private DatabaseReference userRef = DatabaseManager.databaseReference.child("USER");
     private DatabaseReference articleRef = DatabaseManager.databaseReference.child("ARTICLE");
 
+    private static final BarData null_data = new BarData();
+
+    private static int CHART_FLAG = 100;
 
     public StatisticFragment() {
         // Required empty public constructor
@@ -64,36 +74,80 @@ public class StatisticFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_statistic, container, false);
 
-        BarChart chart = (BarChart) view.findViewById(R.id.chart);
+        view.findViewById(R.id.new_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                dialog.setItems(R.array.chart_ary, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(), which + "", Toast.LENGTH_SHORT).show();
+                        CHART_FLAG = which;
+                    }
+                }).show();
+            }
+        });
 
+        BarChart _barChart = (BarChart) view.findViewById(R.id.bar_chart);
+        LineChart _lineChart = (LineChart) view.findViewById(R.id.line_chart);
+        PieChart _pieChart = (PieChart) view.findViewById(R.id.pie_chart);
+        ScatterChart _scatterChart = (ScatterChart) view.findViewById(R.id.scatter_chart);
 
+        _barChart.setNoDataText("");
+        _lineChart.setNoDataText("");
+        _pieChart.setNoDataText("");
+        _scatterChart.setNoDataText("");
 
-        BarData data = new BarData(getXAxisValues(), getDataSet());
-        chart.setData(data);
+        /*
+        시나리오1: 성별 수 비율 - 파이차트, 바차트
+        시나리오2: 연령 수 비율 - 파이차트, 바차트
+        시나리오3: 성별 + 연령 수 비율 - 바차트
+        시나리오4: 카테고리 별 게시물 수 비율 - 파이차트, 바차트
+        시나리오5: 카테고리 별 투표 수 비율 - 파이차트, 바차트
+        시나리오6: 하루 시간대 별 게시물 업데이트 수 - 라인차트
+        시나리오7: 하루 시간대 별 투표 업데이트 수 - 라인차트
+        시나리오8: 연령 별 카테고리 게시물 수 비율 - 스택바차트
+        시나리오9: 성별 별 카테고리 게시물 수 비율 - 스택바차트
+        시나이로10: 성별 + 연령 별 카테고리 게시물 수 비율 - 스택바차트
+         */
 
-        chart.setDrawValuesForWholeStack(false);
-        chart.setDrawBarShadow(false);
-        chart.setDrawValueAboveBar(true);
+        if(CHART_FLAG == 0) { // 막대 그래프
+            BarData data = new BarData(getXAxisValues(), getDataSet());
+            _barChart.setData(data);
 
-        chart.setHighlightEnabled(false);
-        chart.setDrawGridBackground(true);
-        chart.setDescription("");
+            _barChart.setDrawValuesForWholeStack(false);
+            _barChart.setDrawBarShadow(false);
+            _barChart.setDrawValueAboveBar(true);
 
-        XAxis x = chart.getXAxis();
-        x.setPosition(XAxis.XAxisPosition.BOTTOM);
+            _barChart.setHighlightEnabled(false);
+            _barChart.setDrawGridBackground(true);
+            _barChart.setDescription("");
 
-        YAxis yLabels_left = chart.getAxisLeft();
-        yLabels_left.setDrawLabels(false);
-        yLabels_left.setAxisMinValue(0);
-        yLabels_left.setAxisMaxValue(100);
-        YAxis yLabels_right = chart.getAxisRight();
-        yLabels_right.setDrawLabels(false);
+            XAxis x = _barChart.getXAxis();
+            x.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        Legend legend = chart.getLegend();
-        legend.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
+            YAxis yLabels_left = _barChart.getAxisLeft();
+            yLabels_left.setDrawLabels(false);
+            yLabels_left.setAxisMinValue(0);
+            yLabels_left.setAxisMaxValue(100);
+            YAxis yLabels_right = _barChart.getAxisRight();
+            yLabels_right.setDrawLabels(false);
 
-        chart.animateXY(2000, 2000);
-        chart.invalidate();
+            Legend legend = _barChart.getLegend();
+            legend.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
+
+            _barChart.animateXY(2000, 2000);
+            _barChart.invalidate();
+        } else if(CHART_FLAG == 1) { // 원 그래프
+
+        } else if(CHART_FLAG == 2) { // 선 그래프
+
+        } else {
+            _barChart.clear();
+            _lineChart.clear();
+            _pieChart.clear();
+            _scatterChart.clear();
+        }
+
 
         return view;
     }
