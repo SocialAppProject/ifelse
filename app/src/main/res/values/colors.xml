@@ -12,4 +12,7 @@
     <color name="men">#122854</color>
     <color name="women">#ff7b7b</color>
 
+    <!-- color for chart -->
+    <color name="chartPrimary">#AAAAAA</color>
+
 </resources>

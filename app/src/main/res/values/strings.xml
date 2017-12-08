@@ -56,6 +56,29 @@
         <item>막대 그래프</item>
         <item>원 그래프</item>
         <item>선 그래프</item>
+        <item>산점도 그래프</item>
+    </string-array>
+    <string-array name="bar_chart_ary">
+        <item>성별 비율</item>
+        <item>연령 비율</item>
+        <item>성별 + 연령 비율</item>
+        <item>카테고리별 게시물 비율</item>
+        <item>성별 + 카테고리 별 게시물 비율</item>
+        <item>연령 + 카테고리 별 게시물 비율</item>
+        <item>성별 + 연령 + 카테고리 별 게시물 비율</item>
+    </string-array>
+    <string-array name="pie_chart_ary">
+        <item>성별 비율</item>
+        <item>연령 비율</item>
+        <item>성별 + 연령 비율</item>
+        <item>카테고리별 게시물 비율</item>
+    </string-array>
+    <string-array name="line_chart_ary">
+        <item>시간대 별 게시물 업데이트 수</item>
+        <item>시간대 별 투표 업데이트 수</item>
+    </string-array>
+    <string-array name="scatter_chart_ary">
+        <item>아직 구현 중입니다</item>
     </string-array>
 
 
