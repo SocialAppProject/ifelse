@@ -329,7 +329,7 @@ public class ArticleActivity extends AppCompatActivity {
                 });
         builder.show();
     }
-
+//Todo : 삭제시 스토리지에서 사진도 삭제하는거 의논해서 삭제
     private void removeArticle() {
         try {
             DatabaseManager.databaseReference.child("ARTICLE").child(article.getKey()).removeValue();
