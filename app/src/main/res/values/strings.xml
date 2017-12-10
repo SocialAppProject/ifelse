@@ -70,7 +70,6 @@
     <string-array name="pie_chart_ary">
         <item>성별 비율</item>
         <item>연령 비율</item>
-        <item>성별 + 연령 비율</item>
         <item>카테고리별 게시물 비율</item>
     </string-array>
     <string-array name="line_chart_ary">

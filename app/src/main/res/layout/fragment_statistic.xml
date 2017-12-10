@@ -22,11 +22,19 @@
             android:layout_height="wrap_content"
             android:text="@string/new_chart" />
 
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pie_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/new_btn" />
+
         <com.github.mikephil.charting.charts.HorizontalBarChart
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/bar_chart"
-            android:layout_below="@+id/new_btn"/>
+            android:layout_below="@+id/new_btn">
+
+        </com.github.mikephil.charting.charts.HorizontalBarChart>
 
         <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"
@@ -34,18 +42,13 @@
             android:id="@+id/line_chart"
             android:layout_below="@+id/new_btn"/>
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/pie_chart"
-            android:layout_below="@+id/new_btn"/>
-
         <com.github.mikephil.charting.charts.ScatterChart
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/scatter_chart"
-            android:layout_below="@+id/new_btn"/>
+            android:layout_below="@+id/new_btn">
 
+        </com.github.mikephil.charting.charts.ScatterChart>
 
 
     </RelativeLayout>
