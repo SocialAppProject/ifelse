@@ -244,6 +244,11 @@ public class StatisticFragment extends Fragment {
 
                     BarData nullBarData = new BarData(nullXAxisValues_bar, nullBarDataSets);
 
+                    YAxis yLabels_left_bar = _barChart.getAxisLeft();
+                    yLabels_left_bar.setDrawLabels(true);
+                    yLabels_left_bar.setAxisMinValue(0);
+                    yLabels_left_bar.setAxisMaxValue(100);
+
                     _barChart.setData(nullBarData);
                     _barChart.invalidate();
                     break;
@@ -282,8 +287,8 @@ public class StatisticFragment extends Fragment {
         } else {
             switch(chart_flag) {
                 case 0:
-                    BarData data = new BarData(getXAxisValues(chart_flag, data_flag), getBarDataSet(data_flag));
-                    _barChart.setData(data);
+                    BarData barData = new BarData(getXAxisValues(chart_flag, data_flag), getBarDataSet(data_flag));
+                    _barChart.setData(barData);
 
                     _barChart.setDrawValuesForWholeStack(false);
                     _barChart.setDrawBarShadow(false);
@@ -293,26 +298,46 @@ public class StatisticFragment extends Fragment {
                     _barChart.setDrawGridBackground(true);
                     _barChart.setDescription("");
 
-                    XAxis x = _barChart.getXAxis();
-                    x.setPosition(XAxis.XAxisPosition.BOTTOM);
+                    XAxis x_bar = _barChart.getXAxis();
+                    x_bar.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-                    YAxis yLabels_left = _barChart.getAxisLeft();
-                    yLabels_left.setDrawLabels(true);
-                    yLabels_left.setAxisMinValue(0);
-                    yLabels_left.setAxisMaxValue(100);
-                    YAxis yLabels_right = _barChart.getAxisRight();
-                    yLabels_right.setDrawLabels(true);
-                    yLabels_left.setAxisMinValue(0);
-                    yLabels_left.setAxisMaxValue(100);
+                    YAxis yLabels_left_bar = _barChart.getAxisLeft();
+                    yLabels_left_bar.setDrawLabels(true);
+                    yLabels_left_bar.setAxisMinValue(0);
+                    yLabels_left_bar.setAxisMaxValue(100);
+                    YAxis yLabels_right_bar = _barChart.getAxisRight();
+                    yLabels_right_bar.setDrawLabels(true);
+                    yLabels_right_bar.setAxisMinValue(0);
+                    yLabels_right_bar.setAxisMaxValue(1);
 
-                    Legend legend = _barChart.getLegend();
-                    legend.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
+                    Legend legend_bar = _barChart.getLegend();
+                    legend_bar.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
 
                     _barChart.animateXY(2000, 2000);
                     _barChart.invalidate();
 
                     break;
                 case 1:
+                    PieData pieData = new PieData(getXAxisValues(chart_flag, data_flag), getPieDataSet(data_flag));
+                    _pieChart.setData(pieData);
+
+                    _pieChart.setDrawHoleEnabled(true);
+                    _pieChart.setHoleColor(Color.WHITE);
+
+                    _pieChart.setHoleRadius(58f);
+                    _pieChart.setTransparentCircleRadius(61f);
+
+                    _pieChart.setDrawCenterText(true);
+
+                    _pieChart.setRotationAngle(0);
+                    // enable rotation of the chart by touch
+                    _pieChart.setRotationEnabled(true);
+
+                    Legend legend_pie = _pieChart.getLegend();
+                    legend_pie.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
+
+                    _pieChart.animateY(1400);
+                    _pieChart.invalidate();
                     break;
                 case 2:
                     break;
@@ -325,52 +350,23 @@ public class StatisticFragment extends Fragment {
 
     }
 
-    private ArrayList<PieDataSet> getPieDataSet(int data_flag) {
+    private PieDataSet getPieDataSet(int data_flag) {
 
-        ArrayList<PieDataSet> dataSets = new ArrayList<>();
-
-        if(data_flag == 0) {
-
-        } else if(data_flag == 1) {
-
-        } else if(data_flag == 2) {
-
-        } else {
-            ArrayList<Entry> nullPieEntries = new ArrayList<>();
-            ArrayList<String> nullPiexVals_pie = new ArrayList<>();
-            nullPiexVals_pie.add("0");
-            nullPieEntries.add(new Entry(0.0f, 1));
-
-            PieDataSet nullPieDataSet = new PieDataSet(nullPieEntries, "NA");
-
-            PieData nullPieData = new PieData(nullPiexVals_pie, nullPieDataSet);
-            nullPieDataSet.setSliceSpace(2f);
-
-            _pieChart.setData(nullPieData);
-            _pieChart.invalidate();
-            Toast.makeText(getContext(), "아직 개발 중입니다.", Toast.LENGTH_SHORT).show();
-        }
-        return dataSets;
-    }
-
-    private ArrayList<BarDataSet> getBarDataSet(int data_flag) {
-
-        ArrayList<BarDataSet> dataSets = new ArrayList<>();
+        PieDataSet pieDataSet = new PieDataSet(null, null);
 
         if(data_flag == 0) {
-            ArrayList<BarEntry> valueSet0 = new ArrayList<>();
-            ArrayList<BarEntry> valueSet1 = new ArrayList<>();
+            final ArrayList<Entry> valueSet0 = new ArrayList<>();
 
-            final BarEntry v0e0 = new BarEntry(0, 0); // 여
-            final BarEntry v1e0 = new BarEntry(0, 1); // 남
+            final Entry v0e0 = new Entry(1, 0); // 여
+            final Entry v1e0 = new Entry(1, 1); // 남
 
             userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
                         String snaped_gender = postSnapshot.child("gender").getValue().toString();
-
+                        Log.d(TAG, "snaped gender is " + snaped_gender);
                         switch (snaped_gender) {
                             case "0": {
                                 v0e0.setVal(v0e0.getVal() + 1);
@@ -398,8 +394,95 @@ public class StatisticFragment extends Fragment {
                 }
             });
 
+
+            valueSet0.add(v0e0);
+            valueSet0.add(v1e0);
+
+            Log.d(TAG, "" + v0e0.getVal());
+            Log.d(TAG, "" + v1e0.getVal());
+
+            pieDataSet = new PieDataSet(valueSet0, "");
+
+            ArrayList<Integer> colors = new ArrayList<Integer>();
+            for (int c : ColorTemplate.VORDIPLOM_COLORS)
+                colors.add(c);
+            pieDataSet.setColors(colors);
+            pieDataSet.setDrawValues(false);
+
+
+        } else if(data_flag == 1) {
+
+        } else if(data_flag == 2) {
+
+        } else {
+            ArrayList<Entry> nullPieEntries = new ArrayList<>();
+            ArrayList<String> nullPiexVals_pie = new ArrayList<>();
+            nullPiexVals_pie.add("0");
+            nullPieEntries.add(new Entry(0.0f, 1));
+
+            PieDataSet nullPieDataSet = new PieDataSet(nullPieEntries, "NA");
+
+            PieData nullPieData = new PieData(nullPiexVals_pie, nullPieDataSet);
+            nullPieDataSet.setSliceSpace(2f);
+
+            _pieChart.setData(nullPieData);
+            _pieChart.invalidate();
+            Toast.makeText(getContext(), "아직 개발 중입니다.", Toast.LENGTH_SHORT).show();
+        }
+        return pieDataSet;
+    }
+
+
+    private ArrayList<BarDataSet> getBarDataSet(int data_flag) {
+
+        ArrayList<BarDataSet> dataSets = new ArrayList<>();
+
+        if(data_flag == 0) {
+            ArrayList<BarEntry> valueSet0 = new ArrayList<>();
+            ArrayList<BarEntry> valueSet1 = new ArrayList<>();
+
+            final BarEntry v0e0 = new BarEntry(0, 0); // 여
+            final BarEntry v1e0 = new BarEntry(0, 1); // 남
+
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                            String snaped_gender = postSnapshot.child("gender").getValue().toString();
+                            Log.d(TAG, "snaped gender is " + snaped_gender);
+                            switch (snaped_gender) {
+                                case "0": {
+                                    v0e0.setVal(v0e0.getVal() + 1);
+                                    break;
+                                }
+                                case "1": {
+                                    v1e0.setVal(v1e0.getVal() + 1);
+                                    break;
+                                }
+                                default: {
+                                    break;
+                                }
+                            }
+                        }
+                        float all_count = v0e0.getVal() + v1e0.getVal();
+
+                        v0e0.setVal(v0e0.getVal()/all_count*100);
+                        v1e0.setVal(v1e0.getVal()/all_count*100);
+                    }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.e(TAG, "Failed to read app title value.", error.toException());
+                }
+            });
+
             valueSet0.add(v0e0);
             valueSet1.add(v1e0);
+
+            Log.d(TAG, "" + v0e0.getVal());
+            Log.d(TAG, "" + v1e0.getVal());
 
             BarDataSet barDataSet1 = new BarDataSet(valueSet1, "남성");
             barDataSet1.setDrawValues(false);
@@ -678,8 +761,13 @@ public class StatisticFragment extends Fragment {
 
             BarDataSet barDataSet1 = new BarDataSet(valueSet0, "카테고리");
             barDataSet1.setDrawValues(false);
-            //TODO: 색 다르게 출력.
-            barDataSet1.setColor(ContextCompat.getColor(this.getContext(), R.color.chartPrimary));
+            ArrayList<Integer> colors = new ArrayList<>();
+            //TODO: get color method
+            for (int c : ColorTemplate.VORDIPLOM_COLORS)
+                colors.add(c);
+            for (int c : ColorTemplate.COLORFUL_COLORS)
+                colors.add(c);
+            barDataSet1.setColors(colors);
 
             dataSets.add(barDataSet1);
 
