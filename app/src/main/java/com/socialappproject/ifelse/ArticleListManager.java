@@ -75,32 +75,25 @@ public class ArticleListManager {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Article article = dataSnapshot.getValue(Article.class);
                 articleList.add(article);
-
                 categorize_add(article);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                String key = dataSnapshot.getKey();
                 Article article = dataSnapshot.getValue(Article.class);
-                for (int i = 0; i < articleList.size(); i++) {
-                    if (articleList.get(i).getKey().equals(key))
-                        articleList.set(i, article);
-                }
-
+                change(article, articleList);
                 categorize_change(article);
+                change(article, written_articleList);
+                change(article, voted_articleList);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                String key = dataSnapshot.getKey();
                 Article article = dataSnapshot.getValue(Article.class);
-                for (int i = 0; i < articleList.size(); i++) {
-                    if (articleList.get(i).getKey().equals(key))
-                        articleList.remove(i);
-                }
-
+                remove(article, articleList);
                 categorize_remove(article);
+                remove(article, written_articleList);
+                remove(article, voted_articleList);
             }
 
             @Override
@@ -344,5 +337,13 @@ public class ArticleListManager {
 
     public List<Article> getVoted_articleList() {
         return voted_articleList;
+    }
+
+    public boolean isWrittenArticle(String key) {
+        for (int i = 0; i < written_articleList.size(); i++) {
+            if (written_articleList.get(i).getKey().equals(key))
+                return true;
+        }
+        return false;
     }
 }

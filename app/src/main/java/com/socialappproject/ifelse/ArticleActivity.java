@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ public class ArticleActivity extends AppCompatActivity {
     private ListView comments_lv;
     private CommentAdapter commentAdapter;
     private List<Comment> commentList;
+    private Button remove_bt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,7 @@ public class ArticleActivity extends AppCompatActivity {
         comment_et = findViewById(R.id.comment_et);
         comment_bt = findViewById(R.id.comment_bt);
         comments_lv = findViewById(R.id.comments_lv);
+        remove_bt = findViewById(R.id.art_remove);
 
         commentList = new ArrayList<>();
 
@@ -150,6 +153,21 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void updateView(final Article article) {
+        if(article == null)
+            return;
+
+        if(ArticleListManager.get(getApplicationContext()).isWrittenArticle(article.getKey()))
+            remove_bt.setVisibility(View.VISIBLE);
+        else
+            remove_bt.setVisibility(View.INVISIBLE);
+
+        remove_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeArticle();
+            }
+        });
+
         title_tv.setText(article.getTitle());
         category_et.setText(Category.get().getCategory_Name_byIndex(article.getCategory()));
         description_tv.setText(article.getDescription());
@@ -300,7 +318,7 @@ public class ArticleActivity extends AppCompatActivity {
 
                         MainActivity.currentUser.setStar(MainActivity.currentUser.getStar() + 1);
                         DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("star").setValue(MainActivity.currentUser.getStar());
-                        DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("VOTED_ARTICLE").push().setValue(article.getKey());
+                        DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("VOTED_ARTICLE").child(article.getKey()).setValue(article.getKey());
                     }
                 });
         builder.setNegativeButton("아니오",
@@ -310,5 +328,16 @@ public class ArticleActivity extends AppCompatActivity {
                     }
                 });
         builder.show();
+    }
+
+    private void removeArticle() {
+        try {
+            DatabaseManager.databaseReference.child("ARTICLE").child(article.getKey()).removeValue();
+            DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance()
+                    .getCurrentUser().getUid()).child("WRITED_ARTICLE").child(article.getKey()).removeValue();
+            finish();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

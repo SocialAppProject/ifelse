@@ -261,7 +261,7 @@ public class WriteActivity extends AppCompatActivity {
 
                     MainActivity.currentUser.setStar(MainActivity.currentUser.getStar() - 5);
                     DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("star").setValue(MainActivity.currentUser.getStar());
-                    DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WRITED_ARTICLE").push().setValue(article.getKey());
+                    DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WRITED_ARTICLE").child(article.getKey()).setValue(article.getKey());
 
                     progressDialog.dismiss();
                     finish();
@@ -318,11 +318,11 @@ public class WriteActivity extends AppCompatActivity {
 
         if (option_num == 1) {
             _option1.setText("");
-            _option1.setBackgroundResource(R.drawable.option_plus_128);
+            _option1.setBackgroundResource(R.drawable.ic_add_24dp);
             article.setOption1_flag(0);
         } else if (option_num == 2) {
             _option2.setText("");
-            _option2.setBackgroundResource(R.drawable.option_plus_128);
+            _option2.setBackgroundResource(R.drawable.ic_add_24dp);
             article.setOption2_flag(0);
         }
 
