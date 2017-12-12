@@ -14,9 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/colorPrimary">
-
-
+        android:background="@color/colorIron">
     </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
@@ -25,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/colorPrimaryDark"
+        app:itemIconTint="@color/colorIron"
+        app:itemTextColor="@color/colorIron"
         app:menu="@menu/navigation"/>
-
 </LinearLayout>

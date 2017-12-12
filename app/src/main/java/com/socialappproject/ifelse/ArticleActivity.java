@@ -1,5 +1,6 @@
 package com.socialappproject.ifelse;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -174,6 +175,9 @@ public class ArticleActivity extends AppCompatActivity {
         if (article.getOption1_flag() == 1) {
             option_1_iv.setVisibility(View.VISIBLE);
             option_1_tv.setVisibility(View.INVISIBLE);
+            Activity activity = ArticleActivity.this;
+            if(activity.isFinishing())
+                return;
             Glide.with(this).load(StorageManager.storageReference.child("Images").child(article.getKey())
                     .child("option_1")).into(option_1_iv);
         } else {
@@ -186,6 +190,9 @@ public class ArticleActivity extends AppCompatActivity {
         if (article.getOption2_flag() == 1) {
             option_2_iv.setVisibility(View.VISIBLE);
             option_2_tv.setVisibility(View.INVISIBLE);
+            Activity activity = ArticleActivity.this;
+            if(activity.isFinishing())
+                return;
             Glide.with(this).load(StorageManager.storageReference.child("Images").child(article.getKey())
                     .child("option_2")).into(option_2_iv);
         } else {

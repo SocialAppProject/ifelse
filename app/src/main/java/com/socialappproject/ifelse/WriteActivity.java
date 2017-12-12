@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -26,6 +27,7 @@ import android.support.annotation.RequiresPermission;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -98,6 +100,7 @@ public class WriteActivity extends AppCompatActivity {
     RadioGroup _radioGroup;
     RangeSeekBar _old;
     ProgressDialog progressDialog;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +117,10 @@ public class WriteActivity extends AppCompatActivity {
         _radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         _old = (RangeSeekBar) findViewById(R.id.old_seekBar);
 
+        toolbar = findViewById(R.id.write_toolbar);
+
+        toolbar.setTitle("게시글 작성");
+        toolbar.setTitleTextColor(Color.WHITE);
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         // Application of the Array to the Spinner

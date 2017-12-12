@@ -6,6 +6,8 @@ package com.socialappproject.ifelse;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -36,7 +38,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.InputStream;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int REQUEST_WRITE = 0;
     private static final int REQUEST_ARTICLE = 1;
@@ -63,7 +65,6 @@ public class MainActivity extends FragmentActivity {
         finally {
             endSplash();
         }
-
         setContentView(R.layout.activity_main);
 
         fm = getSupportFragmentManager();
@@ -71,8 +72,7 @@ public class MainActivity extends FragmentActivity {
         if (fm.findFragmentById(R.id.fragment_container) == null)
             fm.beginTransaction().add(R.id.fragment_container, CategoryFragment.newInstance()).commit();
 
-
-        mNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        mNavigationView = findViewById(R.id.navigation);
         mNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -160,7 +160,6 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void getUserInfo() {
-
 
     }
 

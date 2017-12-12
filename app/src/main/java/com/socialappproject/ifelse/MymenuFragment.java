@@ -1,19 +1,21 @@
 package com.socialappproject.ifelse;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -21,19 +23,18 @@ import static android.app.Activity.RESULT_OK;
 import static com.socialappproject.ifelse.MainActivity.currentUser;
 
 public class MymenuFragment extends Fragment {
-    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private static final int REQUEST_WRITE = 0;
     private static final int REQUEST_ARTICLE = 1;
 
     private int flag;
 
-    private TextView info_tv;
     private ListView mymenuListView;
     private CustomAdapter customAdapter;
     private List<Article> articleList;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView written_tv;
     private TextView voted_tv;
+    private Toolbar toolbar;
 
     public MymenuFragment() {
 
@@ -52,39 +53,42 @@ public class MymenuFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mymenu, container, false);
-        info_tv = view.findViewById(R.id.info_tv);
-        info_tv.setText(currentUser.getName() + " 님의 보유 star : " + currentUser.getStar() +"개");
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.mymenu_menu, menu);
+    }
 
-        mymenuListView = (ListView) view.findViewById(R.id.mymenu_listview);
-        customAdapter = new CustomAdapter(this.getContext(), articleList);
-        mymenuListView.setAdapter(customAdapter);
-        customAdapter.notifyDataSetChanged();
-
-        written_tv = view.findViewById(R.id.written_tv);
-        written_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.written_articles:
                 flag = 0;
                 setArticleList(flag);
                 customAdapter = new CustomAdapter(getContext(), articleList);
                 mymenuListView.setAdapter(customAdapter);
                 customAdapter.notifyDataSetChanged();
-            }
-        });
-        voted_tv = view.findViewById(R.id.voted_tv);
-        voted_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                break;
+
+            case R.id.voted_articles:
                 flag = 1;
                 setArticleList(flag);
                 customAdapter = new CustomAdapter(getContext(), articleList);
                 mymenuListView.setAdapter(customAdapter);
                 customAdapter.notifyDataSetChanged();
-            }
-        });
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_mymenu, container, false);
+
+        mymenuListView = view.findViewById(R.id.mymenu_listview);
+        customAdapter = new CustomAdapter(this.getContext(), articleList);
+        mymenuListView.setAdapter(customAdapter);
+        customAdapter.notifyDataSetChanged();
 
         mymenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -95,7 +99,7 @@ public class MymenuFragment extends Fragment {
             }
         });
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.my_swipe_layout);
+        swipeRefreshLayout = view.findViewById(R.id.my_swipe_layout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -103,6 +107,13 @@ public class MymenuFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+
+        setHasOptionsMenu(true);
+        toolbar = view.findViewById(R.id.my_toolbar);
+        toolbar.setTitle(currentUser.getName() + " 님의 보유 star : " + currentUser.getStar() +"개");
+        toolbar.setTitleTextColor(Color.WHITE);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
         return view;
     }
 

@@ -2,11 +2,17 @@ package com.socialappproject.ifelse;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,6 +23,8 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -30,6 +38,7 @@ public class NewsfeedFragment extends Fragment {
     private CustomAdapter customAdapter;
     private List<Article> articleList;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Toolbar toolbar;
     private Bundle bundle;
     private int category_num;
 
@@ -51,7 +60,79 @@ public class NewsfeedFragment extends Fragment {
         if(bundle != null)
             category_num = bundle.getInt("category_num");
 
-        getArticelsByCategory(category_num);
+        getArticlesByCategory(category_num);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.newsfeed_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.sort_by_time:
+                Comparator<Article> timeComparator = new Comparator<Article>() {
+                    @Override
+                    public int compare(Article o1, Article o2) {
+                        return o1.getTime().compareTo(o2.getTime());
+                    }
+                };
+
+                Collections.sort(articleList, timeComparator);
+                customAdapter.notifyDataSetChanged();
+                break;
+
+            case R.id.sort_by_close:
+                Comparator<Article> closeComparator = new Comparator<Article>() {
+                    @Override
+                    public int compare(Article o1, Article o2) {
+                        double rate1 = Math.abs(1 - ((o1.getOption1_num() + 0.0001f) / (o1.getOption2_num() + 0.0001f)));
+                        double rate2 = Math.abs(1 - ((o2.getOption1_num() + 0.0001f) / (o2.getOption2_num() + 0.0001f)));
+
+                        if(rate1 > rate2)
+                            return -1;
+                        else if(rate1 == rate2) {
+                            if((o1.getOption1_num()+o1.getOption2_num() >= (o2.getOption1_num()+o2.getOption2_num())))
+                                return 1;
+                            else
+                                return -1;
+                        }
+                        else
+                            return 1;
+                    }
+                };
+
+                Collections.sort(articleList, closeComparator);
+                customAdapter.notifyDataSetChanged();
+                break;
+
+            case R.id.sort_by_votenum:
+                Comparator<Article> voteNumComparator = new Comparator<Article>() {
+                    @Override
+                    public int compare(Article o1, Article o2) {
+                        int num1 = o1.getOption1_num()+o1.getOption2_num();
+                        int num2 = o2.getOption1_num()+o2.getOption2_num();
+
+                        if(num1 > num2)
+                            return 1;
+                        else if(num1 == num2)
+                            return 0;
+                        else
+                            return -1;
+                    }
+                };
+
+                Collections.sort(articleList, voteNumComparator);
+                customAdapter.notifyDataSetChanged();
+                break;
+        }
+
+        customAdapter = new CustomAdapter(this.getContext(), articleList);
+        newsfeedListView.setAdapter(customAdapter);
+        customAdapter.notifyDataSetChanged();
+        return true;
     }
 
     @Override
@@ -71,7 +152,7 @@ public class NewsfeedFragment extends Fragment {
             }
         });
 
-        newsfeedListView = (ListView) view.findViewById(R.id.newsfeed_listview);
+        newsfeedListView = view.findViewById(R.id.newsfeed_listview);
         customAdapter = new CustomAdapter(this.getContext(), articleList);
         newsfeedListView.setAdapter(customAdapter);
         customAdapter.notifyDataSetChanged();
@@ -85,7 +166,7 @@ public class NewsfeedFragment extends Fragment {
             }
         });
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -93,6 +174,12 @@ public class NewsfeedFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+
+        setHasOptionsMenu(true);
+        toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setTitle(Category.get().getCategory_Name_byIndex(category_num));
+        toolbar.setTitleTextColor(Color.WHITE);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         return view;
     }
@@ -110,7 +197,7 @@ public class NewsfeedFragment extends Fragment {
         }
     }
 
-    private void getArticelsByCategory(int category) {
+    private void getArticlesByCategory(int category) {
         switch(category) {
             case 0: //음식
                 articleList = ArticleListManager.get(getContext()).getFood_articleList();
