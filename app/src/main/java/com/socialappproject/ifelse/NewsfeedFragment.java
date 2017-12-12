@@ -1,9 +1,7 @@
 package com.socialappproject.ifelse;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,16 +17,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-
 
 public class NewsfeedFragment extends Fragment {
     private static final int REQUEST_WRITE = 0;
@@ -57,7 +50,7 @@ public class NewsfeedFragment extends Fragment {
 
         bundle = this.getArguments();
 
-        if(bundle != null)
+        if (bundle != null)
             category_num = bundle.getInt("category_num");
 
         getArticlesByCategory(category_num);
@@ -71,7 +64,7 @@ public class NewsfeedFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.sort_by_time:
                 Comparator<Article> timeComparator = new Comparator<Article>() {
                     @Override
@@ -91,15 +84,14 @@ public class NewsfeedFragment extends Fragment {
                         double rate1 = Math.abs(1 - ((o1.getOption1_num() + 0.0001f) / (o1.getOption2_num() + 0.0001f)));
                         double rate2 = Math.abs(1 - ((o2.getOption1_num() + 0.0001f) / (o2.getOption2_num() + 0.0001f)));
 
-                        if(rate1 > rate2)
+                        if (rate1 > rate2)
                             return -1;
-                        else if(rate1 == rate2) {
-                            if((o1.getOption1_num()+o1.getOption2_num() >= (o2.getOption1_num()+o2.getOption2_num())))
+                        else if (rate1 == rate2) {
+                            if ((o1.getOption1_num() + o1.getOption2_num() >= (o2.getOption1_num() + o2.getOption2_num())))
                                 return 1;
                             else
                                 return -1;
-                        }
-                        else
+                        } else
                             return 1;
                     }
                 };
@@ -112,12 +104,12 @@ public class NewsfeedFragment extends Fragment {
                 Comparator<Article> voteNumComparator = new Comparator<Article>() {
                     @Override
                     public int compare(Article o1, Article o2) {
-                        int num1 = o1.getOption1_num()+o1.getOption2_num();
-                        int num2 = o2.getOption1_num()+o2.getOption2_num();
+                        int num1 = o1.getOption1_num() + o1.getOption2_num();
+                        int num2 = o2.getOption1_num() + o2.getOption2_num();
 
-                        if(num1 > num2)
+                        if (num1 > num2)
                             return 1;
-                        else if(num1 == num2)
+                        else if (num1 == num2)
                             return 0;
                         else
                             return -1;
@@ -143,7 +135,7 @@ public class NewsfeedFragment extends Fragment {
         view.findViewById(R.id.floatingActionButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(MainActivity.currentUser.getStar() >= 5) {
+                if (MainActivity.currentUser.getStar() >= 5) {
                     Intent intent = new Intent(getActivity(), WriteActivity.class);
                     startActivityForResult(intent, REQUEST_WRITE);
                 } else {
@@ -161,7 +153,7 @@ public class NewsfeedFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ArticleActivity.class);
-                intent.putExtra("key", articleList.get(articleList.size()-position-1).getKey());
+                intent.putExtra("key", articleList.get(articleList.size() - position - 1).getKey());
                 startActivity(intent);
             }
         });
@@ -179,7 +171,7 @@ public class NewsfeedFragment extends Fragment {
         toolbar = view.findViewById(R.id.toolbar);
         toolbar.setTitle(Category.get().getCategory_Name_byIndex(category_num));
         toolbar.setTitleTextColor(Color.WHITE);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         return view;
     }
@@ -198,7 +190,7 @@ public class NewsfeedFragment extends Fragment {
     }
 
     private void getArticlesByCategory(int category) {
-        switch(category) {
+        switch (category) {
             case 0: //음식
                 articleList = ArticleListManager.get(getContext()).getFood_articleList();
                 break;

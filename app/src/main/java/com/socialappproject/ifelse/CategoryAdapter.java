@@ -27,8 +27,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         public ViewHolder(View view) {
             super(view);
-            mImageView = (ImageView)view.findViewById(R.id.card_image);
-            mTextView = (TextView)view.findViewById(R.id.card_text);
+            mImageView = view.findViewById(R.id.card_image);
+            mTextView = view.findViewById(R.id.card_text);
 
             mImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
