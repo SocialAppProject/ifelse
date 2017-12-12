@@ -99,6 +99,12 @@ public class ArticleListManager {
                 remove(article, articleList);
                 categorize_remove(article);
                 remove(article, written_articleList);
+                try {
+                    DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance()
+                            .getCurrentUser().getUid()).child("VOTED_ARTICLE").child(article.getKey()).removeValue();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 remove(article, voted_articleList);
             }
 
@@ -351,29 +357,5 @@ public class ArticleListManager {
                 return true;
         }
         return false;
-    }
-}
-
-class TimeComparator implements Comparable<Article> {
-
-    @Override
-    public int compareTo(@NonNull Article o) {
-        return 0;
-    }
-}
-
-class CloseComparator implements Comparable<Article> {
-
-    @Override
-    public int compareTo(@NonNull Article o) {
-        return 0;
-    }
-}
-
-class VotenumComparator implements Comparable<Article> {
-
-    @Override
-    public int compareTo(@NonNull Article o) {
-        return 0;
     }
 }
