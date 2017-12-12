@@ -8,6 +8,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +95,9 @@ public class ArticleListManager {
                 categorize_remove(article);
                 remove(article, written_articleList);
                 remove(article, voted_articleList);
+                if(article.getOption1_flag() == 1 || article.getOption2_flag() == 1)
+                    removeFile(article.getKey());
+
             }
 
             @Override
@@ -289,6 +293,10 @@ public class ArticleListManager {
             if (articles.get(i).getKey().equals(article.getKey()))
                 articles.remove(i);
         }
+    }
+
+    public void removeFile(String key) {
+        StorageManager.storageReference.child("images/"+key).delete();
     }
 
     public List<Article> getArticleList() {
