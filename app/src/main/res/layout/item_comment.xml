@@ -13,7 +13,7 @@
         android:layout_weight="4"
         android:textStyle="bold"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="17dp"/>
+        android:textSize="16dp"/>
 
     <TextView
         android:id="@+id/text_tv"

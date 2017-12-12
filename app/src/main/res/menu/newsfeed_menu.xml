@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_main"
+        android:id="@+id/menu_main_newsfeed"
         android:icon="@drawable/ic_sort_white_24dp"
         android:orderInCategory="0"
         android:title="menu"

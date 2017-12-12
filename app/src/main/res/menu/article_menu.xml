@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_main_my"
+        android:id="@+id/menu_main_art"
         android:icon="@drawable/ic_menu_white_24dp"
         android:orderInCategory="0"
         android:title="menu"
@@ -10,12 +10,8 @@
         <menu>
 
             <item
-                android:id="@+id/written_articles"
-                android:title="내가 작성한 게시물"/>
-
-            <item
-                android:id="@+id/voted_articles"
-                android:title="내가 투표한 게시물"/>
+                android:id="@+id/delete_article"
+                android:title="삭제" />
         </menu>
     </item>
 </menu>

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorWhite"
-            android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorWhite"
+              android:orientation="vertical">
+
 
     <LinearLayout
         android:id="@+id/text_linear"
@@ -11,37 +12,17 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/art_title_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
-                android:editable="false"
-                android:padding="10dp"
-                android:text="title"
-                android:textColor="@color/colorWhite"
-                android:textSize="25dp"/>
-
-            <EditText
-                android:id="@+id/art_category_et"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@color/colorPrimaryDark"
-                android:editable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="10dp"
-                android:text="cate"
-                android:textColor="@color/colorWhite"
-                android:textSize="20dp"/>
-
-        </LinearLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/art_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimaryDark">
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
 
         <TextView
             android:id="@+id/art_description_tv"
@@ -150,15 +131,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dp"
-                android:text="@string/vote"/>
-
-            <Button
-                android:id="@+id/art_remove"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="10dp"
-                android:text="삭제"/>
+                android:background="@color/colorPrimary"
+                android:text="@string/vote"
+                android:textColor="@color/colorWhite"/>
 
             <Button
                 android:id="@+id/art_option2_vote"
@@ -166,7 +141,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:text="@string/vote"/>
+                android:background="@color/colorAccent"
+                android:text="@string/vote"
+                android:textColor="@color/colorWhite"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -179,20 +156,25 @@
                 android:id="@+id/comment_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="6"
                 android:hint="댓글을 입력하세요."/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/comment_bt"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:text="입력"/>
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:background="@color/colorPrimaryDark"
+                android:layout_weight="1"
+                android:src="@drawable/ic_create_white_24dp"
+                />
         </LinearLayout>
 
         <ListView
             android:id="@+id/comments_lv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
