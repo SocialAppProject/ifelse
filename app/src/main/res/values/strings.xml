@@ -50,13 +50,19 @@
     <string name="cancel">취소</string>
     <string name="ok">확인</string>
 
+    <!-- Strings related to Setting -->
+    <string name="authen">계정 관리</string>
+    <string name="version">버전 정보</string>
+    <string name="notice">공지 사항</string>
+    <string name="quest">문의</string>
+
     <!-- Strings related to Statistic-->
     <string name="new_chart">새로운 차트 만들기</string>
     <string-array name="chart_ary">
         <item>막대 그래프</item>
-        <item>원 그래프</item>
+        <!--<item>원 그래프</item>-->
         <item>선 그래프</item>
-        <item>산점도 그래프</item>
+        <!--<item>산점도 그래프</item>-->
     </string-array>
     <string-array name="bar_chart_ary">
         <item>성별 비율</item>

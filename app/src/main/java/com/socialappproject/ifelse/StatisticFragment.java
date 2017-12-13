@@ -1,14 +1,9 @@
 package com.socialappproject.ifelse;
 
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.SyncStateContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -16,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -35,15 +29,10 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.ValueFormatter;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -58,13 +47,11 @@ public class StatisticFragment extends Fragment {
 
     BarChart _barChart;
     LineChart _lineChart;
-    PieChart _pieChart;
-    ScatterChart _scatterChart;
 
 
     private static final BarData null_data = new BarData();
 
-    private static int CHART_FLAG = 100;
+    private static int NULL_DATA_FLAG = 10000;
 
     public StatisticFragment() {
         // Required empty public constructor
@@ -88,14 +75,9 @@ public class StatisticFragment extends Fragment {
 
         _barChart = (BarChart) view.findViewById(R.id.bar_chart);
         _lineChart = (LineChart) view.findViewById(R.id.line_chart);
-        _pieChart = (PieChart) view.findViewById(R.id.pie_chart);
-        _scatterChart = (ScatterChart) view.findViewById(R.id.scatter_chart);
 
         _barChart.setNoDataText("");
         _lineChart.setNoDataText("");
-        _pieChart.setNoDataText("");
-        _scatterChart.setNoDataText("");
-
         view.findViewById(R.id.new_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,36 +87,15 @@ public class StatisticFragment extends Fragment {
                         Toast.makeText(getContext(), which + "", Toast.LENGTH_SHORT).show();
                         if(which == 0) { // 막대 그래프
                             _lineChart.clear();
-                            _pieChart.clear();
-                            _scatterChart.clear();
                             _barChart.bringToFront();
-                            drawChart(which, 10000);
-                        } else if(which == 1) { // 원 그래프
+                            drawChart(which, NULL_DATA_FLAG);
+                        } else if(which == 1) { // 선 그래프
                             _barChart.clear();
-                            _lineChart.clear();
-                            _scatterChart.clear();
-                            //TODO: 원을 돌리는 것을 포함 시키려면 .setOnChartGestureListener(new OnChartGestureListener()) 구현 필요.
-                            _pieChart.setOnTouchListener(null);
-                            _pieChart.setClickable(true);
-                            _pieChart.bringToFront();
-                            drawChart(which, 10000);
-                        } else if(which == 2) { // 선 그래프
-                            _barChart.clear();
-                            _pieChart.clear();
-                            _scatterChart.clear();
                             _lineChart.bringToFront();
-                            drawChart(which, 10000);
-                        } else if(which == 3) { // 산점도 그래프
-                            _barChart.clear();
-                            _lineChart.clear();
-                            _pieChart.clear();
-                            _scatterChart.bringToFront();
-                            drawChart(which, 10000);
+                            drawChart(which, NULL_DATA_FLAG);
                         } else {
                             _barChart.clear();
-                            _pieChart.clear();
                             _lineChart.clear();
-                            _scatterChart.clear();
                         }
                     }
                 }).show();
@@ -155,20 +116,6 @@ public class StatisticFragment extends Fragment {
             }
         });
 
-        _pieChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "이 그래프는 원 그래프입니다", Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-                dialog.setItems(R.array.pie_chart_ary, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        drawChart(1, which);
-                    }
-                }).show();
-            }
-        });
-
 
         _lineChart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,22 +125,7 @@ public class StatisticFragment extends Fragment {
                 dialog.setItems(R.array.line_chart_ary, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        drawChart(2, which);
-                    }
-                }).show();
-            }
-        });
-
-
-        _scatterChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "이 그래프는 산점도 그래프입니다", Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-                dialog.setItems(R.array.scatter_chart_ary, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        drawChart(3, which);
+                        drawChart(1, which);
                     }
                 }).show();
             }
@@ -205,9 +137,7 @@ public class StatisticFragment extends Fragment {
     /*
     <string-array name="chart_ary">
         <item>막대 그래프</item>
-        <item>원 그래프</item>
         <item>선 그래프</item>
-        <item>산점도 그래프</item>
     </string-array>
     <string-array name="bar_chart_ary">
         <item>성별 비율</item>
@@ -218,22 +148,14 @@ public class StatisticFragment extends Fragment {
         <item>연령 + 카테고리 별 게시물 비율</item>
         <item>성별 + 연령 + 카테고리 별 게시물 비율</item>
     </string-array>
-    <string-array name="pie_chart_ary">
-        <item>성별 비율</item>
-        <item>연령 비율</item>
-        <item>카테고리별 게시물 비율</item>
-    </string-array>
     <string-array name="line_chart_ary">
         <item>시간대 별 게시물 업데이트 수</item>
         <item>시간대 별 투표 업데이트 수</item>
     </string-array>
-    <string-array name="scatter_chart_ary">
-        <item>아직 구현 중입니다</item>
-    </string-array>
      */
 
     private void drawChart(int chart_flag, int data_flag) {
-        if(data_flag == 10000) {
+        if(data_flag == NULL_DATA_FLAG) {
             switch(chart_flag) {
                 case 0:
                     ArrayList<BarEntry> nullBarEntry = new ArrayList<>();
@@ -254,24 +176,10 @@ public class StatisticFragment extends Fragment {
                     _barChart.invalidate();
                     break;
                 case 1:
-                    ArrayList<Entry> nullPieEntries = new ArrayList<>();
-                    ArrayList<String> nullPiexVals_pie = new ArrayList<>();
-                    nullPiexVals_pie.add("0");
-                    nullPieEntries.add(new Entry(0.0f, 1));
-
-                    PieDataSet nullPieDataSet = new PieDataSet(nullPieEntries, "NA");
-
-                    PieData nullPieData = new PieData(nullPiexVals_pie, nullPieDataSet);
-                    nullPieDataSet.setSliceSpace(2f);
-
-                    _pieChart.setData(nullPieData);
-                    _pieChart.invalidate();
-                    break;
-                case 2:
 
                     ArrayList<Entry> nullLineEntry = new ArrayList<>();
                     Entry v0e0 = new Entry(0, 0);
-                    Entry v0e1 = new Entry(50, 1);
+                    Entry v0e1 = new Entry(0, 1);
                     Entry v0e2 = new Entry(0, 2);
                     nullLineEntry.add(v0e0);
                     nullLineEntry.add(v0e1);
@@ -297,9 +205,6 @@ public class StatisticFragment extends Fragment {
 
                     _lineChart.setData(nullLineData);
                     _lineChart.invalidate();
-                    break;
-                case 3:
-                    _scatterChart.invalidate();
                     break;
                 default:
             }
@@ -337,28 +242,6 @@ public class StatisticFragment extends Fragment {
 
                     break;
                 case 1:
-                    PieData pieData = new PieData(getXAxisValues(chart_flag, data_flag), getPieDataSet(data_flag));
-                    _pieChart.setData(pieData);
-
-                    _pieChart.setDrawHoleEnabled(true);
-                    _pieChart.setHoleColor(Color.WHITE);
-
-                    _pieChart.setHoleRadius(58f);
-                    _pieChart.setTransparentCircleRadius(61f);
-
-                    _pieChart.setDrawCenterText(true);
-
-                    _pieChart.setRotationAngle(0);
-                    // enable rotation of the chart by touch
-                    _pieChart.setRotationEnabled(true);
-
-                    Legend legend_pie = _pieChart.getLegend();
-                    legend_pie.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
-
-                    _pieChart.animateY(1400);
-                    _pieChart.invalidate();
-                    break;
-                case 2:
                     LineData lineData = new LineData(getXAxisValues(chart_flag, data_flag), getLineDataSet(data_flag));
                     _lineChart.setData(lineData);
 
@@ -380,8 +263,6 @@ public class StatisticFragment extends Fragment {
                     _lineChart.invalidate();
 
                     break;
-                case 3:
-                    break;
                 default:
             }
 
@@ -391,7 +272,7 @@ public class StatisticFragment extends Fragment {
 
     private LineDataSet getLineDataSet(int data_flag) {
 
-        LineDataSet lineDataSet = new LineDataSet(null, null);
+        LineDataSet lineDataSet;
 
         if(data_flag == 0) {
             final ArrayList<Entry> valueSet0 = new ArrayList<>();
@@ -549,109 +430,43 @@ public class StatisticFragment extends Fragment {
             lineDataSet.setDrawCircleHole(false);
             lineDataSet.setHighLightColor(Color.rgb(244, 117, 117));
 
+        } else {
+            ArrayList<Entry> nullLineEntry = new ArrayList<>();
+            Entry v0e0 = new Entry(0, 0);
+            Entry v0e1 = new Entry(0, 1);
+            Entry v0e2 = new Entry(0, 2);
+            nullLineEntry.add(v0e0);
+            nullLineEntry.add(v0e1);
+            nullLineEntry.add(v0e2);
+
+            LineDataSet nullLineDataSet = new LineDataSet(nullLineEntry, "NA");
+
+            lineDataSet = nullLineDataSet;
+
+            /*
+            ArrayList<String> nullXAxisValues_line = new ArrayList<>();
+            nullXAxisValues_line.add("0");
+            nullXAxisValues_line.add("1");
+            nullXAxisValues_line.add("2");
+
+            LineData nullLineData = new LineData(nullXAxisValues_line, nullLineDataSet);
+
+            YAxis yLabels_left_line = _lineChart.getAxisLeft();
+            yLabels_left_line.setDrawLabels(true);
+            yLabels_left_line.setAxisMinValue(0);
+            yLabels_left_line.setAxisMaxValue(100);
+            YAxis yLabels_right_line = _lineChart.getAxisRight();
+            yLabels_right_line.setDrawLabels(true);
+            yLabels_right_line.setAxisMinValue(0);
+            yLabels_right_line.setAxisMaxValue(1);
+
+            _lineChart.setData(nullLineData);
+            _lineChart.invalidate();
+            */
         }
 
         return lineDataSet;
     }
-
-
-    private PieDataSet getPieDataSet(int data_flag) {
-
-        PieDataSet pieDataSet = new PieDataSet(null, null);
-
-        if(data_flag == 0) {
-            final ArrayList<Entry> valueSet0 = new ArrayList<>();
-
-            final Entry v0e0 = new Entry(0, 0); // 여
-            final Entry v1e0 = new Entry(0, 1); // 남
-
-            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-
-                        String snaped_gender = postSnapshot.child("gender").getValue().toString();
-                        Log.d(TAG, "snaped gender is " + snaped_gender);
-                        switch (snaped_gender) {
-                            case "0": {
-                                v0e0.setVal(v0e0.getVal() + 1);
-                                break;
-                            }
-                            case "1": {
-                                v1e0.setVal(v1e0.getVal() + 1);
-                                break;
-                            }
-                            default: {
-                                break;
-                            }
-                        }
-                    }
-                    float all_count = v0e0.getVal() + v1e0.getVal();
-
-                    v0e0.setVal(v0e0.getVal()/all_count*100);
-                    v1e0.setVal(v1e0.getVal()/all_count*100);
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    // Failed to read value
-                    Log.e(TAG, "Failed to read app title value.", error.toException());
-                }
-            });
-
-            /*
-            final ProgressDialog progressDialog = new ProgressDialog(getContext(),
-                    R.style.AppTheme_Dark_Dialog);
-            progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("데이터 수집 중...");
-
-            if(v1e0.getVal() == 0 || v0e0.getVal() == 0) {
-                progressDialog.show();
-            } else {
-                progressDialog.dismiss();
-            }
-            */
-
-
-            valueSet0.add(v0e0);
-            valueSet0.add(v1e0);
-
-            Log.d(TAG, "" + v0e0.getVal());
-            Log.d(TAG, "" + v1e0.getVal());
-
-            pieDataSet = new PieDataSet(valueSet0, "");
-
-            ArrayList<Integer> colors = new ArrayList<Integer>();
-            for (int c : ColorTemplate.VORDIPLOM_COLORS)
-                colors.add(c);
-            pieDataSet.setColors(colors);
-            pieDataSet.setDrawValues(false);
-
-
-        } else if(data_flag == 1) {
-
-        } else if(data_flag == 2) {
-
-        } else {
-            ArrayList<Entry> nullPieEntries = new ArrayList<>();
-            ArrayList<String> nullPiexVals_pie = new ArrayList<>();
-            nullPiexVals_pie.add("0");
-            nullPieEntries.add(new Entry(0.0f, 1));
-
-            PieDataSet nullPieDataSet = new PieDataSet(nullPieEntries, "NA");
-
-            PieData nullPieData = new PieData(nullPiexVals_pie, nullPieDataSet);
-            nullPieDataSet.setSliceSpace(2f);
-
-            _pieChart.setData(nullPieData);
-            _pieChart.invalidate();
-            Toast.makeText(getContext(), "아직 개발 중입니다.", Toast.LENGTH_SHORT).show();
-        }
-        return pieDataSet;
-    }
-
-
 
 
     private ArrayList<BarDataSet> getBarDataSet(int data_flag) {
@@ -671,7 +486,6 @@ public class StatisticFragment extends Fragment {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
                             String snaped_gender = postSnapshot.child("gender").getValue().toString();
-                            Log.d(TAG, "snaped gender is " + snaped_gender);
                             switch (snaped_gender) {
                                 case "0": {
                                     v0e0.setVal(v0e0.getVal() + 1);
@@ -998,13 +812,21 @@ public class StatisticFragment extends Fragment {
             ArrayList<BarDataSet> nullBarDataSets = new ArrayList<>();
             nullBarDataSets.add(nullBarDataSet);
 
+            dataSets = nullBarDataSets;
+
+            /*
             ArrayList<String> nullXAxisValues_bar = new ArrayList<>();
 
             BarData nullBarData = new BarData(nullXAxisValues_bar, nullBarDataSets);
 
+            YAxis yLabels_left_bar = _barChart.getAxisLeft();
+            yLabels_left_bar.setDrawLabels(true);
+            yLabels_left_bar.setAxisMinValue(0);
+            yLabels_left_bar.setAxisMaxValue(100);
+
             _barChart.setData(nullBarData);
             _barChart.invalidate();
-            Toast.makeText(getContext(), "아직 구현 중 입니다.", Toast.LENGTH_SHORT).show();
+            */
         }
 
         return dataSets;
@@ -1038,28 +860,6 @@ public class StatisticFragment extends Fragment {
                 xAxis.add("기타");
             }
         } else if(chart_flag == 1) {
-            if(data_flag == 0) {
-                xAxis.add("남자");
-                xAxis.add("여자");
-            } else if(data_flag == 1) {
-                xAxis.add("10대 미만");
-                xAxis.add("10대");
-                xAxis.add("20대");
-                xAxis.add("30대");
-                xAxis.add("40대");
-                xAxis.add("50대");
-                xAxis.add("60대 이상");
-            } else if(data_flag == 2) {
-                xAxis.add("음식");
-                xAxis.add("패션");
-                xAxis.add("연애");
-                xAxis.add("진로 및 학업");
-                xAxis.add("엔터테인먼트");
-                xAxis.add("장소");
-                xAxis.add("뷰티");
-                xAxis.add("기타");
-            }
-        } else if(chart_flag == 2) {
             if(data_flag == 0 || data_flag == 1) {
                 xAxis.add("0시");
                 xAxis.add("1시");
@@ -1087,10 +887,8 @@ public class StatisticFragment extends Fragment {
                 xAxis.add("23시");
             }
 
-        } else if(chart_flag == 3) {
-
         } else {
-
+            xAxis.add("");
         }
         return xAxis;
     }
