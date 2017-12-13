@@ -1,17 +1,24 @@
 package com.socialappproject.ifelse;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -32,16 +39,12 @@ import java.util.List;
  * Created by junseon on 2017. 10. 17..
  */
 
-// TODO: 댓글 기능 구현
-
 public class ArticleActivity extends AppCompatActivity {
     private static final String TAG = "ArticleActivity";
 
     private String key;
     private Article article;
 
-    private TextView title_tv;
-    private EditText category_et;
     private TextView description_tv;
     private TextView option_1_tv;
     private TextView option_2_tv;
@@ -52,11 +55,11 @@ public class ArticleActivity extends AppCompatActivity {
     private ImageView option_1_iv;
     private ImageView option_2_iv;
     private EditText comment_et;
-    private Button comment_bt;
+    private ImageButton comment_bt;
     private ListView comments_lv;
     private CommentAdapter commentAdapter;
     private List<Comment> commentList;
-    private Button remove_bt;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,21 +68,20 @@ public class ArticleActivity extends AppCompatActivity {
 
         update();
 
-        title_tv = (TextView) findViewById(R.id.art_title_tv);
-        category_et = (EditText) findViewById(R.id.art_category_et);
-        description_tv = (TextView) findViewById(R.id.art_description_tv);
-        option_1_tv = (TextView) findViewById(R.id.art_option_1_tv);
-        option_2_tv = (TextView) findViewById(R.id.art_option_2_tv);
-        option_1_et = (EditText) findViewById(R.id.art_option_1_et);
-        option_2_et = (EditText) findViewById(R.id.art_option_2_et);
-        option_1_button = (Button) findViewById(R.id.art_option1_vote);
-        option_2_button = (Button) findViewById(R.id.art_option2_vote);
-        option_1_iv = (ImageView) findViewById(R.id.article_option_1_iv);
-        option_2_iv = (ImageView) findViewById(R.id.article_option_2_iv);
+        description_tv = findViewById(R.id.art_description_tv);
+        option_1_tv = findViewById(R.id.art_option_1_tv);
+        option_2_tv = findViewById(R.id.art_option_2_tv);
+        option_1_et = findViewById(R.id.art_option_1_et);
+        option_2_et = findViewById(R.id.art_option_2_et);
+        option_1_button = findViewById(R.id.art_option1_vote);
+        option_2_button = findViewById(R.id.art_option2_vote);
+        option_1_iv = findViewById(R.id.article_option_1_iv);
+        option_2_iv = findViewById(R.id.article_option_2_iv);
         comment_et = findViewById(R.id.comment_et);
         comment_bt = findViewById(R.id.comment_bt);
         comments_lv = findViewById(R.id.comments_lv);
-        remove_bt = findViewById(R.id.art_remove);
+        toolbar = findViewById(R.id.art_toolbar);
+        setSupportActionBar(toolbar);
 
         commentList = new ArrayList<>();
 
@@ -129,6 +131,25 @@ public class ArticleActivity extends AppCompatActivity {
 
                     }
                 });
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (ArticleListManager.get(getApplicationContext()).isWrittenArticle(article.getKey()))
+            getMenuInflater().inflate(R.menu.article_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.delete_article:
+                removeArticle();
+                break;
+
+        }
+        return true;
     }
 
     private void update() {
@@ -156,24 +177,17 @@ public class ArticleActivity extends AppCompatActivity {
         if(article == null)
             return;
 
-        if(ArticleListManager.get(getApplicationContext()).isWrittenArticle(article.getKey()))
-            remove_bt.setVisibility(View.VISIBLE);
-        else
-            remove_bt.setVisibility(View.INVISIBLE);
+        toolbar.setTitle("[ " + Category.get().getCategory_Name_byIndex(article.getCategory()) + " ]   "
+         + article.getTitle());
+        toolbar.setTitleTextColor(Color.WHITE);
 
-        remove_bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeArticle();
-            }
-        });
-
-        title_tv.setText(article.getTitle());
-        category_et.setText(Category.get().getCategory_Name_byIndex(article.getCategory()));
         description_tv.setText(article.getDescription());
         if (article.getOption1_flag() == 1) {
             option_1_iv.setVisibility(View.VISIBLE);
             option_1_tv.setVisibility(View.INVISIBLE);
+            Activity activity = ArticleActivity.this;
+            if(activity.isFinishing())
+                return;
             Glide.with(this).load(StorageManager.storageReference.child("Images").child(article.getKey())
                     .child("option_1")).into(option_1_iv);
         } else {
@@ -186,6 +200,9 @@ public class ArticleActivity extends AppCompatActivity {
         if (article.getOption2_flag() == 1) {
             option_2_iv.setVisibility(View.VISIBLE);
             option_2_tv.setVisibility(View.INVISIBLE);
+            Activity activity = ArticleActivity.this;
+            if(activity.isFinishing())
+                return;
             Glide.with(this).load(StorageManager.storageReference.child("Images").child(article.getKey())
                     .child("option_2")).into(option_2_iv);
         } else {
@@ -214,8 +231,8 @@ public class ArticleActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     if(postSnapshot.getValue().toString().equals(article.getKey())) {
-                        option_1_button.setEnabled(false);
-                        option_2_button.setEnabled(false);
+                        option_1_button.setVisibility(View.INVISIBLE);
+                        option_2_button.setVisibility(View.INVISIBLE);
                         break;
                     }
                 }
@@ -233,8 +250,8 @@ public class ArticleActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     if(postSnapshot.getValue().toString().equals(article.getKey())) {
-                        option_1_button.setEnabled(false);
-                        option_2_button.setEnabled(false);
+                        option_1_button.setVisibility(View.INVISIBLE);
+                        option_2_button.setVisibility(View.INVISIBLE);
                         break;
                     }
                 }

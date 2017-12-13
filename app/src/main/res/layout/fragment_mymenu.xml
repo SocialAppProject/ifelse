@@ -1,52 +1,38 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.socialappproject.ifelse.MymenuFragment">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.socialappproject.ifelse.MymenuFragment">
 
-    <TextView
-        android:id="@+id/info_tv"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@color/colorWhite"
-        android:text="info"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="30dp">
-
-        <TextView
-            android:id="@+id/written_tv"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:text="@string/written"/>
-
-        <TextView
-            android:id="@+id/voted_tv"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:text="@string/voted"/>
-
-    </LinearLayout>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimaryDark"
+            app:layout_scrollFlags="scroll|enterAlways">
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/my_swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ListView
             android:id="@+id/mymenu_listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/info_tv"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:divider="@color/colorPrimary"
-            android:dividerHeight="10dp"/>
+            android:divider="@color/colorIron"
+            android:dividerHeight="10dp"
+            android:nestedScrollingEnabled="true"/>
     </android.support.v4.widget.SwipeRefreshLayout>
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

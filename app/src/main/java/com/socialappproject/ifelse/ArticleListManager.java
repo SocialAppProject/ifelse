@@ -1,16 +1,20 @@
 package com.socialappproject.ifelse;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -88,16 +92,20 @@ public class ArticleListManager {
                 change(article, voted_articleList);
             }
 
+            // Todo : 삭제시 Storage에서도 파일 삭제
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Article article = dataSnapshot.getValue(Article.class);
                 remove(article, articleList);
                 categorize_remove(article);
                 remove(article, written_articleList);
+                try {
+                    DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance()
+                            .getCurrentUser().getUid()).child("VOTED_ARTICLE").child(article.getKey()).removeValue();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 remove(article, voted_articleList);
-                if(article.getOption1_flag() == 1 || article.getOption2_flag() == 1)
-                    removeFile(article.getKey());
-
             }
 
             @Override
@@ -121,7 +129,7 @@ public class ArticleListManager {
                                 .addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
-                                        written_articleList.add((Article)dataSnapshot.getValue(Article.class));
+                                        written_articleList.add((Article) dataSnapshot.getValue(Article.class));
                                     }
 
                                     @Override
@@ -161,7 +169,7 @@ public class ArticleListManager {
                                 .addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
-                                        voted_articleList.add((Article)dataSnapshot.getValue(Article.class));
+                                        voted_articleList.add((Article) dataSnapshot.getValue(Article.class));
                                     }
 
                                     @Override
@@ -293,10 +301,6 @@ public class ArticleListManager {
             if (articles.get(i).getKey().equals(article.getKey()))
                 articles.remove(i);
         }
-    }
-
-    public void removeFile(String key) {
-        StorageManager.storageReference.child("images/"+key).delete();
     }
 
     public List<Article> getArticleList() {

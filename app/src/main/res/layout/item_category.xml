@@ -30,7 +30,7 @@
                 android:gravity="center|left"
                 android:padding="10dp"
                 android:textColor="@color/colorWhite"
-                android:background="@color/colorPrimaryDarker"
+                android:background="@color/colorPrimaryDark"
                 android:textSize="15dp"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>

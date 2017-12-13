@@ -51,15 +51,15 @@ public class CustomAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_article, null);
         }
 
-        TextView title_tv = (TextView) convertView.findViewById(R.id.title_tv);
-        EditText category_tv = (EditText) convertView.findViewById(R.id.category_et);
-        TextView description_tv = (TextView) convertView.findViewById(R.id.description_tv);
-        final TextView option_1_tv = (TextView) convertView.findViewById(R.id.option_1_tv);
-        final TextView option_2_tv = (TextView) convertView.findViewById(R.id.option_2_tv);
-        EditText option_1_et = (EditText) convertView.findViewById(R.id.option_1_et);
-        EditText option_2_et = (EditText) convertView.findViewById(R.id.option_2_et);
-        ImageView option_1_iv = (ImageView) convertView.findViewById(R.id.option_1_iv);
-        ImageView option_2_iv = (ImageView) convertView.findViewById(R.id.option_2_iv);
+        TextView title_tv = convertView.findViewById(R.id.title_tv);
+        EditText category_tv = convertView.findViewById(R.id.category_et);
+        TextView description_tv = convertView.findViewById(R.id.description_tv);
+        final TextView option_1_tv = convertView.findViewById(R.id.option_1_tv);
+        final TextView option_2_tv = convertView.findViewById(R.id.option_2_tv);
+        EditText option_1_et = convertView.findViewById(R.id.option_1_et);
+        EditText option_2_et = convertView.findViewById(R.id.option_2_et);
+        ImageView option_1_iv = convertView.findViewById(R.id.option_1_iv);
+        ImageView option_2_iv = convertView.findViewById(R.id.option_2_iv);
 
         Article article = articleList.get(getCount() - position - 1); // 최신순 정렬을 위해
 
