@@ -55,6 +55,13 @@
     <string name="version">버전 정보</string>
     <string name="notice">공지 사항</string>
     <string name="quest">문의</string>
+    <string name="signOut">로그아웃</string>
+    <string name="star">별점</string>
+    <string name="new_ver">최신 버전</string>
+    <string name="present_ver">현재 버전</string>
+    <string name="supportedSDK">지원환경</string>
+
+
 
     <!-- Strings related to Statistic-->
     <string name="new_chart">새로운 차트 만들기</string>

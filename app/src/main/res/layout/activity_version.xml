@@ -1,6 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:srcCompat="@drawable/symbol"
+        android:layout_margin="50dp"/>
+
+    <TextView
+        android:id="@+id/new_ver_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/new_ver"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:layout_below="@+id/imageView"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/present_ver_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/present_ver"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:layout_below="@+id/new_ver_tv"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/support_sdk_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/supportedSDK"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:layout_below="@+id/present_ver_tv"
+        android:textSize="15sp"/>
+
+</RelativeLayout>

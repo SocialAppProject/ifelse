@@ -1,6 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <GridLayout
+        android:id="@+id/authen_gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="3"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:id="@+id/email_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/email"
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/email_output"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/name_output"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/gender_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gender"
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/gender_output"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/old_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/old"
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/old_output"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/star_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/star"
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/star_output"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
+
+    </GridLayout>
+
+
+    <Button
+        android:id="@+id/signOut_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/signOut"
+        android:layout_below="@id/authen_gridLayout"/>
+
+
+</RelativeLayout>

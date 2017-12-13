@@ -164,7 +164,7 @@ public class RegisterActivity extends AppCompatActivity {
         String name = _nameText.getText().toString();
         int old = (int) _oldSpinner.getSelectedItem();
         int gender;
-        int star = 10;
+        int star = 50;
         if (femaleRadioButton.isChecked())
             gender = 0;
         else
