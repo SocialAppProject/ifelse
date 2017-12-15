@@ -49,9 +49,6 @@ public class StatisticFragment extends Fragment {
     BarChart _barChart;
     LineChart _lineChart;
 
-
-    private static final BarData null_data = new BarData();
-
     private static int NULL_DATA_FLAG = 10000;
 
     public StatisticFragment() {
@@ -727,7 +724,11 @@ public class StatisticFragment extends Fragment {
 
             BarDataSet barDataSet2 = new BarDataSet(valueSet0, "");
             barDataSet2.setDrawValues(false);
-            barDataSet2.setColor(ContextCompat.getColor(this.getContext(), R.color.chartPrimary));
+
+            ArrayList<Integer> colors = new ArrayList<>();
+            for (int c : ColorTemplate.PASTEL_COLORS)
+                colors.add(c);
+            barDataSet2.setColors(colors);
 
             dataSets.add(barDataSet2);
 
