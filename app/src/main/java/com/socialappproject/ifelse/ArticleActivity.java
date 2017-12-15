@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -344,8 +345,7 @@ public class ArticleActivity extends AppCompatActivity {
 
                         Calendar.getInstance().getTimeInMillis();
                         Date currentTime = Calendar.getInstance().getTime();
-                        article.setTime(sdf.format(currentTime));
-                        DatabaseManager.databaseReference.child("VOTED_TIME").child(article.getKey()).setValue(currentTime);
+                        DatabaseManager.databaseReference.child("VOTED_TIME").child(article.getKey()).setValue(sdf.format(currentTime));
                     }
                 });
         builder.setNegativeButton("아니오",
