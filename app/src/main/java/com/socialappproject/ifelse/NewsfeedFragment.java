@@ -33,7 +33,7 @@ public class NewsfeedFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
     private Bundle bundle;
-    private int category_num;
+    public static int category_num;
 
     public NewsfeedFragment() {
 

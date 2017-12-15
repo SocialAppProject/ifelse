@@ -127,6 +127,7 @@ public class WriteActivity extends AppCompatActivity {
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.category_ary));
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         _spinner.setAdapter(spinnerArrayAdapter);
+        _spinner.setSelection(NewsfeedFragment.category_num);
 
         _option1.setOnClickListener(new View.OnClickListener() {
             @Override
