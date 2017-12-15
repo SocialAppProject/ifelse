@@ -44,6 +44,7 @@ public class StatisticFragment extends Fragment {
 
     private DatabaseReference userRef = DatabaseManager.databaseReference.child("USER");
     private DatabaseReference articleRef = DatabaseManager.databaseReference.child("ARTICLE");
+    private DatabaseReference voteRef = DatabaseManager.databaseReference.child("VOTED_TIME");
 
     BarChart _barChart;
     LineChart _lineChart;
@@ -144,9 +145,6 @@ public class StatisticFragment extends Fragment {
         <item>연령 비율</item>
         <item>성별 + 연령 비율</item>
         <item>카테고리별 게시물 비율</item>
-        <item>성별 + 카테고리 별 게시물 비율</item>
-        <item>연령 + 카테고리 별 게시물 비율</item>
-        <item>성별 + 연령 + 카테고리 별 게시물 비율</item>
     </string-array>
     <string-array name="line_chart_ary">
         <item>시간대 별 게시물 업데이트 수</item>
@@ -430,6 +428,161 @@ public class StatisticFragment extends Fragment {
             lineDataSet.setDrawCircleHole(false);
             lineDataSet.setHighLightColor(Color.rgb(244, 117, 117));
 
+        } else if(data_flag == 1) {
+            final ArrayList<Entry> valueSet0 = new ArrayList<>();
+
+            final Entry v0e0 = new Entry(0, 0);     // 0시
+            final Entry v0e1 = new Entry(0, 1);     // 1시
+            final Entry v0e2 = new Entry(0, 2);     // 2시
+            final Entry v0e3 = new Entry(0, 3);     // 3시
+            final Entry v0e4 = new Entry(0, 4);     // 4시
+            final Entry v0e5 = new Entry(0, 5);     // 5시
+            final Entry v0e6 = new Entry(0, 6);     // 6시
+            final Entry v0e7 = new Entry(0, 7);     // 7시
+            final Entry v0e8 = new Entry(0, 8);     // 8시
+            final Entry v0e9 = new Entry(0, 9);     // 9시
+            final Entry v0e10 = new Entry(0, 10);    // 10시
+            final Entry v0e11 = new Entry(0, 11);    // 11시
+            final Entry v0e12 = new Entry(0, 12);    // 12시
+            final Entry v0e13 = new Entry(0, 13);    // 13시
+            final Entry v0e14 = new Entry(0, 14);    // 14시
+            final Entry v0e15 = new Entry(0, 15);    // 15시
+            final Entry v0e16 = new Entry(0, 16);    // 16시
+            final Entry v0e17 = new Entry(0, 17);    // 17시
+            final Entry v0e18 = new Entry(0, 18);    // 18시
+            final Entry v0e19 = new Entry(0, 19);    // 19시
+            final Entry v0e20 = new Entry(0, 20);    // 20시
+            final Entry v0e21 = new Entry(0, 21);    // 21시
+            final Entry v0e22 = new Entry(0, 22);    // 22시
+            final Entry v0e23 = new Entry(0, 23);    // 23시
+
+            voteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                        String snaped_time = postSnapshot.getValue().toString().substring(6, 8);
+                        switch(snaped_time) {
+                            case "00": v0e0.setVal(v0e0.getVal() + 1); break;
+                            case "01": v0e1.setVal(v0e1.getVal() + 1); break;
+                            case "02": v0e2.setVal(v0e2.getVal() + 1); break;
+                            case "03": v0e3.setVal(v0e3.getVal() + 1); break;
+                            case "04": v0e4.setVal(v0e4.getVal() + 1); break;
+                            case "05": v0e5.setVal(v0e5.getVal() + 1); break;
+                            case "06": v0e6.setVal(v0e6.getVal() + 1); break;
+                            case "07": v0e7.setVal(v0e7.getVal() + 1); break;
+                            case "08": v0e8.setVal(v0e8.getVal() + 1); break;
+                            case "09": v0e9.setVal(v0e9.getVal() + 1); break;
+                            case "10": v0e10.setVal(v0e10.getVal() + 1); break;
+                            case "11": v0e11.setVal(v0e11.getVal() + 1); break;
+                            case "12": v0e12.setVal(v0e12.getVal() + 1); break;
+                            case "13": v0e13.setVal(v0e13.getVal() + 1); break;
+                            case "14": v0e14.setVal(v0e14.getVal() + 1); break;
+                            case "15": v0e15.setVal(v0e15.getVal() + 1); break;
+                            case "16": v0e16.setVal(v0e16.getVal() + 1); break;
+                            case "17": v0e17.setVal(v0e17.getVal() + 1); break;
+                            case "18": v0e18.setVal(v0e18.getVal() + 1); break;
+                            case "19": v0e19.setVal(v0e19.getVal() + 1); break;
+                            case "20": v0e20.setVal(v0e20.getVal() + 1); break;
+                            case "21": v0e21.setVal(v0e21.getVal() + 1); break;
+                            case "22": v0e22.setVal(v0e22.getVal() + 1); break;
+                            case "23": v0e23.setVal(v0e23.getVal() + 1); break;
+                        }
+
+                    }
+                    float all_count = v0e0.getVal() +
+                            v0e1.getVal() +
+                            v0e2.getVal() +
+                            v0e3.getVal() +
+                            v0e4.getVal() +
+                            v0e5.getVal() +
+                            v0e6.getVal() +
+                            v0e7.getVal() +
+                            v0e8.getVal() +
+                            v0e9.getVal() +
+                            v0e10.getVal() +
+                            v0e11.getVal() +
+                            v0e12.getVal() +
+                            v0e13.getVal() +
+                            v0e14.getVal() +
+                            v0e15.getVal() +
+                            v0e16.getVal() +
+                            v0e17.getVal() +
+                            v0e18.getVal() +
+                            v0e19.getVal() +
+                            v0e20.getVal() +
+                            v0e21.getVal() +
+                            v0e22.getVal() +
+                            v0e23.getVal();
+
+                    v0e0.setVal(v0e0.getVal()/all_count*100);
+                    v0e1.setVal(v0e1.getVal()/all_count*100);
+                    v0e2.setVal(v0e2.getVal()/all_count*100);
+                    v0e3.setVal(v0e3.getVal()/all_count*100);
+                    v0e4.setVal(v0e4.getVal()/all_count*100);
+                    v0e5.setVal(v0e5.getVal()/all_count*100);
+                    v0e6.setVal(v0e6.getVal()/all_count*100);
+                    v0e7.setVal(v0e7.getVal()/all_count*100);
+                    v0e8.setVal(v0e8.getVal()/all_count*100);
+                    v0e9.setVal(v0e9.getVal()/all_count*100);
+                    v0e10.setVal(v0e10.getVal()/all_count*100);
+                    v0e11.setVal(v0e11.getVal()/all_count*100);
+                    v0e12.setVal(v0e12.getVal()/all_count*100);
+                    v0e13.setVal(v0e13.getVal()/all_count*100);
+                    v0e14.setVal(v0e14.getVal()/all_count*100);
+                    v0e15.setVal(v0e15.getVal()/all_count*100);
+                    v0e16.setVal(v0e16.getVal()/all_count*100);
+                    v0e17.setVal(v0e17.getVal()/all_count*100);
+                    v0e18.setVal(v0e18.getVal()/all_count*100);
+                    v0e19.setVal(v0e19.getVal()/all_count*100);
+                    v0e20.setVal(v0e20.getVal()/all_count*100);
+                    v0e21.setVal(v0e21.getVal()/all_count*100);
+                    v0e22.setVal(v0e22.getVal()/all_count*100);
+                    v0e23.setVal(v0e23.getVal()/all_count*100);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Failed to read value
+                    Log.e(TAG, "Failed to read app title value.", databaseError.toException());
+                }
+            });
+
+            valueSet0.add(v0e0);
+            valueSet0.add(v0e1);
+            valueSet0.add(v0e2);
+            valueSet0.add(v0e3);
+            valueSet0.add(v0e4);
+            valueSet0.add(v0e5);
+            valueSet0.add(v0e6);
+            valueSet0.add(v0e7);
+            valueSet0.add(v0e8);
+            valueSet0.add(v0e9);
+            valueSet0.add(v0e10);
+            valueSet0.add(v0e11);
+            valueSet0.add(v0e12);
+            valueSet0.add(v0e13);
+            valueSet0.add(v0e14);
+            valueSet0.add(v0e15);
+            valueSet0.add(v0e16);
+            valueSet0.add(v0e17);
+            valueSet0.add(v0e18);
+            valueSet0.add(v0e19);
+            valueSet0.add(v0e20);
+            valueSet0.add(v0e21);
+            valueSet0.add(v0e22);
+            valueSet0.add(v0e23);
+
+            lineDataSet = new LineDataSet(valueSet0, "투표 수");
+            lineDataSet.setDrawValues(false);
+            lineDataSet.setColor(ContextCompat.getColor(this.getContext(), R.color.men));
+            lineDataSet.setLineWidth(2f);
+            lineDataSet.setCircleColor(Color.WHITE);
+            lineDataSet.setCircleSize(3f);
+            lineDataSet.setFillAlpha(65);
+            lineDataSet.setFillColor(Color.RED);
+            lineDataSet.setDrawCircleHole(false);
+            lineDataSet.setHighLightColor(Color.rgb(244, 117, 117));
+
         } else {
             ArrayList<Entry> nullLineEntry = new ArrayList<>();
             Entry v0e0 = new Entry(0, 0);
@@ -443,26 +596,6 @@ public class StatisticFragment extends Fragment {
 
             lineDataSet = nullLineDataSet;
 
-            /*
-            ArrayList<String> nullXAxisValues_line = new ArrayList<>();
-            nullXAxisValues_line.add("0");
-            nullXAxisValues_line.add("1");
-            nullXAxisValues_line.add("2");
-
-            LineData nullLineData = new LineData(nullXAxisValues_line, nullLineDataSet);
-
-            YAxis yLabels_left_line = _lineChart.getAxisLeft();
-            yLabels_left_line.setDrawLabels(true);
-            yLabels_left_line.setAxisMinValue(0);
-            yLabels_left_line.setAxisMaxValue(100);
-            YAxis yLabels_right_line = _lineChart.getAxisRight();
-            yLabels_right_line.setDrawLabels(true);
-            yLabels_right_line.setAxisMinValue(0);
-            yLabels_right_line.setAxisMaxValue(1);
-
-            _lineChart.setData(nullLineData);
-            _lineChart.invalidate();
-            */
         }
 
         return lineDataSet;
@@ -797,7 +930,6 @@ public class StatisticFragment extends Fragment {
             BarDataSet barDataSet1 = new BarDataSet(valueSet0, "카테고리");
             barDataSet1.setDrawValues(false);
             ArrayList<Integer> colors = new ArrayList<>();
-            //TODO: get color method
             for (int c : ColorTemplate.VORDIPLOM_COLORS)
                 colors.add(c);
             for (int c : ColorTemplate.COLORFUL_COLORS)
@@ -813,20 +945,6 @@ public class StatisticFragment extends Fragment {
             nullBarDataSets.add(nullBarDataSet);
 
             dataSets = nullBarDataSets;
-
-            /*
-            ArrayList<String> nullXAxisValues_bar = new ArrayList<>();
-
-            BarData nullBarData = new BarData(nullXAxisValues_bar, nullBarDataSets);
-
-            YAxis yLabels_left_bar = _barChart.getAxisLeft();
-            yLabels_left_bar.setDrawLabels(true);
-            yLabels_left_bar.setAxisMinValue(0);
-            yLabels_left_bar.setAxisMaxValue(100);
-
-            _barChart.setData(nullBarData);
-            _barChart.invalidate();
-            */
         }
 
         return dataSets;

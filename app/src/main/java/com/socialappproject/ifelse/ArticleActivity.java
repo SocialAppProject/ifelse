@@ -32,7 +32,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,6 +45,7 @@ import java.util.List;
 
 public class ArticleActivity extends AppCompatActivity {
     private static final String TAG = "ArticleActivity";
+    private static final DateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
 
     private String key;
     private Article article;
@@ -336,6 +341,11 @@ public class ArticleActivity extends AppCompatActivity {
                         MainActivity.currentUser.setStar(MainActivity.currentUser.getStar() + 1);
                         DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("star").setValue(MainActivity.currentUser.getStar());
                         DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("VOTED_ARTICLE").child(article.getKey()).setValue(article.getKey());
+
+                        Calendar.getInstance().getTimeInMillis();
+                        Date currentTime = Calendar.getInstance().getTime();
+                        article.setTime(sdf.format(currentTime));
+                        DatabaseManager.databaseReference.child("VOTED_TIME").child(article.getKey()).setValue(currentTime);
                     }
                 });
         builder.setNegativeButton("아니오",
