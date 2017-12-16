@@ -362,7 +362,6 @@ public class WriteActivity extends AppCompatActivity {
             optionTextDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
                     // Text 값 받아서 로그 남기기
                     String value = editText.getText().toString();
                     if (option_num == 1) {

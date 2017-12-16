@@ -143,8 +143,13 @@ public class MainActivity extends AppCompatActivity {
                                 // ...
                             });
                 } else {// 로그인 안되어있음
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    if (currentUser == null)
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    else {
+                        moveTaskToBack(true);
+                        finish();
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                    }
                 }
             }
         };

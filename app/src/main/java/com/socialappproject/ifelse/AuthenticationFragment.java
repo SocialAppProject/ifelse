@@ -1,7 +1,9 @@
 package com.socialappproject.ifelse;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.widget.Toast;
@@ -18,6 +20,7 @@ public class AuthenticationFragment extends PreferenceFragmentCompat {
     private Preference gender_pf;
     private Preference age_pf;
     private Preference star_pf;
+    private Preference logout_pf;
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
 
     private String star;
@@ -46,17 +49,41 @@ public class AuthenticationFragment extends PreferenceFragmentCompat {
         gender_pf = findPreference("gender");
         age_pf = findPreference("age");
         star_pf = findPreference("star");
+        logout_pf = findPreference("logout");
 
         email_pf.setSummary(mFirebaseAuth.getCurrentUser().getEmail());
         name_pf.setSummary(MainActivity.currentUser.getName());
         gender_pf.setSummary(gender);
         age_pf.setSummary(old);
         star_pf.setSummary(star);
-
         star_pf.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Toast.makeText(getActivity(), "회원가입시 별 50개가 지급됩니다.\n투표를 하면 별 1개를 획득할 수 있습니다.\n게시글 작성을 위해선 별 5개가 필요합니다.", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
+        logout_pf.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("로그아웃")
+                        .setMessage("로그아웃을 하면 앱을 재 시동해야 합니다.\n로그아웃 하시겠습니까?")
+                        .setCancelable(true)
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int whichButton){
+                                mFirebaseAuth.signOut();
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int whichButton){
+                                dialog.cancel();
+                                dialog.dismiss();
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 return false;
             }
         });

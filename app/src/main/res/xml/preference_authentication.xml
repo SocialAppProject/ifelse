@@ -24,5 +24,9 @@
         <Preference
             android:key="star"
             android:title="별"/>
+
+        <Preference
+            android:key="logout"
+            android:title="로그아웃"/>
     </PreferenceCategory>
 </PreferenceScreen>
