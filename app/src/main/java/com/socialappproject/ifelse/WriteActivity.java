@@ -280,7 +280,6 @@ public class WriteActivity extends AppCompatActivity {
                         break;
                 }
                 article.setTarget_gender(gender);
-                Toast.makeText(getApplicationContext(), "" + gender + radioButton.getText(), Toast.LENGTH_SHORT).show();
             }
         });
     }
