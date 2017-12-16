@@ -66,8 +66,9 @@ public class ArticleListManager {
         written_articleList = new ArrayList<>();
         voted_articleList = new ArrayList<>();
 
-        attachListenerToWholeList();
-        attachListenerToMyList();
+        if(MainActivity.currentUser != null) {
+            update();
+        }
     }
 
     private void attachListenerToWholeList() {
@@ -75,33 +76,45 @@ public class ArticleListManager {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Article article = dataSnapshot.getValue(Article.class);
-                articleList.add(article);
-                categorize_add(article);
+                if (MainActivity.currentUser.getOld() >= article.getTarget_min_old() &&
+                        MainActivity.currentUser.getOld() <= article.getTarget_max_old() &&
+                        (MainActivity.currentUser.getGender() == article.getTarget_gender() || article.getTarget_gender() == 2)) {
+                    articleList.add(article);
+                    categorize_add(article);
+                }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Article article = dataSnapshot.getValue(Article.class);
-                change(article, articleList);
-                categorize_change(article);
-                change(article, written_articleList);
-                change(article, voted_articleList);
+                if (MainActivity.currentUser.getOld() >= article.getTarget_min_old() &&
+                        MainActivity.currentUser.getOld() <= article.getTarget_max_old() &&
+                        (MainActivity.currentUser.getGender() == article.getTarget_gender() || article.getTarget_gender() == 2)) {
+                    change(article, articleList);
+                    categorize_change(article);
+                    change(article, written_articleList);
+                    change(article, voted_articleList);
+                }
             }
 
             // Todo : 삭제시 Storage에서도 파일 삭제
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Article article = dataSnapshot.getValue(Article.class);
-                remove(article, articleList);
-                categorize_remove(article);
-                remove(article, written_articleList);
-                try {
-                    DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance()
-                            .getCurrentUser().getUid()).child("VOTED_ARTICLE").child(article.getKey()).removeValue();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (MainActivity.currentUser.getOld() >= article.getTarget_min_old() &&
+                        MainActivity.currentUser.getOld() <= article.getTarget_max_old() &&
+                        (MainActivity.currentUser.getGender() == article.getTarget_gender() || article.getTarget_gender() == 2)) {
+                    remove(article, articleList);
+                    categorize_remove(article);
+                    remove(article, written_articleList);
+                    try {
+                        DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance()
+                                .getCurrentUser().getUid()).child("VOTED_ARTICLE").child(article.getKey()).removeValue();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    remove(article, voted_articleList);
                 }
-                remove(article, voted_articleList);
             }
 
             @Override
@@ -349,11 +362,11 @@ public class ArticleListManager {
 
     public List<Article> getSearch_articleList(String queryText) {
         search_articleList.clear();
-        for(int i = 0; i < articleList.size(); i++) {
-            if(articleList.get(i).getTitle().contains(queryText)
+        for (int i = 0; i < articleList.size(); i++) {
+            if (articleList.get(i).getTitle().contains(queryText)
                     || articleList.get(i).getDescription().contains(queryText)
-                    || (articleList.get(i).getOption1_flag()==2 && articleList.get(i).getOption1().contains(queryText))
-                    || (articleList.get(i).getOption2_flag()==2 && articleList.get(i).getOption2().contains(queryText)))
+                    || (articleList.get(i).getOption1_flag() == 2 && articleList.get(i).getOption1().contains(queryText))
+                    || (articleList.get(i).getOption2_flag() == 2 && articleList.get(i).getOption2().contains(queryText)))
                 search_articleList.add(articleList.get(i));
         }
 
@@ -366,5 +379,12 @@ public class ArticleListManager {
                 return true;
         }
         return false;
+    }
+
+    public void update() {
+        if(MainActivity.currentUser != null) {
+            attachListenerToWholeList();
+            attachListenerToMyList();
+        }
     }
 }

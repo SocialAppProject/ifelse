@@ -44,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
         try {
             authenticate();
             getUserInfo();
-            ArticleListManager.get(getApplicationContext());
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
         finally {
+            ArticleListManager.get(getApplicationContext());
             endSplash();
         }
         setContentView(R.layout.activity_main);
@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                                             Integer.parseInt(dataSnapshot.child("gender").getValue().toString()),
                                             Integer.parseInt(dataSnapshot.child("old").getValue().toString()),
                                             Integer.parseInt(dataSnapshot.child("star").getValue().toString()));
+                                    ArticleListManager.get(getApplicationContext()).update();
                                 }
 
                                 @Override

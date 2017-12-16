@@ -1,6 +1,5 @@
 package com.socialappproject.ifelse;
 
-import java.util.List;
 
 /**
  * Created by junseon on 2017. 10. 16..
