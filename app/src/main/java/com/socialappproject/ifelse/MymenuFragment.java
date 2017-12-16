@@ -81,6 +81,12 @@ public class MymenuFragment extends Fragment {
         }
         return true;
     }
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        customAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

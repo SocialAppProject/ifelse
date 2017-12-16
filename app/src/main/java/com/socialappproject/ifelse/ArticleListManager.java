@@ -97,9 +97,9 @@ public class ArticleListManager {
                         (MainActivity.currentUser.getGender() == article.getTarget_gender() || article.getTarget_gender() == 2)) {
                     change(article, articleList);
                     categorize_change(article);
-                    change(article, written_articleList);
                     change(article, voted_articleList);
                 }
+                change(article, written_articleList);
             }
 
             // Todo : 삭제시 Storage에서도 파일 삭제
@@ -112,13 +112,13 @@ public class ArticleListManager {
                     remove(article, articleList);
                     categorize_remove(article);
                     remove(article, written_articleList);
-                    try {
-                        DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance()
-                                .getCurrentUser().getUid()).child("VOTED_ARTICLE").child(article.getKey()).removeValue();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                     remove(article, voted_articleList);
+                }
+                try {
+                    DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance()
+                            .getCurrentUser().getUid()).child("VOTED_ARTICLE").child(article.getKey()).removeValue();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 

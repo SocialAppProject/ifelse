@@ -362,6 +362,7 @@ public class ArticleActivity extends AppCompatActivity {
             DatabaseManager.databaseReference.child("ARTICLE").child(article.getKey()).removeValue();
             DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance()
                     .getCurrentUser().getUid()).child("WRITED_ARTICLE").child(article.getKey()).removeValue();
+            setResult(RESULT_OK);
             finish();
         } catch (Exception e) {
             e.printStackTrace();

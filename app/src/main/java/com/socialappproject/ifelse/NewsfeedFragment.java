@@ -66,6 +66,12 @@ public class NewsfeedFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        customAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sort_by_time:
@@ -159,7 +165,7 @@ public class NewsfeedFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ArticleActivity.class);
                 intent.putExtra("key", articleList.get(articleList.size() - position - 1).getKey());
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_ARTICLE);
             }
         });
 
