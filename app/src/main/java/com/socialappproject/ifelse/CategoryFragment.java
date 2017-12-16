@@ -5,13 +5,21 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -27,6 +35,7 @@ public class CategoryFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private Toolbar toolbar;
     private ArrayList<MyData> myDataset;
+    private SearchView searchView;
 
     public CategoryFragment() {
         category_hash = new String[8];
@@ -38,6 +47,38 @@ public class CategoryFragment extends Fragment {
     public static CategoryFragment newInstance() {
         CategoryFragment fragment = new CategoryFragment();
         return fragment;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.search_menu, menu);
+
+        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        searchView.setQueryHint("검색어를 입력하세요");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("category_num", 99);
+                bundle.putString("queryText", query);
+
+                Fragment fragment = NewsfeedFragment.newInstance();
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = MainActivity.fm;
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -70,7 +111,9 @@ public class CategoryFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         toolbar = view.findViewById(R.id.cat_toolbar);
-        toolbar.setTitle("카테고리");
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        setHasOptionsMenu(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setTitleTextColor(Color.WHITE);
 
         return view;

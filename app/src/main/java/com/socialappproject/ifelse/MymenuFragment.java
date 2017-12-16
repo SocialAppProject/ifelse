@@ -62,6 +62,7 @@ public class MymenuFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.written_articles:
+                toolbar.setTitle("내가 작성한 게시물");
                 flag = 0;
                 setArticleList(flag);
                 customAdapter = new CustomAdapter(getContext(), articleList);
@@ -70,6 +71,7 @@ public class MymenuFragment extends Fragment {
                 break;
 
             case R.id.voted_articles:
+                toolbar.setTitle("내가 투표한 게시물");
                 flag = 1;
                 setArticleList(flag);
                 customAdapter = new CustomAdapter(getContext(), articleList);
@@ -110,9 +112,9 @@ public class MymenuFragment extends Fragment {
 
         setHasOptionsMenu(true);
         toolbar = view.findViewById(R.id.my_toolbar);
-        toolbar.setTitle(currentUser.getName() + " 님의 보유 star : " + currentUser.getStar() +"개");
         toolbar.setTitleTextColor(Color.WHITE);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setTitle("내가 작성한 게시물");
 
         return view;
     }

@@ -5,6 +5,20 @@
              android:layout_height="match_parent"
              tools:context="com.socialappproject.ifelse.NewsfeedFragment">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/noArticle_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="게시글이 없습니다"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp"
+            android:textAlignment="center"/>
+    </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_layout"

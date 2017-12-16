@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Collections;
@@ -32,8 +33,10 @@ public class NewsfeedFragment extends Fragment {
     private List<Article> articleList;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
+    private TextView noArticle_tv;
     private Bundle bundle;
     public static int category_num;
+    public static String queryText;
 
     public NewsfeedFragment() {
 
@@ -144,6 +147,8 @@ public class NewsfeedFragment extends Fragment {
             }
         });
 
+        noArticle_tv = view.findViewById(R.id.noArticle_tv);
+
         newsfeedListView = view.findViewById(R.id.newsfeed_listview);
         customAdapter = new CustomAdapter(this.getContext(), articleList);
         newsfeedListView.setAdapter(customAdapter);
@@ -162,6 +167,13 @@ public class NewsfeedFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if(articleList.size() == 0) {
+                    newsfeedListView.setVisibility(View.INVISIBLE);
+                    noArticle_tv.setVisibility(View.VISIBLE);
+                } else {
+                    newsfeedListView.setVisibility(View.VISIBLE);
+                    noArticle_tv.setVisibility(View.INVISIBLE);
+                }
                 customAdapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -169,9 +181,20 @@ public class NewsfeedFragment extends Fragment {
 
         setHasOptionsMenu(true);
         toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setTitle(Category.get().getCategory_Name_byIndex(category_num));
+        if(category_num < 99)
+            toolbar.setTitle(Category.get().getCategory_Name_byIndex(category_num));
+        else
+            toolbar.setTitle("검색 결과 : " + queryText);
         toolbar.setTitleTextColor(Color.WHITE);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+        if(articleList.size() == 0) {
+            newsfeedListView.setVisibility(View.INVISIBLE);
+            noArticle_tv.setVisibility(View.VISIBLE);
+        } else {
+            newsfeedListView.setVisibility(View.VISIBLE);
+            noArticle_tv.setVisibility(View.INVISIBLE);
+        }
 
         return view;
     }
@@ -215,6 +238,10 @@ public class NewsfeedFragment extends Fragment {
             case 7: //기타
                 articleList = ArticleListManager.get(getContext()).getEtc_articleList();
                 break;
+            case 99 : //검색
+                queryText = bundle.getString("queryText");
+                articleList = ArticleListManager.get(getContext()).getSearch_articleList(queryText);
+
         }
     }
 }

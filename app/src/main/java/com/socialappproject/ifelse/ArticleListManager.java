@@ -30,6 +30,7 @@ public class ArticleListManager {
     private List<Article> location_articleList;
     private List<Article> beauty_articleList;
     private List<Article> etc_articleList;
+    private List<Article> search_articleList;
 
     private List<String> written_keys;
     private List<String> voted_keys;
@@ -57,6 +58,7 @@ public class ArticleListManager {
         location_articleList = new ArrayList<>();
         beauty_articleList = new ArrayList<>();
         etc_articleList = new ArrayList<>();
+        search_articleList = new ArrayList<>();
 
         written_keys = new ArrayList<>();
         voted_keys = new ArrayList<>();
@@ -343,6 +345,19 @@ public class ArticleListManager {
 
     public List<Article> getVoted_articleList() {
         return voted_articleList;
+    }
+
+    public List<Article> getSearch_articleList(String queryText) {
+        search_articleList.clear();
+        for(int i = 0; i < articleList.size(); i++) {
+            if(articleList.get(i).getTitle().contains(queryText)
+                    || articleList.get(i).getDescription().contains(queryText)
+                    || (articleList.get(i).getOption1_flag()==2 && articleList.get(i).getOption1().contains(queryText))
+                    || (articleList.get(i).getOption2_flag()==2 && articleList.get(i).getOption2().contains(queryText)))
+                search_articleList.add(articleList.get(i));
+        }
+
+        return search_articleList;
     }
 
     public boolean isWrittenArticle(String key) {
