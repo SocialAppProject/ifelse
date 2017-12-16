@@ -146,29 +146,29 @@
                 android:textColor="@color/colorWhite"/>
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_margin="10dp"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/comment_et"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="6"
+                android:layout_marginRight="60dp"
                 android:hint="댓글을 입력하세요."/>
 
             <ImageButton
                 android:id="@+id/comment_bt"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
-                android:layout_weight="1"
+                android:layout_alignParentRight="true"
                 android:background="@color/colorPrimaryDark"
                 android:src="@drawable/ic_create_white_24dp"
                 />
-        </LinearLayout>
+        </RelativeLayout>
 
         <ListView
             android:id="@+id/comments_lv"
