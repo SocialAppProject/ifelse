@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="pref_key_storage_settings"
+        android:title="설정">
+
+        <Preference
+            android:key="authentication_pref"
+            android:summary="계정정보 및 로그아웃"
+            android:title="계정"/>
+
+        <Preference
+            android:key="version_pref"
+            android:summary="버전정보 확인"
+            android:title="버전정보"/>
+
+        <Preference
+            android:key="quest_pref"
+            android:summary="고객센터 정보"
+            android:title="고객센터"/>
+    </PreferenceCategory>
+</PreferenceScreen>

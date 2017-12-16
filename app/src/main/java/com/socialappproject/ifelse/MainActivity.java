@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         fm = getSupportFragmentManager();
 
         if (fm.findFragmentById(R.id.fragment_container) == null)
-            fm.beginTransaction().add(R.id.fragment_container, CategoryFragment.newInstance()).commit();
+            fm.beginTransaction().replace(R.id.fragment_container, CategoryFragment.newInstance()).commit();
 
         mNavigationView = findViewById(R.id.navigation);
         mNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         selectedFragment = SettingFragment.newInstance();
                         break;
                 }
-
+                fm.popBackStack();
                 FragmentTransaction transaction = fm.beginTransaction();
                 transaction.replace(R.id.fragment_container, selectedFragment);
                 transaction.commit();

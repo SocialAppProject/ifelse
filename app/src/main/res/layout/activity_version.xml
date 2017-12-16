@@ -13,31 +13,41 @@
         android:layout_margin="50dp"/>
 
     <TextView
+        android:id="@+id/support_sdk_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_below="@+id/imageView"
+        android:textSize="15sp"/>
+
+    <TextView
         android:id="@+id/new_ver_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/new_ver"
         android:layout_margin="10dp"
+        android:textColor="@color/colorPrimaryDark"
         android:gravity="center"
-        android:layout_below="@+id/imageView"
+        android:layout_below="@+id/support_sdk_tv"
         android:textSize="15sp"/>
 
     <TextView
         android:id="@+id/present_ver_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/present_ver"
         android:layout_margin="10dp"
+        android:textColor="@color/colorPrimaryDark"
         android:gravity="center"
         android:layout_below="@+id/new_ver_tv"
         android:textSize="15sp"/>
 
     <TextView
-        android:id="@+id/support_sdk_tv"
+        android:id="@+id/isRecentVersion_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/supportedSDK"
         android:layout_margin="10dp"
+        android:textColor="@color/colorPrimaryDark"
         android:gravity="center"
         android:layout_below="@+id/present_ver_tv"
         android:textSize="15sp"/>

@@ -148,7 +148,7 @@ public class NewsfeedFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), WriteActivity.class);
                     startActivityForResult(intent, REQUEST_WRITE);
                 } else {
-                    Toast.makeText(getActivity(), "별 점수가 부족합니다.\n 투표를 진행해주세요.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "게시물을 작성하기 위해선 별 5개가 필요합니다.\n 투표를 진행해서 별을 얻어보세요!", Toast.LENGTH_LONG).show();
                 }
             }
         });

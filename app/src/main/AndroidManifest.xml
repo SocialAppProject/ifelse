@@ -64,16 +64,8 @@
             android:theme="@style/AppTheme.Dark">
         </activity>
         <activity
-            android:name=".AuthenActivity"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
             android:name=".VersionActivity"
             android:theme="@style/AppTheme.Dark">
-        </activity>
-        <activity
-            android:name=".NoticeActivity"
-            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".QuestActivity"

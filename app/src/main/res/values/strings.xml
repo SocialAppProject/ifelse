@@ -10,7 +10,7 @@
     <!-- Strings related to Register -->
     <string name="email">이메일</string>
     <string name="password">비밀번호</string>
-    <string name="name">이름(닉네임)</string>
+    <string name="name">닉네임</string>
     <string name="female">여성</string>
     <string name="male">남성</string>
     <string name="gender">성별</string>
@@ -60,7 +60,6 @@
     <string name="new_ver">최신 버전</string>
     <string name="present_ver">현재 버전</string>
     <string name="supportedSDK">지원환경</string>
-
 
 
     <!-- Strings related to Statistic-->

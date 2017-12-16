@@ -32,8 +32,6 @@ public class MymenuFragment extends Fragment {
     private CustomAdapter customAdapter;
     private List<Article> articleList;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private TextView written_tv;
-    private TextView voted_tv;
     private Toolbar toolbar;
 
     public MymenuFragment() {
