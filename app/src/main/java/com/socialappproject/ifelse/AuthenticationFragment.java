@@ -23,9 +23,9 @@ public class AuthenticationFragment extends PreferenceFragmentCompat {
     private Preference logout_pf;
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
 
-    private String star;
-    private String old;
-    private String gender;
+    private String star = "";
+    private String old = "";
+    private String gender = "";
 
     public AuthenticationFragment() {
     }
@@ -51,42 +51,46 @@ public class AuthenticationFragment extends PreferenceFragmentCompat {
         star_pf = findPreference("star");
         logout_pf = findPreference("logout");
 
-        email_pf.setSummary(mFirebaseAuth.getCurrentUser().getEmail());
-        name_pf.setSummary(MainActivity.currentUser.getName());
-        gender_pf.setSummary(gender);
-        age_pf.setSummary(old);
-        star_pf.setSummary(star);
-        star_pf.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Toast.makeText(getActivity(), "회원가입시 별 50개가 지급됩니다.\n투표를 하면 별 1개를 획득할 수 있습니다.\n게시글 작성을 위해선 별 5개가 필요합니다.", Toast.LENGTH_LONG).show();
-                return false;
-            }
-        });
-        logout_pf.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("로그아웃")
-                        .setMessage("로그아웃을 하면 앱을 재 시동해야 합니다.\n로그아웃 하시겠습니까?")
-                        .setCancelable(true)
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface dialog, int whichButton){
-                                mFirebaseAuth.signOut();
-                                dialog.dismiss();
-                            }
-                        })
-                        .setNegativeButton("취소", new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface dialog, int whichButton){
-                                dialog.cancel();
-                                dialog.dismiss();
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-                return false;
-            }
-        });
+        if(MainActivity.currentUser == null)
+            Toast.makeText(getContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
+        else {
+            email_pf.setSummary(MainActivity.currentUser.getEmail());
+            name_pf.setSummary(MainActivity.currentUser.getName());
+            gender_pf.setSummary(gender);
+            age_pf.setSummary(old);
+            star_pf.setSummary(star);
+            star_pf.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Toast.makeText(getActivity(), "회원가입시 별 50개가 지급됩니다.\n투표를 하면 별 1개를 획득할 수 있습니다.\n게시글 작성을 위해선 별 5개가 필요합니다.", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            });
+            logout_pf.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("로그아웃")
+                            .setMessage("로그아웃을 하면 앱을 재 시동해야 합니다.\n로그아웃 하시겠습니까?")
+                            .setCancelable(true)
+                            .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    mFirebaseAuth.signOut();
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.cancel();
+                                    dialog.dismiss();
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return false;
+                }
+            });
+        }
     }
 
     public void setStar(String star) {

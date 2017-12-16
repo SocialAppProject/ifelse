@@ -144,7 +144,10 @@ public class NewsfeedFragment extends Fragment {
         view.findViewById(R.id.floatingActionButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (MainActivity.currentUser.getStar() >= 5) {
+                if(MainActivity.currentUser == null) {
+                    Toast.makeText(getContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
+                }
+                else if (MainActivity.currentUser.getStar() >= 5) {
                     Intent intent = new Intent(getActivity(), WriteActivity.class);
                     startActivityForResult(intent, REQUEST_WRITE);
                 } else {

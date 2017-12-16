@@ -137,10 +137,8 @@ public class MainActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
-
+                                    Toast.makeText(getApplicationContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
                                 }
-
-                                // ...
                             });
                 } else {// 로그인 안되어있음
                     if (currentUser == null)
