@@ -43,13 +43,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         try {
             authenticate();
-            getUserInfo();
+            ArticleListManager.get(getApplicationContext());
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
         finally {
-            ArticleListManager.get(getApplicationContext());
             endSplash();
         }
         setContentView(R.layout.activity_main);
