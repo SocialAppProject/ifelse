@@ -47,8 +47,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             endSplash();
         }
         setContentView(R.layout.activity_main);
@@ -116,8 +115,7 @@ public class MainActivity extends AppCompatActivity {
                                                 Integer.parseInt(dataSnapshot.child("star").getValue().toString()));
                                     } catch (Exception e) {
                                         e.printStackTrace();
-                                    }
-                                    finally {
+                                    } finally {
                                         ArticleListManager.get(getApplicationContext()).update();
                                     }
                                 }
@@ -152,10 +150,6 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    private void getUserInfo() {
-
-    }
-
     private void endSplash() {
         SystemClock.sleep(2000);
         setTheme(R.style.AppTheme);
@@ -173,9 +167,5 @@ public class MainActivity extends AppCompatActivity {
         if (mAuthListener != null) {
             mFirebaseAuth.removeAuthStateListener(mAuthListener);
         }
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
     }
 }

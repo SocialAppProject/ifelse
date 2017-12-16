@@ -70,7 +70,7 @@ public class ArticleListManager {
 
         attaced = false;
 
-        if(MainActivity.currentUser != null) {
+        if (MainActivity.currentUser != null) {
             update();
             attaced = true;
         }
@@ -317,14 +317,6 @@ public class ArticleListManager {
         }
     }
 
-    public List<Article> getArticleList() {
-        return articleList;
-    }
-
-    public void clearArticleList() {
-        articleList.clear();
-    }
-
     public List<Article> getFood_articleList() {
         return food_articleList;
     }
@@ -387,7 +379,7 @@ public class ArticleListManager {
     }
 
     public void update() {
-        if((MainActivity.currentUser != null) && !attaced) {
+        if ((MainActivity.currentUser != null) && !attaced) {
             attaced = true;
             attachListenerToWholeList();
             attachListenerToMyList();

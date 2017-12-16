@@ -12,7 +12,7 @@ public class Category {
     private int num = 8;
 
     public static Category get() {
-        if(category == null)
+        if (category == null)
             category = new Category();
 
         return category;
@@ -20,7 +20,7 @@ public class Category {
 
     private Category() {
         category_isOn = new boolean[8];
-        for(int i = 0; i < num; i++)
+        for (int i = 0; i < num; i++)
             category_isOn[i] = false;
 
         category_Name = new String[8];
@@ -34,17 +34,7 @@ public class Category {
         category_Name[7] = "기타";
     }
 
-    public boolean[] getCategory_isOn() {
-        return category_isOn;
-    }
-
     public String getCategory_Name_byIndex(int i) {
         return category_Name[i];
-    }
-
-    public String[] getCategory_Name() { return category_Name; }
-
-    public void setCategory_isOn_byIndex(int i, boolean bool) {
-        category_isOn[i] = bool;
     }
 }

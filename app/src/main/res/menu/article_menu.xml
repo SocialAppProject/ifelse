@@ -11,7 +11,7 @@
 
             <item
                 android:id="@+id/delete_article"
-                android:title="삭제" />
+                android:title="삭제"/>
         </menu>
     </item>
 </menu>

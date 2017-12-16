@@ -58,7 +58,7 @@ public class MymenuFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.written_articles:
                 toolbar.setTitle("내가 작성한 게시물");
                 flag = 0;
@@ -100,7 +100,7 @@ public class MymenuFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ArticleActivity.class);
-                intent.putExtra("key", articleList.get(articleList.size()-position-1).getKey());
+                intent.putExtra("key", articleList.get(articleList.size() - position - 1).getKey());
                 startActivity(intent);
             }
         });
@@ -117,7 +117,7 @@ public class MymenuFragment extends Fragment {
         setHasOptionsMenu(true);
         toolbar = view.findViewById(R.id.my_toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         toolbar.setTitle("내가 작성한 게시물");
 
         return view;

@@ -23,12 +23,12 @@
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"
                 android:editable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:padding="10dp"
                 android:text="title"
                 android:textColor="@color/colorWhite"
                 android:textSize="20dp"
-                android:focusableInTouchMode="false"
-                android:focusable="false"
                 />
 
             <EditText
@@ -37,14 +37,14 @@
                 android:layout_height="match_parent"
                 android:background="@color/colorPrimaryDark"
                 android:editable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="10dp"
                 android:text="cate"
                 android:textColor="@color/colorWhite"
-                android:textSize="15dp"
-                android:focusableInTouchMode="false"
-                android:focusable="false"/>
+                android:textSize="15dp"/>
 
         </LinearLayout>
 
@@ -52,14 +52,14 @@
             android:id="@+id/description_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="5dp"
             android:text="description"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="15dp"
-            android:focusableInTouchMode="false"
-            android:focusable="false"/>
+            android:textSize="15dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -71,56 +71,56 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_alignParentLeft="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="1"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
-                android:textSize="30dp"
-                android:focusableInTouchMode="false"
-                android:focusable="false"/>
+                android:textSize="30dp"/>
 
             <ImageView
                 android:id="@+id/option_1_iv"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_alignParentLeft="true"
-                android:gravity="center_horizontal|center_vertical"
+                android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:focusable="false"/>
+                android:gravity="center_horizontal|center_vertical"/>
 
             <TextView
                 android:id="@+id/option_2_tv"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_alignParentRight="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="2"
                 android:textAlignment="center"
                 android:textColor="@color/colorAccent"
-                android:textSize="30dp"
-                android:focusableInTouchMode="false"
-                android:focusable="false"/>
+                android:textSize="30dp"/>
 
             <ImageView
                 android:id="@+id/option_2_iv"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_alignParentRight="true"
-                android:gravity="center_horizontal|center_vertical"
+                android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:focusable="false"/>
+                android:gravity="center_horizontal|center_vertical"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:text="VS"
                 android:textColor="@color/colorPrimaryDarker"
                 android:textSize="14dp"
-                android:textStyle="bold"
-                android:focusableInTouchMode="false"
-                android:focusable="false"/>
+                android:textStyle="bold"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -137,11 +137,11 @@
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
                 android:editable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:text="0"
                 android:textAlignment="center"
-                android:textColor="@color/colorWhite"
-                android:focusableInTouchMode="false"
-                android:focusable="false"/>
+                android:textColor="@color/colorWhite"/>
 
             <EditText
                 android:id="@+id/option_2_et"
@@ -150,11 +150,11 @@
                 android:layout_weight="1"
                 android:background="@color/colorAccent"
                 android:editable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:text="0"
                 android:textAlignment="center"
-                android:textColor="@color/colorWhite"
-                android:focusableInTouchMode="false"
-                android:focusable="false"/>
+                android:textColor="@color/colorWhite"/>
         </LinearLayout>
 
     </LinearLayout>

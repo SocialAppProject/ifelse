@@ -90,15 +90,15 @@ public class WriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
 
-        _title = (EditText) findViewById(R.id.input_title);
-        _description = (EditText) findViewById(R.id.input_description);
+        _title = (findViewById(R.id.input_title));
+        _description = findViewById(R.id.input_description);
 
-        _option1 = (TextView) findViewById(R.id.input_option1);
-        _option2 = (TextView) findViewById(R.id.input_option2);
+        _option1 = findViewById(R.id.input_option1);
+        _option2 = findViewById(R.id.input_option2);
 
-        _spinner = (Spinner) findViewById(R.id.spin_category);
-        _radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        _old = (RangeSeekBar) findViewById(R.id.old_seekBar);
+        _spinner = findViewById(R.id.spin_category);
+        _radioGroup = findViewById(R.id.radioGroup);
+        _old = findViewById(R.id.old_seekBar);
 
         toolbar = findViewById(R.id.write_toolbar);
 
@@ -168,8 +168,6 @@ public class WriteActivity extends AppCompatActivity {
 
                     final DatabaseReference articleRef = DatabaseManager.databaseReference.child("ARTICLE").push();
 
-                    Log.d(TAG, "satisfied conditions");
-
                     article.setTitle(_title.getText().toString().trim());
                     article.setDescription(_description.getText().toString().trim());
                     article.setCategory(_spinner.getSelectedItemPosition());
@@ -236,7 +234,7 @@ public class WriteActivity extends AppCompatActivity {
                                     DatabaseManager.databaseReference.child("ARTICLE").child(article.getKey()).child("option2").setValue(url);
                                 }
                             });
-                        } else if(flag2 == 2) {
+                        } else if (flag2 == 2) {
                             filePath.putFile(uri_option2).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -281,12 +279,11 @@ public class WriteActivity extends AppCompatActivity {
                         gender = -1;
                         break;
                 }
-                article.setTarget_gender(gender); 
+                article.setTarget_gender(gender);
                 Toast.makeText(getApplicationContext(), "" + gender + radioButton.getText(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -318,7 +315,6 @@ public class WriteActivity extends AppCompatActivity {
         }
 
         if (which == 0) {
-            Toast.makeText(WriteActivity.this, "카메라", Toast.LENGTH_SHORT).show();
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
@@ -336,7 +332,6 @@ public class WriteActivity extends AppCompatActivity {
                 dispatchTakePictureIntent(option_num);
             }
         } else if (which == 1) {
-            Toast.makeText(WriteActivity.this, "사진", Toast.LENGTH_SHORT).show();
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
@@ -354,7 +349,6 @@ public class WriteActivity extends AppCompatActivity {
                 doTakeAlbum(option_num);
             }
         } else {
-            Toast.makeText(WriteActivity.this, "글", Toast.LENGTH_SHORT).show();
             AlertDialog.Builder optionTextDialog = new AlertDialog.Builder(WriteActivity.this);
 
             optionTextDialog.setTitle("텍스트를 써주세요.");       // 제목 설정
@@ -405,7 +399,6 @@ public class WriteActivity extends AppCompatActivity {
 
         }
     }
-
 
     public void doTakeAlbum(int option_num) {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -507,7 +500,6 @@ public class WriteActivity extends AppCompatActivity {
         }
     }
 
-
     public String getPicturePath(Intent data) {
 
         Uri selectedImage = data.getData();
@@ -519,8 +511,6 @@ public class WriteActivity extends AppCompatActivity {
 
         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
         String picturePath = cursor.getString(columnIndex);
-
-        Log.d(TAG, picturePath);
 
 
         cursor.close();

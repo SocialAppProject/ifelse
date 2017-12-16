@@ -11,15 +11,15 @@
 
             <item
                 android:id="@+id/sort_by_time"
-                android:title="시간순" />
+                android:title="시간순"/>
 
             <item
                 android:id="@+id/sort_by_close"
-                android:title="접전순" />
+                android:title="접전순"/>
 
             <item
                 android:id="@+id/sort_by_votenum"
-                android:title="투표순" />
+                android:title="투표순"/>
         </menu>
     </item>
 </menu>

@@ -16,7 +16,6 @@ public class FullScreenImageViewActivity extends AppCompatActivity {
     private String key;
     private int select;
     private ImageView full_iv;
-    private Bitmap image;
     private Article article;
 
     @Override
@@ -47,7 +46,7 @@ public class FullScreenImageViewActivity extends AppCompatActivity {
     }
 
     private void updateView(Article article) {
-        full_iv = (ImageView) findViewById(R.id.full_iv);
+        full_iv = findViewById(R.id.full_iv);
 
         if (select == 1)
             Glide.with(this).load(StorageManager.storageReference.child("Images").child(article.getKey())

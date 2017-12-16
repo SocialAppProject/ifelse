@@ -1,55 +1,57 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.socialappproject.ifelse.NewsfeedFragment">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 tools:context="com.socialappproject.ifelse.NewsfeedFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
             android:id="@+id/noArticle_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="게시글이 없습니다"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:text="게시글이 없습니다"
+            android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="20dp"
-            android:textAlignment="center"/>
+            android:textSize="20dp"/>
     </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_layout"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <ListView
-        android:id="@+id/newsfeed_listview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:divider="@color/colorIron"
-        android:dividerHeight="10dp"
-        android:nestedScrollingEnabled="true"/>
+        <ListView
+            android:id="@+id/newsfeed_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:divider="@color/colorIron"
+            android:dividerHeight="10dp"
+            android:nestedScrollingEnabled="true"/>
 
-</android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-<android.support.design.widget.AppBarLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark"
-        app:layout_scrollFlags="scroll|enterAlways">
-    </android.support.v7.widget.Toolbar>
-</android.support.design.widget.AppBarLayout>
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimaryDark"
+            app:layout_scrollFlags="scroll|enterAlways">
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"

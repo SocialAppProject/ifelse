@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("로그인하는중...");
+        progressDialog.setMessage("로그인중...");
         progressDialog.show();
 
         String email = _emailText.getText().toString();

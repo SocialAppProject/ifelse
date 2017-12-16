@@ -8,19 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
-import android.view.View;
-import android.widget.TextView;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingFragment extends PreferenceFragmentCompat { // 계정, 앱정보, 개발자정보
-
-    private static final String TAG = "SettingFragment";
-    private static final int REQUEST_AUTHEN = 0;
-
-    FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-
-    TextView _authen_tv, _version_tv, _notice_tv, _quest_tv;
 
     private Preference authentication_pref;
     private Preference version_pref;
@@ -28,7 +17,6 @@ public class SettingFragment extends PreferenceFragmentCompat { // 계정, 앱�
 
     public SettingFragment() {
     }
-
 
     public static SettingFragment newInstance() {
         SettingFragment fragment = new SettingFragment();

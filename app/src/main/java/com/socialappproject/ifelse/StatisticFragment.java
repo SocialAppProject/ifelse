@@ -77,11 +77,11 @@ public class StatisticFragment extends Fragment {
                 dialog.setItems(R.array.chart_ary, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(getContext(), which + "", Toast.LENGTH_SHORT).show();
-                        if(which == 0) { // 막대 그래프
+                        if (which == 0) { // 막대 그래프
                             _lineChart.clear();
                             _barChart.bringToFront();
                             drawChart(which, NULL_DATA_FLAG);
-                        } else if(which == 1) { // 선 그래프
+                        } else if (which == 1) { // 선 그래프
                             _barChart.clear();
                             _lineChart.bringToFront();
                             drawChart(which, NULL_DATA_FLAG);
@@ -97,7 +97,6 @@ public class StatisticFragment extends Fragment {
         _barChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "이 그래프는 막대 그래프입니다", Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                 dialog.setItems(R.array.bar_chart_ary, new DialogInterface.OnClickListener() {
                     @Override
@@ -112,7 +111,6 @@ public class StatisticFragment extends Fragment {
         _lineChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "이 그래프는 선 그래프입니다", Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                 dialog.setItems(R.array.line_chart_ary, new DialogInterface.OnClickListener() {
                     @Override
@@ -127,8 +125,8 @@ public class StatisticFragment extends Fragment {
     }
 
     private void drawChart(int chart_flag, int data_flag) {
-        if(data_flag == NULL_DATA_FLAG) {
-            switch(chart_flag) {
+        if (data_flag == NULL_DATA_FLAG) {
+            switch (chart_flag) {
                 case 0:
                     ArrayList<BarEntry> nullBarEntry = new ArrayList<>();
                     BarDataSet nullBarDataSet = new BarDataSet(nullBarEntry, "NA");
@@ -181,7 +179,7 @@ public class StatisticFragment extends Fragment {
                 default:
             }
         } else {
-            switch(chart_flag) {
+            switch (chart_flag) {
                 case 0:
                     BarData barData = new BarData(getXAxisValues(chart_flag, data_flag), getBarDataSet(data_flag));
                     _barChart.setData(barData);
@@ -246,7 +244,7 @@ public class StatisticFragment extends Fragment {
 
         LineDataSet lineDataSet;
 
-        if(data_flag == 0) {
+        if (data_flag == 0) {
             final ArrayList<Entry> valueSet0 = new ArrayList<>();
 
             final Entry v0e0 = new Entry(0, 0);     // 0시
@@ -277,34 +275,82 @@ public class StatisticFragment extends Fragment {
             articleRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         String snaped_time = postSnapshot.child("time").getValue().toString().substring(6, 8);
 
-                        switch(snaped_time) {
-                            case "00": v0e0.setVal(v0e0.getVal() + 1); break;
-                            case "01": v0e1.setVal(v0e1.getVal() + 1); break;
-                            case "02": v0e2.setVal(v0e2.getVal() + 1); break;
-                            case "03": v0e3.setVal(v0e3.getVal() + 1); break;
-                            case "04": v0e4.setVal(v0e4.getVal() + 1); break;
-                            case "05": v0e5.setVal(v0e5.getVal() + 1); break;
-                            case "06": v0e6.setVal(v0e6.getVal() + 1); break;
-                            case "07": v0e7.setVal(v0e7.getVal() + 1); break;
-                            case "08": v0e8.setVal(v0e8.getVal() + 1); break;
-                            case "09": v0e9.setVal(v0e9.getVal() + 1); break;
-                            case "10": v0e10.setVal(v0e10.getVal() + 1); break;
-                            case "11": v0e11.setVal(v0e11.getVal() + 1); break;
-                            case "12": v0e12.setVal(v0e12.getVal() + 1); break;
-                            case "13": v0e13.setVal(v0e13.getVal() + 1); break;
-                            case "14": v0e14.setVal(v0e14.getVal() + 1); break;
-                            case "15": v0e15.setVal(v0e15.getVal() + 1); break;
-                            case "16": v0e16.setVal(v0e16.getVal() + 1); break;
-                            case "17": v0e17.setVal(v0e17.getVal() + 1); break;
-                            case "18": v0e18.setVal(v0e18.getVal() + 1); break;
-                            case "19": v0e19.setVal(v0e19.getVal() + 1); break;
-                            case "20": v0e20.setVal(v0e20.getVal() + 1); break;
-                            case "21": v0e21.setVal(v0e21.getVal() + 1); break;
-                            case "22": v0e22.setVal(v0e22.getVal() + 1); break;
-                            case "23": v0e23.setVal(v0e23.getVal() + 1); break;
+                        switch (snaped_time) {
+                            case "00":
+                                v0e0.setVal(v0e0.getVal() + 1);
+                                break;
+                            case "01":
+                                v0e1.setVal(v0e1.getVal() + 1);
+                                break;
+                            case "02":
+                                v0e2.setVal(v0e2.getVal() + 1);
+                                break;
+                            case "03":
+                                v0e3.setVal(v0e3.getVal() + 1);
+                                break;
+                            case "04":
+                                v0e4.setVal(v0e4.getVal() + 1);
+                                break;
+                            case "05":
+                                v0e5.setVal(v0e5.getVal() + 1);
+                                break;
+                            case "06":
+                                v0e6.setVal(v0e6.getVal() + 1);
+                                break;
+                            case "07":
+                                v0e7.setVal(v0e7.getVal() + 1);
+                                break;
+                            case "08":
+                                v0e8.setVal(v0e8.getVal() + 1);
+                                break;
+                            case "09":
+                                v0e9.setVal(v0e9.getVal() + 1);
+                                break;
+                            case "10":
+                                v0e10.setVal(v0e10.getVal() + 1);
+                                break;
+                            case "11":
+                                v0e11.setVal(v0e11.getVal() + 1);
+                                break;
+                            case "12":
+                                v0e12.setVal(v0e12.getVal() + 1);
+                                break;
+                            case "13":
+                                v0e13.setVal(v0e13.getVal() + 1);
+                                break;
+                            case "14":
+                                v0e14.setVal(v0e14.getVal() + 1);
+                                break;
+                            case "15":
+                                v0e15.setVal(v0e15.getVal() + 1);
+                                break;
+                            case "16":
+                                v0e16.setVal(v0e16.getVal() + 1);
+                                break;
+                            case "17":
+                                v0e17.setVal(v0e17.getVal() + 1);
+                                break;
+                            case "18":
+                                v0e18.setVal(v0e18.getVal() + 1);
+                                break;
+                            case "19":
+                                v0e19.setVal(v0e19.getVal() + 1);
+                                break;
+                            case "20":
+                                v0e20.setVal(v0e20.getVal() + 1);
+                                break;
+                            case "21":
+                                v0e21.setVal(v0e21.getVal() + 1);
+                                break;
+                            case "22":
+                                v0e22.setVal(v0e22.getVal() + 1);
+                                break;
+                            case "23":
+                                v0e23.setVal(v0e23.getVal() + 1);
+                                break;
                         }
 
                     }
@@ -333,30 +379,30 @@ public class StatisticFragment extends Fragment {
                             v0e22.getVal() +
                             v0e23.getVal();
 
-                    v0e0.setVal(v0e0.getVal()/all_count*100);
-                    v0e1.setVal(v0e1.getVal()/all_count*100);
-                    v0e2.setVal(v0e2.getVal()/all_count*100);
-                    v0e3.setVal(v0e3.getVal()/all_count*100);
-                    v0e4.setVal(v0e4.getVal()/all_count*100);
-                    v0e5.setVal(v0e5.getVal()/all_count*100);
-                    v0e6.setVal(v0e6.getVal()/all_count*100);
-                    v0e7.setVal(v0e7.getVal()/all_count*100);
-                    v0e8.setVal(v0e8.getVal()/all_count*100);
-                    v0e9.setVal(v0e9.getVal()/all_count*100);
-                    v0e10.setVal(v0e10.getVal()/all_count*100);
-                    v0e11.setVal(v0e11.getVal()/all_count*100);
-                    v0e12.setVal(v0e12.getVal()/all_count*100);
-                    v0e13.setVal(v0e13.getVal()/all_count*100);
-                    v0e14.setVal(v0e14.getVal()/all_count*100);
-                    v0e15.setVal(v0e15.getVal()/all_count*100);
-                    v0e16.setVal(v0e16.getVal()/all_count*100);
-                    v0e17.setVal(v0e17.getVal()/all_count*100);
-                    v0e18.setVal(v0e18.getVal()/all_count*100);
-                    v0e19.setVal(v0e19.getVal()/all_count*100);
-                    v0e20.setVal(v0e20.getVal()/all_count*100);
-                    v0e21.setVal(v0e21.getVal()/all_count*100);
-                    v0e22.setVal(v0e22.getVal()/all_count*100);
-                    v0e23.setVal(v0e23.getVal()/all_count*100);
+                    v0e0.setVal(v0e0.getVal() / all_count * 100);
+                    v0e1.setVal(v0e1.getVal() / all_count * 100);
+                    v0e2.setVal(v0e2.getVal() / all_count * 100);
+                    v0e3.setVal(v0e3.getVal() / all_count * 100);
+                    v0e4.setVal(v0e4.getVal() / all_count * 100);
+                    v0e5.setVal(v0e5.getVal() / all_count * 100);
+                    v0e6.setVal(v0e6.getVal() / all_count * 100);
+                    v0e7.setVal(v0e7.getVal() / all_count * 100);
+                    v0e8.setVal(v0e8.getVal() / all_count * 100);
+                    v0e9.setVal(v0e9.getVal() / all_count * 100);
+                    v0e10.setVal(v0e10.getVal() / all_count * 100);
+                    v0e11.setVal(v0e11.getVal() / all_count * 100);
+                    v0e12.setVal(v0e12.getVal() / all_count * 100);
+                    v0e13.setVal(v0e13.getVal() / all_count * 100);
+                    v0e14.setVal(v0e14.getVal() / all_count * 100);
+                    v0e15.setVal(v0e15.getVal() / all_count * 100);
+                    v0e16.setVal(v0e16.getVal() / all_count * 100);
+                    v0e17.setVal(v0e17.getVal() / all_count * 100);
+                    v0e18.setVal(v0e18.getVal() / all_count * 100);
+                    v0e19.setVal(v0e19.getVal() / all_count * 100);
+                    v0e20.setVal(v0e20.getVal() / all_count * 100);
+                    v0e21.setVal(v0e21.getVal() / all_count * 100);
+                    v0e22.setVal(v0e22.getVal() / all_count * 100);
+                    v0e23.setVal(v0e23.getVal() / all_count * 100);
                 }
 
                 @Override
@@ -402,7 +448,7 @@ public class StatisticFragment extends Fragment {
             lineDataSet.setDrawCircleHole(false);
             lineDataSet.setHighLightColor(Color.rgb(244, 117, 117));
 
-        } else if(data_flag == 1) {
+        } else if (data_flag == 1) {
             final ArrayList<Entry> valueSet0 = new ArrayList<>();
 
             final Entry v0e0 = new Entry(0, 0);     // 0시
@@ -433,33 +479,81 @@ public class StatisticFragment extends Fragment {
             voteRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         String snaped_time = postSnapshot.getValue().toString().substring(6, 8);
-                        switch(snaped_time) {
-                            case "00": v0e0.setVal(v0e0.getVal() + 1); break;
-                            case "01": v0e1.setVal(v0e1.getVal() + 1); break;
-                            case "02": v0e2.setVal(v0e2.getVal() + 1); break;
-                            case "03": v0e3.setVal(v0e3.getVal() + 1); break;
-                            case "04": v0e4.setVal(v0e4.getVal() + 1); break;
-                            case "05": v0e5.setVal(v0e5.getVal() + 1); break;
-                            case "06": v0e6.setVal(v0e6.getVal() + 1); break;
-                            case "07": v0e7.setVal(v0e7.getVal() + 1); break;
-                            case "08": v0e8.setVal(v0e8.getVal() + 1); break;
-                            case "09": v0e9.setVal(v0e9.getVal() + 1); break;
-                            case "10": v0e10.setVal(v0e10.getVal() + 1); break;
-                            case "11": v0e11.setVal(v0e11.getVal() + 1); break;
-                            case "12": v0e12.setVal(v0e12.getVal() + 1); break;
-                            case "13": v0e13.setVal(v0e13.getVal() + 1); break;
-                            case "14": v0e14.setVal(v0e14.getVal() + 1); break;
-                            case "15": v0e15.setVal(v0e15.getVal() + 1); break;
-                            case "16": v0e16.setVal(v0e16.getVal() + 1); break;
-                            case "17": v0e17.setVal(v0e17.getVal() + 1); break;
-                            case "18": v0e18.setVal(v0e18.getVal() + 1); break;
-                            case "19": v0e19.setVal(v0e19.getVal() + 1); break;
-                            case "20": v0e20.setVal(v0e20.getVal() + 1); break;
-                            case "21": v0e21.setVal(v0e21.getVal() + 1); break;
-                            case "22": v0e22.setVal(v0e22.getVal() + 1); break;
-                            case "23": v0e23.setVal(v0e23.getVal() + 1); break;
+                        switch (snaped_time) {
+                            case "00":
+                                v0e0.setVal(v0e0.getVal() + 1);
+                                break;
+                            case "01":
+                                v0e1.setVal(v0e1.getVal() + 1);
+                                break;
+                            case "02":
+                                v0e2.setVal(v0e2.getVal() + 1);
+                                break;
+                            case "03":
+                                v0e3.setVal(v0e3.getVal() + 1);
+                                break;
+                            case "04":
+                                v0e4.setVal(v0e4.getVal() + 1);
+                                break;
+                            case "05":
+                                v0e5.setVal(v0e5.getVal() + 1);
+                                break;
+                            case "06":
+                                v0e6.setVal(v0e6.getVal() + 1);
+                                break;
+                            case "07":
+                                v0e7.setVal(v0e7.getVal() + 1);
+                                break;
+                            case "08":
+                                v0e8.setVal(v0e8.getVal() + 1);
+                                break;
+                            case "09":
+                                v0e9.setVal(v0e9.getVal() + 1);
+                                break;
+                            case "10":
+                                v0e10.setVal(v0e10.getVal() + 1);
+                                break;
+                            case "11":
+                                v0e11.setVal(v0e11.getVal() + 1);
+                                break;
+                            case "12":
+                                v0e12.setVal(v0e12.getVal() + 1);
+                                break;
+                            case "13":
+                                v0e13.setVal(v0e13.getVal() + 1);
+                                break;
+                            case "14":
+                                v0e14.setVal(v0e14.getVal() + 1);
+                                break;
+                            case "15":
+                                v0e15.setVal(v0e15.getVal() + 1);
+                                break;
+                            case "16":
+                                v0e16.setVal(v0e16.getVal() + 1);
+                                break;
+                            case "17":
+                                v0e17.setVal(v0e17.getVal() + 1);
+                                break;
+                            case "18":
+                                v0e18.setVal(v0e18.getVal() + 1);
+                                break;
+                            case "19":
+                                v0e19.setVal(v0e19.getVal() + 1);
+                                break;
+                            case "20":
+                                v0e20.setVal(v0e20.getVal() + 1);
+                                break;
+                            case "21":
+                                v0e21.setVal(v0e21.getVal() + 1);
+                                break;
+                            case "22":
+                                v0e22.setVal(v0e22.getVal() + 1);
+                                break;
+                            case "23":
+                                v0e23.setVal(v0e23.getVal() + 1);
+                                break;
                         }
 
                     }
@@ -488,30 +582,30 @@ public class StatisticFragment extends Fragment {
                             v0e22.getVal() +
                             v0e23.getVal();
 
-                    v0e0.setVal(v0e0.getVal()/all_count*100);
-                    v0e1.setVal(v0e1.getVal()/all_count*100);
-                    v0e2.setVal(v0e2.getVal()/all_count*100);
-                    v0e3.setVal(v0e3.getVal()/all_count*100);
-                    v0e4.setVal(v0e4.getVal()/all_count*100);
-                    v0e5.setVal(v0e5.getVal()/all_count*100);
-                    v0e6.setVal(v0e6.getVal()/all_count*100);
-                    v0e7.setVal(v0e7.getVal()/all_count*100);
-                    v0e8.setVal(v0e8.getVal()/all_count*100);
-                    v0e9.setVal(v0e9.getVal()/all_count*100);
-                    v0e10.setVal(v0e10.getVal()/all_count*100);
-                    v0e11.setVal(v0e11.getVal()/all_count*100);
-                    v0e12.setVal(v0e12.getVal()/all_count*100);
-                    v0e13.setVal(v0e13.getVal()/all_count*100);
-                    v0e14.setVal(v0e14.getVal()/all_count*100);
-                    v0e15.setVal(v0e15.getVal()/all_count*100);
-                    v0e16.setVal(v0e16.getVal()/all_count*100);
-                    v0e17.setVal(v0e17.getVal()/all_count*100);
-                    v0e18.setVal(v0e18.getVal()/all_count*100);
-                    v0e19.setVal(v0e19.getVal()/all_count*100);
-                    v0e20.setVal(v0e20.getVal()/all_count*100);
-                    v0e21.setVal(v0e21.getVal()/all_count*100);
-                    v0e22.setVal(v0e22.getVal()/all_count*100);
-                    v0e23.setVal(v0e23.getVal()/all_count*100);
+                    v0e0.setVal(v0e0.getVal() / all_count * 100);
+                    v0e1.setVal(v0e1.getVal() / all_count * 100);
+                    v0e2.setVal(v0e2.getVal() / all_count * 100);
+                    v0e3.setVal(v0e3.getVal() / all_count * 100);
+                    v0e4.setVal(v0e4.getVal() / all_count * 100);
+                    v0e5.setVal(v0e5.getVal() / all_count * 100);
+                    v0e6.setVal(v0e6.getVal() / all_count * 100);
+                    v0e7.setVal(v0e7.getVal() / all_count * 100);
+                    v0e8.setVal(v0e8.getVal() / all_count * 100);
+                    v0e9.setVal(v0e9.getVal() / all_count * 100);
+                    v0e10.setVal(v0e10.getVal() / all_count * 100);
+                    v0e11.setVal(v0e11.getVal() / all_count * 100);
+                    v0e12.setVal(v0e12.getVal() / all_count * 100);
+                    v0e13.setVal(v0e13.getVal() / all_count * 100);
+                    v0e14.setVal(v0e14.getVal() / all_count * 100);
+                    v0e15.setVal(v0e15.getVal() / all_count * 100);
+                    v0e16.setVal(v0e16.getVal() / all_count * 100);
+                    v0e17.setVal(v0e17.getVal() / all_count * 100);
+                    v0e18.setVal(v0e18.getVal() / all_count * 100);
+                    v0e19.setVal(v0e19.getVal() / all_count * 100);
+                    v0e20.setVal(v0e20.getVal() / all_count * 100);
+                    v0e21.setVal(v0e21.getVal() / all_count * 100);
+                    v0e22.setVal(v0e22.getVal() / all_count * 100);
+                    v0e23.setVal(v0e23.getVal() / all_count * 100);
                 }
 
                 @Override
@@ -580,7 +674,7 @@ public class StatisticFragment extends Fragment {
 
         ArrayList<BarDataSet> dataSets = new ArrayList<>();
 
-        if(data_flag == 0) {
+        if (data_flag == 0) {
             ArrayList<BarEntry> valueSet0 = new ArrayList<>();
             ArrayList<BarEntry> valueSet1 = new ArrayList<>();
 
@@ -592,26 +686,26 @@ public class StatisticFragment extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                            String snaped_gender = postSnapshot.child("gender").getValue().toString();
-                            switch (snaped_gender) {
-                                case "0": {
-                                    v0e0.setVal(v0e0.getVal() + 1);
-                                    break;
-                                }
-                                case "1": {
-                                    v1e0.setVal(v1e0.getVal() + 1);
-                                    break;
-                                }
-                                default: {
-                                    break;
-                                }
+                        String snaped_gender = postSnapshot.child("gender").getValue().toString();
+                        switch (snaped_gender) {
+                            case "0": {
+                                v0e0.setVal(v0e0.getVal() + 1);
+                                break;
+                            }
+                            case "1": {
+                                v1e0.setVal(v1e0.getVal() + 1);
+                                break;
+                            }
+                            default: {
+                                break;
                             }
                         }
-                        float all_count = v0e0.getVal() + v1e0.getVal();
-
-                        v0e0.setVal(v0e0.getVal()/all_count*100);
-                        v1e0.setVal(v1e0.getVal()/all_count*100);
                     }
+                    float all_count = v0e0.getVal() + v1e0.getVal();
+
+                    v0e0.setVal(v0e0.getVal() / all_count * 100);
+                    v1e0.setVal(v1e0.getVal() / all_count * 100);
+                }
 
                 @Override
                 public void onCancelled(DatabaseError error) {
@@ -633,7 +727,7 @@ public class StatisticFragment extends Fragment {
             dataSets.add(barDataSet1);
             dataSets.add(barDataSet2);
 
-        } else if(data_flag == 1) {
+        } else if (data_flag == 1) {
 
             ArrayList<BarEntry> valueSet0 = new ArrayList<>();
 
@@ -655,30 +749,30 @@ public class StatisticFragment extends Fragment {
 
                         if (snaped_old < 10) {
                             v0e0.setVal(v0e0.getVal() + 1);
-                        } else if(snaped_old < 20) {
+                        } else if (snaped_old < 20) {
                             v0e1.setVal(v0e1.getVal() + 1);
-                        } else if(snaped_old < 30) {
+                        } else if (snaped_old < 30) {
                             v0e2.setVal(v0e2.getVal() + 1);
-                        } else if(snaped_old < 40) {
+                        } else if (snaped_old < 40) {
                             v0e3.setVal(v0e3.getVal() + 1);
-                        } else if(snaped_old < 50) {
+                        } else if (snaped_old < 50) {
                             v0e4.setVal(v0e4.getVal() + 1);
-                        } else if(snaped_old < 60) {
+                        } else if (snaped_old < 60) {
                             v0e5.setVal(v0e5.getVal() + 1);
                         } else {
                             v0e6.setVal(v0e6.getVal() + 1);
                         }
 
                     }
-                    float all_count = v0e0.getVal() + v0e1.getVal() + v0e2.getVal() + v0e3.getVal() + v0e4.getVal() + v0e5.getVal() +v0e6.getVal();
+                    float all_count = v0e0.getVal() + v0e1.getVal() + v0e2.getVal() + v0e3.getVal() + v0e4.getVal() + v0e5.getVal() + v0e6.getVal();
 
-                    v0e0.setVal(v0e0.getVal()/all_count*100);
-                    v0e1.setVal(v0e1.getVal()/all_count*100);
-                    v0e2.setVal(v0e2.getVal()/all_count*100);
-                    v0e3.setVal(v0e3.getVal()/all_count*100);
-                    v0e4.setVal(v0e4.getVal()/all_count*100);
-                    v0e5.setVal(v0e5.getVal()/all_count*100);
-                    v0e6.setVal(v0e6.getVal()/all_count*100);
+                    v0e0.setVal(v0e0.getVal() / all_count * 100);
+                    v0e1.setVal(v0e1.getVal() / all_count * 100);
+                    v0e2.setVal(v0e2.getVal() / all_count * 100);
+                    v0e3.setVal(v0e3.getVal() / all_count * 100);
+                    v0e4.setVal(v0e4.getVal() / all_count * 100);
+                    v0e5.setVal(v0e5.getVal() / all_count * 100);
+                    v0e6.setVal(v0e6.getVal() / all_count * 100);
                 }
 
                 @Override
@@ -706,7 +800,7 @@ public class StatisticFragment extends Fragment {
 
             dataSets.add(barDataSet2);
 
-        } else if(data_flag == 2) {
+        } else if (data_flag == 2) {
 
             ArrayList<BarEntry> valueSet0 = new ArrayList<>();
             ArrayList<BarEntry> valueSet1 = new ArrayList<>();
@@ -740,15 +834,15 @@ public class StatisticFragment extends Fragment {
                             case "0": {
                                 if (snaped_old < 10) {
                                     v0e0.setVal(v0e0.getVal() + 1);
-                                } else if(snaped_old < 20) {
+                                } else if (snaped_old < 20) {
                                     v0e1.setVal(v0e1.getVal() + 1);
-                                } else if(snaped_old < 30) {
+                                } else if (snaped_old < 30) {
                                     v0e2.setVal(v0e2.getVal() + 1);
-                                } else if(snaped_old < 40) {
+                                } else if (snaped_old < 40) {
                                     v0e3.setVal(v0e3.getVal() + 1);
-                                } else if(snaped_old < 50) {
+                                } else if (snaped_old < 50) {
                                     v0e4.setVal(v0e4.getVal() + 1);
-                                } else if(snaped_old < 60) {
+                                } else if (snaped_old < 60) {
                                     v0e5.setVal(v0e5.getVal() + 1);
                                 } else {
                                     v0e6.setVal(v0e6.getVal() + 1);
@@ -758,15 +852,15 @@ public class StatisticFragment extends Fragment {
                             case "1": {
                                 if (snaped_old < 10) {
                                     v1e0.setVal(v1e0.getVal() + 1);
-                                } else if(snaped_old < 20) {
+                                } else if (snaped_old < 20) {
                                     v1e1.setVal(v1e1.getVal() + 1);
-                                } else if(snaped_old < 30) {
+                                } else if (snaped_old < 30) {
                                     v1e2.setVal(v1e2.getVal() + 1);
-                                } else if(snaped_old < 40) {
+                                } else if (snaped_old < 40) {
                                     v1e3.setVal(v1e3.getVal() + 1);
-                                } else if(snaped_old < 50) {
+                                } else if (snaped_old < 50) {
                                     v1e4.setVal(v1e4.getVal() + 1);
-                                } else if(snaped_old < 60) {
+                                } else if (snaped_old < 60) {
                                     v1e5.setVal(v1e5.getVal() + 1);
                                 } else {
                                     v1e6.setVal(v1e6.getVal() + 1);
@@ -778,24 +872,24 @@ public class StatisticFragment extends Fragment {
                             }
                         }
                     }
-                    float women_count = v0e0.getVal() + v0e1.getVal() + v0e2.getVal() + v0e3.getVal() + v0e4.getVal() + v0e5.getVal() +v0e6.getVal();
-                    float men_count = v1e0.getVal() + v1e1.getVal() + v1e2.getVal() + v1e3.getVal() + v1e4.getVal() + v1e5.getVal() +v1e6.getVal();
+                    float women_count = v0e0.getVal() + v0e1.getVal() + v0e2.getVal() + v0e3.getVal() + v0e4.getVal() + v0e5.getVal() + v0e6.getVal();
+                    float men_count = v1e0.getVal() + v1e1.getVal() + v1e2.getVal() + v1e3.getVal() + v1e4.getVal() + v1e5.getVal() + v1e6.getVal();
 
-                    v0e0.setVal(v0e0.getVal()/women_count*100);
-                    v0e1.setVal(v0e1.getVal()/women_count*100);
-                    v0e2.setVal(v0e2.getVal()/women_count*100);
-                    v0e3.setVal(v0e3.getVal()/women_count*100);
-                    v0e4.setVal(v0e4.getVal()/women_count*100);
-                    v0e5.setVal(v0e5.getVal()/women_count*100);
-                    v0e6.setVal(v0e6.getVal()/women_count*100);
+                    v0e0.setVal(v0e0.getVal() / women_count * 100);
+                    v0e1.setVal(v0e1.getVal() / women_count * 100);
+                    v0e2.setVal(v0e2.getVal() / women_count * 100);
+                    v0e3.setVal(v0e3.getVal() / women_count * 100);
+                    v0e4.setVal(v0e4.getVal() / women_count * 100);
+                    v0e5.setVal(v0e5.getVal() / women_count * 100);
+                    v0e6.setVal(v0e6.getVal() / women_count * 100);
 
-                    v1e0.setVal(v1e0.getVal()/men_count*100);
-                    v1e1.setVal(v1e1.getVal()/men_count*100);
-                    v1e2.setVal(v1e2.getVal()/men_count*100);
-                    v1e3.setVal(v1e3.getVal()/men_count*100);
-                    v1e4.setVal(v1e4.getVal()/men_count*100);
-                    v1e5.setVal(v1e5.getVal()/men_count*100);
-                    v1e6.setVal(v1e6.getVal()/men_count*100);
+                    v1e0.setVal(v1e0.getVal() / men_count * 100);
+                    v1e1.setVal(v1e1.getVal() / men_count * 100);
+                    v1e2.setVal(v1e2.getVal() / men_count * 100);
+                    v1e3.setVal(v1e3.getVal() / men_count * 100);
+                    v1e4.setVal(v1e4.getVal() / men_count * 100);
+                    v1e5.setVal(v1e5.getVal() / men_count * 100);
+                    v1e6.setVal(v1e6.getVal() / men_count * 100);
                 }
 
                 @Override
@@ -831,7 +925,7 @@ public class StatisticFragment extends Fragment {
             dataSets.add(barDataSet1);
             dataSets.add(barDataSet2);
 
-        } else if(data_flag == 3) {
+        } else if (data_flag == 3) {
             ArrayList<BarEntry> valueSet0 = new ArrayList<>();
 
 
@@ -845,7 +939,6 @@ public class StatisticFragment extends Fragment {
             final BarEntry v0e7 = new BarEntry(0, 7); // 기타
 
 
-
             articleRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -855,33 +948,33 @@ public class StatisticFragment extends Fragment {
 
                         if (snpaed_category == 0) {
                             v0e0.setVal(v0e0.getVal() + 1);
-                        } else if(snpaed_category == 1) {
+                        } else if (snpaed_category == 1) {
                             v0e1.setVal(v0e1.getVal() + 1);
-                        } else if(snpaed_category == 2) {
+                        } else if (snpaed_category == 2) {
                             v0e2.setVal(v0e2.getVal() + 1);
-                        } else if(snpaed_category == 3) {
+                        } else if (snpaed_category == 3) {
                             v0e3.setVal(v0e3.getVal() + 1);
-                        } else if(snpaed_category == 4) {
+                        } else if (snpaed_category == 4) {
                             v0e4.setVal(v0e4.getVal() + 1);
-                        } else if(snpaed_category == 5) {
+                        } else if (snpaed_category == 5) {
                             v0e5.setVal(v0e5.getVal() + 1);
-                        } else if(snpaed_category == 6){
+                        } else if (snpaed_category == 6) {
                             v0e6.setVal(v0e6.getVal() + 1);
-                        } else if(snpaed_category == 7){
+                        } else if (snpaed_category == 7) {
                             v0e6.setVal(v0e6.getVal() + 1);
                         }
 
                     }
                     float category_count = v0e0.getVal() + v0e1.getVal() + v0e2.getVal() + v0e3.getVal() + v0e4.getVal() + v0e5.getVal() + v0e6.getVal() + v0e7.getVal();
 
-                    v0e0.setVal(v0e0.getVal()/category_count*100);
-                    v0e1.setVal(v0e1.getVal()/category_count*100);
-                    v0e2.setVal(v0e2.getVal()/category_count*100);
-                    v0e3.setVal(v0e3.getVal()/category_count*100);
-                    v0e4.setVal(v0e4.getVal()/category_count*100);
-                    v0e5.setVal(v0e5.getVal()/category_count*100);
-                    v0e6.setVal(v0e6.getVal()/category_count*100);
-                    v0e7.setVal(v0e7.getVal()/category_count*100);
+                    v0e0.setVal(v0e0.getVal() / category_count * 100);
+                    v0e1.setVal(v0e1.getVal() / category_count * 100);
+                    v0e2.setVal(v0e2.getVal() / category_count * 100);
+                    v0e3.setVal(v0e3.getVal() / category_count * 100);
+                    v0e4.setVal(v0e4.getVal() / category_count * 100);
+                    v0e5.setVal(v0e5.getVal() / category_count * 100);
+                    v0e6.setVal(v0e6.getVal() / category_count * 100);
+                    v0e7.setVal(v0e7.getVal() / category_count * 100);
 
                 }
 
@@ -930,11 +1023,11 @@ public class StatisticFragment extends Fragment {
 
         ArrayList<String> xAxis = new ArrayList<>();
 
-        if(chart_flag == 0) {
-            if(data_flag == 0) {
+        if (chart_flag == 0) {
+            if (data_flag == 0) {
                 xAxis.add("남자");
                 xAxis.add("여자");
-            } else if(data_flag == 1 || data_flag == 2) {
+            } else if (data_flag == 1 || data_flag == 2) {
                 xAxis.add("10대 미만");
                 xAxis.add("10대");
                 xAxis.add("20대");
@@ -942,7 +1035,7 @@ public class StatisticFragment extends Fragment {
                 xAxis.add("40대");
                 xAxis.add("50대");
                 xAxis.add("60대 이상");
-            } else if(data_flag == 3) {
+            } else if (data_flag == 3) {
                 xAxis.add("음식");
                 xAxis.add("패션");
                 xAxis.add("연애");
@@ -952,8 +1045,8 @@ public class StatisticFragment extends Fragment {
                 xAxis.add("뷰티");
                 xAxis.add("기타");
             }
-        } else if(chart_flag == 1) {
-            if(data_flag == 0 || data_flag == 1) {
+        } else if (chart_flag == 1) {
+            if (data_flag == 0 || data_flag == 1) {
                 xAxis.add("0시");
                 xAxis.add("1시");
                 xAxis.add("2시");
@@ -985,8 +1078,6 @@ public class StatisticFragment extends Fragment {
         }
         return xAxis;
     }
-
-
 
 
 }

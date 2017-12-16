@@ -173,7 +173,7 @@ public class NewsfeedFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if(articleList.size() == 0) {
+                if (articleList.size() == 0) {
                     newsfeedListView.setVisibility(View.INVISIBLE);
                     noArticle_tv.setVisibility(View.VISIBLE);
                 } else {
@@ -187,14 +187,14 @@ public class NewsfeedFragment extends Fragment {
 
         setHasOptionsMenu(true);
         toolbar = view.findViewById(R.id.toolbar);
-        if(category_num < 99)
+        if (category_num < 99)
             toolbar.setTitle(Category.get().getCategory_Name_byIndex(category_num));
         else
             toolbar.setTitle("검색 결과 : " + queryText);
         toolbar.setTitleTextColor(Color.WHITE);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        if(articleList.size() == 0) {
+        if (articleList.size() == 0) {
             newsfeedListView.setVisibility(View.INVISIBLE);
             noArticle_tv.setVisibility(View.VISIBLE);
         } else {
@@ -244,7 +244,7 @@ public class NewsfeedFragment extends Fragment {
             case 7: //기타
                 articleList = ArticleListManager.get(getContext()).getEtc_articleList();
                 break;
-            case 99 : //검색
+            case 99: //검색
                 queryText = bundle.getString("queryText");
                 articleList = ArticleListManager.get(getContext()).getSearch_articleList(queryText);
 

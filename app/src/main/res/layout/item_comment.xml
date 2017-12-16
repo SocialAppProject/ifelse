@@ -3,24 +3,24 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/textbox">
+    android:background="@drawable/textbox"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/name_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="4"
-        android:textStyle="bold"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp"/>
+        android:textSize="16dp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/text_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_marginLeft="5dp"
+        android:layout_weight="1"
         android:textColor="@color/colorBlack"
         android:textSize="15dp"/>
 

@@ -6,17 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,7 +26,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
@@ -45,7 +40,6 @@ import java.util.List;
  */
 
 public class ArticleActivity extends AppCompatActivity {
-    private static final String TAG = "ArticleActivity";
     private static final DateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
 
     private String key;
@@ -149,7 +143,7 @@ public class ArticleActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.delete_article:
                 removeArticle();
                 break;
@@ -180,11 +174,11 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void updateView(final Article article) {
-        if(article == null)
+        if (article == null)
             return;
 
         toolbar.setTitle("[ " + Category.get().getCategory_Name_byIndex(article.getCategory()) + " ]   "
-         + article.getTitle());
+                + article.getTitle());
         toolbar.setTitleTextColor(Color.WHITE);
 
         description_tv.setText(article.getDescription());
@@ -192,7 +186,7 @@ public class ArticleActivity extends AppCompatActivity {
             option_1_iv.setVisibility(View.VISIBLE);
             option_1_tv.setVisibility(View.INVISIBLE);
             Activity activity = ArticleActivity.this;
-            if(activity.isFinishing())
+            if (activity.isFinishing())
                 return;
             Glide.with(this).load(StorageManager.storageReference.child("Images").child(article.getKey())
                     .child("option_1")).into(option_1_iv);
@@ -207,7 +201,7 @@ public class ArticleActivity extends AppCompatActivity {
             option_2_iv.setVisibility(View.VISIBLE);
             option_2_tv.setVisibility(View.INVISIBLE);
             Activity activity = ArticleActivity.this;
-            if(activity.isFinishing())
+            if (activity.isFinishing())
                 return;
             Glide.with(this).load(StorageManager.storageReference.child("Images").child(article.getKey())
                     .child("option_2")).into(option_2_iv);
@@ -236,7 +230,7 @@ public class ArticleActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    if(postSnapshot.getValue().toString().equals(article.getKey())) {
+                    if (postSnapshot.getValue().toString().equals(article.getKey())) {
                         option_1_button.setVisibility(View.INVISIBLE);
                         option_2_button.setVisibility(View.INVISIBLE);
                         break;
@@ -255,7 +249,7 @@ public class ArticleActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    if(postSnapshot.getValue().toString().equals(article.getKey())) {
+                    if (postSnapshot.getValue().toString().equals(article.getKey())) {
                         option_1_button.setVisibility(View.INVISIBLE);
                         option_2_button.setVisibility(View.INVISIBLE);
                         break;
@@ -356,7 +350,8 @@ public class ArticleActivity extends AppCompatActivity {
                 });
         builder.show();
     }
-//Todo : 삭제시 스토리지에서 사진도 삭제하는거 의논해서 삭제
+
+    //Todo : 삭제시 스토리지에서 사진도 삭제하는거 의논해서 삭제
     private void removeArticle() {
         try {
             DatabaseManager.databaseReference.child("ARTICLE").child(article.getKey()).removeValue();

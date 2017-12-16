@@ -16,15 +16,16 @@ public class QuestActivity extends AppCompatActivity {
     private String ourEmail = "ifelsedevelop@gmail.com";
     private TextView help_tv;
     private TextView email_tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quest);
 
-        help_tv =findViewById(R.id.help_tv);
+        help_tv = findViewById(R.id.help_tv);
         help_tv.setText(help);
 
-        email_tv =findViewById(R.id.ouremail_tv);
+        email_tv = findViewById(R.id.ouremail_tv);
         email_tv.setText(ourEmail);
     }
 }

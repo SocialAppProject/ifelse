@@ -20,9 +20,9 @@ public class VersionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_version);
 
-        _new_ver_tv = (TextView) findViewById(R.id.new_ver_tv);
-        _present_ver_tv = (TextView) findViewById(R.id.present_ver_tv);
-        _supportSDK_tv = (TextView) findViewById(R.id.support_sdk_tv);
+        _new_ver_tv = findViewById(R.id.new_ver_tv);
+        _present_ver_tv = findViewById(R.id.present_ver_tv);
+        _supportSDK_tv = findViewById(R.id.support_sdk_tv);
         isRecentVersion_tv = findViewById(R.id.isRecentVersion_tv);
 
         _new_ver_tv.setText("최신 버전 : " + recentVersion);
@@ -35,14 +35,12 @@ public class VersionActivity extends AppCompatActivity {
 
             _present_ver_tv.setText(version);
 
-            if(recentVersion.equals(pInfo.versionName))
+            if (recentVersion.equals(pInfo.versionName))
                 isRecentVersion_tv.setText("최신 버전입니다!");
             else
                 isRecentVersion_tv.setText("최신 버전이 아닙니다. 최신 버전으로 업데이트 해주세요!");
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
-
     }
 }

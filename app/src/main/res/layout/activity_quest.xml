@@ -9,28 +9,27 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        app:srcCompat="@drawable/symbol"
-        android:layout_margin="50dp"/>
-
+        android:layout_margin="50dp"
+        app:srcCompat="@drawable/symbol"/>
 
     <TextView
         android:id="@+id/help_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
         android:layout_margin="10dp"
         android:gravity="center"
         android:textColor="@color/colorPrimaryDark"
-        android:layout_below="@+id/imageView"
         android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/ouremail_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/help_tv"
         android:layout_margin="10dp"
         android:gravity="center"
         android:textColor="@color/colorPrimaryDark"
-        android:layout_below="@+id/help_tv"
         android:textSize="20sp"/>
 
 

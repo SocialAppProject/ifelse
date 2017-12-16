@@ -55,8 +55,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     @Override
-    public CategoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+    public CategoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_category, parent, false);
 
@@ -76,10 +75,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 }
 
-class MyData{
+class MyData {
     public String text;
     public int img;
-    public MyData(String text, int img){
+
+    public MyData(String text, int img) {
         this.text = text;
         this.img = img;
     }

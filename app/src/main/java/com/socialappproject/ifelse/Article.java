@@ -71,14 +71,6 @@ public class Article {
         return category;
     }
 
-    public String getArticleID() {
-        return articleID;
-    }
-
-    public String getUserID() {
-        return UserID;
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -97,14 +89,6 @@ public class Article {
 
     public void setKey(String key) {
         this.key = key;
-    }
-
-    public void setOption1_num(int option1_num) {
-        this.option1_num = option1_num;
-    }
-
-    public void setOption2_num(int option2_num) {
-        this.option2_num = option2_num;
     }
 
     public void setTime(String time) {
@@ -155,7 +139,9 @@ public class Article {
 class Comment {
     private String name;
     private String text;
-    public Comment() {}
+
+    public Comment() {
+    }
 
     public String getName() {
         return name;

@@ -115,9 +115,9 @@ public class CategoryFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         toolbar = view.findViewById(R.id.cat_toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setTitleTextColor(Color.WHITE);
 
         return view;
