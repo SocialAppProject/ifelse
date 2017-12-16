@@ -37,6 +37,8 @@ public class ArticleListManager {
     private List<Article> written_articleList;
     private List<Article> voted_articleList;
 
+    private boolean attaced;
+
 
     public static ArticleListManager get(Context context) {
         if (articleListManager == null)
@@ -66,8 +68,11 @@ public class ArticleListManager {
         written_articleList = new ArrayList<>();
         voted_articleList = new ArrayList<>();
 
+        attaced = false;
+
         if(MainActivity.currentUser != null) {
             update();
+            attaced = true;
         }
     }
 
@@ -382,7 +387,8 @@ public class ArticleListManager {
     }
 
     public void update() {
-        if(MainActivity.currentUser != null) {
+        if((MainActivity.currentUser != null) && !attaced) {
+            attaced = true;
             attachListenerToWholeList();
             attachListenerToMyList();
         }

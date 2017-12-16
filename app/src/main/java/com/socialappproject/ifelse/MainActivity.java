@@ -109,12 +109,18 @@ public class MainActivity extends AppCompatActivity {
                             addChildEventListener(new ChildEventListener() {
                                 @Override
                                 public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                                    currentUser = new User(dataSnapshot.child("email").getValue().toString(),
-                                            dataSnapshot.child("name").getValue().toString(),
-                                            Integer.parseInt(dataSnapshot.child("gender").getValue().toString()),
-                                            Integer.parseInt(dataSnapshot.child("old").getValue().toString()),
-                                            Integer.parseInt(dataSnapshot.child("star").getValue().toString()));
-                                    ArticleListManager.get(getApplicationContext()).update();
+                                    try {
+                                        currentUser = new User(dataSnapshot.child("email").getValue().toString(),
+                                                dataSnapshot.child("name").getValue().toString(),
+                                                Integer.parseInt(dataSnapshot.child("gender").getValue().toString()),
+                                                Integer.parseInt(dataSnapshot.child("old").getValue().toString()),
+                                                Integer.parseInt(dataSnapshot.child("star").getValue().toString()));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    finally {
+                                        ArticleListManager.get(getApplicationContext()).update();
+                                    }
                                 }
 
                                 @Override
