@@ -959,7 +959,7 @@ public class StatisticFragment extends Fragment {
                         } else if (snpaed_category == 6) {
                             v0e6.setVal(v0e6.getVal() + 1);
                         } else if (snpaed_category == 7) {
-                            v0e6.setVal(v0e6.getVal() + 1);
+                            v0e7.setVal(v0e7.getVal() + 1);
                         }
 
                     }
