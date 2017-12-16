@@ -15,8 +15,6 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -25,8 +23,6 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.database.DataSnapshot;
@@ -34,9 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Random;
 
 
 public class StatisticFragment extends Fragment {
@@ -131,23 +125,6 @@ public class StatisticFragment extends Fragment {
 
         return view;
     }
-
-    /*
-    <string-array name="chart_ary">
-        <item>막대 그래프</item>
-        <item>선 그래프</item>
-    </string-array>
-    <string-array name="bar_chart_ary">
-        <item>성별 비율</item>
-        <item>연령 비율</item>
-        <item>성별 + 연령 비율</item>
-        <item>카테고리별 게시물 비율</item>
-    </string-array>
-    <string-array name="line_chart_ary">
-        <item>시간대 별 게시물 업데이트 수</item>
-        <item>시간대 별 투표 업데이트 수</item>
-    </string-array>
-     */
 
     private void drawChart(int chart_flag, int data_flag) {
         if(data_flag == NULL_DATA_FLAG) {
@@ -302,7 +279,7 @@ public class StatisticFragment extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                         String snaped_time = postSnapshot.child("time").getValue().toString().substring(6, 8);
-                        Log.d(TAG, snaped_time);
+
                         switch(snaped_time) {
                             case "00": v0e0.setVal(v0e0.getVal() + 1); break;
                             case "01": v0e1.setVal(v0e1.getVal() + 1); break;
@@ -645,9 +622,6 @@ public class StatisticFragment extends Fragment {
 
             valueSet0.add(v0e0);
             valueSet1.add(v1e0);
-
-            Log.d(TAG, "" + v0e0.getVal());
-            Log.d(TAG, "" + v1e0.getVal());
 
             BarDataSet barDataSet1 = new BarDataSet(valueSet1, "남성");
             barDataSet1.setDrawValues(false);

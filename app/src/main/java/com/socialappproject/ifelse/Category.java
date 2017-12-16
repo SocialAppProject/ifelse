@@ -1,8 +1,5 @@
 package com.socialappproject.ifelse;
 
-import android.content.Context;
-
-import java.util.ArrayList;
 
 /**
  * Created by Kimjungmin on 2017. 11. 7..
