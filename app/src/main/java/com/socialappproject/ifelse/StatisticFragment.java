@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -76,7 +75,6 @@ public class StatisticFragment extends Fragment {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                 dialog.setItems(R.array.chart_ary, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(), which + "", Toast.LENGTH_SHORT).show();
                         if (which == 0) { // 막대 그래프
                             _lineChart.clear();
                             _barChart.bringToFront();
