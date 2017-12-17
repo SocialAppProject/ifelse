@@ -148,7 +148,6 @@ public class WriteActivity extends AppCompatActivity {
         findViewById(R.id.write_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (_title.getText().toString().trim().equals("")) {
                     Toast.makeText(getApplicationContext(), "제목을 입력해주세요.", Toast.LENGTH_LONG).show();
                 } else if (_description.getText().toString().trim().equals("")) {
@@ -192,7 +191,8 @@ public class WriteActivity extends AppCompatActivity {
                             uploadTask.addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception exception) {
-                                    // Handle unsuccessful uploads
+                                    Toast.makeText(getApplicationContext(), "사진 첨부에 실패하였습니다. 게시글을 다시 작성해주세요.", Toast.LENGTH_SHORT);
+                                    finish();
                                 }
                             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
@@ -225,7 +225,8 @@ public class WriteActivity extends AppCompatActivity {
                             uploadTask.addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception exception) {
-                                    // Handle unsuccessful uploads
+                                    Toast.makeText(getApplicationContext(), "사진 첨부에 실패하였습니다. 게시글을 다시 작성해주세요.", Toast.LENGTH_SHORT);
+                                    finish();
                                 }
                             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
