@@ -674,7 +674,6 @@ public class StatisticFragment extends Fragment {
 
         if (data_flag == 0) {
             ArrayList<BarEntry> valueSet0 = new ArrayList<>();
-            ArrayList<BarEntry> valueSet1 = new ArrayList<>();
 
             final BarEntry v0e0 = new BarEntry(0, 0); // 여
             final BarEntry v1e0 = new BarEntry(0, 1); // 남
@@ -712,18 +711,24 @@ public class StatisticFragment extends Fragment {
                 }
             });
 
+            valueSet0.add(v1e0);
             valueSet0.add(v0e0);
-            valueSet1.add(v1e0);
 
+            /*
             BarDataSet barDataSet1 = new BarDataSet(valueSet1, "남성");
             barDataSet1.setDrawValues(false);
             barDataSet1.setColor(ContextCompat.getColor(this.getContext(), R.color.men));
-            BarDataSet barDataSet2 = new BarDataSet(valueSet0, "여성");
-            barDataSet2.setDrawValues(false);
-            barDataSet2.setColor(ContextCompat.getColor(this.getContext(), R.color.women));
+            */
+            BarDataSet barDataSet0 = new BarDataSet(valueSet0, "성별");
+            barDataSet0.setDrawValues(false);
 
-            dataSets.add(barDataSet1);
-            dataSets.add(barDataSet2);
+            ArrayList<Integer> colors = new ArrayList<>();
+            colors.add(ContextCompat.getColor(this.getContext(), R.color.men));
+            colors.add(ContextCompat.getColor(this.getContext(), R.color.women));
+            barDataSet0.setColors(colors);
+
+            //dataSets.add(barDataSet1);
+            dataSets.add(barDataSet0);
 
         } else if (data_flag == 1) {
 
@@ -1023,8 +1028,8 @@ public class StatisticFragment extends Fragment {
 
         if (chart_flag == 0) {
             if (data_flag == 0) {
-                xAxis.add("남자");
                 xAxis.add("여자");
+                xAxis.add("남자");
             } else if (data_flag == 1 || data_flag == 2) {
                 xAxis.add("10대 미만");
                 xAxis.add("10대");
