@@ -339,7 +339,7 @@ public class ArticleActivity extends AppCompatActivity {
 
                         Calendar.getInstance().getTimeInMillis();
                         Date currentTime = Calendar.getInstance().getTime();
-                        DatabaseManager.databaseReference.child("VOTED_TIME").child(article.getKey()).setValue(sdf.format(currentTime));
+                        DatabaseManager.databaseReference.child("VOTED_TIME").push().setValue(sdf.format(currentTime));
                     }
                 });
         builder.setNegativeButton("아니오",
