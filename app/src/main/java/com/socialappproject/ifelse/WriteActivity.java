@@ -57,6 +57,8 @@ public class WriteActivity extends AppCompatActivity {
     private static final int REQUEST_WRITE = 1;
     private static final int PERMISSIONS_REQUEST_CAMERA = 100;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 200;
+    private static final String[] badwords = {"갈보", "개년", "개놈", "계집", "딸딸이", "보지", "빌어먹을", "새끼", "쌍년", "쌍놈", "썅놈", "씨발", "시발", "씨팔",
+            "ㅅㅂ", "슈발", "시팔", "ㅆㅂ", "씹할", "씹창", "씹새끼", "애미", "애비", "염병", "섹스", "쎅스", "섹쓰", "sex", "fuck", "bitch", "제기랄", "자지", "존나", "좆", "좇"};
 
     private Uri fileUri; // file url to store image
     private String mCurrentPhotoPath;
@@ -76,6 +78,8 @@ public class WriteActivity extends AppCompatActivity {
 
     private int flag1 = 0;
     private int flag2 = 0; // 1-카메라, 2-갤러리
+
+    private String badwordToShow;
 
     Spinner _spinner;
     TextView _option1, _option2;
@@ -148,9 +152,14 @@ public class WriteActivity extends AppCompatActivity {
         findViewById(R.id.write_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (_title.getText().toString().trim().equals("")) {
+                String title = _title.getText().toString().trim();
+                String description = _description.getText().toString().trim();
+
+                badwordToShow = null;
+
+                if (title.equals("")) {
                     Toast.makeText(getApplicationContext(), "제목을 입력해주세요.", Toast.LENGTH_LONG).show();
-                } else if (_description.getText().toString().trim().equals("")) {
+                } else if (description.equals("")) {
                     Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_LONG).show();
                 } else if (_radioGroup.getCheckedRadioButtonId() == -1) {
                     Toast.makeText(getApplicationContext(), "성별을 체크해주세요.", Toast.LENGTH_LONG).show();
@@ -158,8 +167,12 @@ public class WriteActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "첫번째 선택지를 채워주세요.", Toast.LENGTH_LONG).show();
                 } else if (article.getOption2_flag() == 0) {
                     Toast.makeText(getApplicationContext(), "두번째 선택지를 채워주세요.", Toast.LENGTH_LONG).show();
+                } else if (badwordFilter(title) || badwordFilter(description)
+                        || ((article.getOption1_flag() == 2) && badwordFilter(_option1.getText().toString().trim()))
+                        || ((article.getOption2_flag() == 2) && badwordFilter(_option2.getText().toString().trim()))) {
+                    if (badwordToShow != null)
+                        Toast.makeText(getApplicationContext(), "바르고 고운말을 사용합시다^^\n" + badwordToShow + " 이(가) 포함되어 있습니다.", Toast.LENGTH_LONG).show();
                 } else {
-
                     progressDialog = new ProgressDialog(WriteActivity.this);
                     progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progressDialog.setMessage("업로드중..");
@@ -167,8 +180,8 @@ public class WriteActivity extends AppCompatActivity {
 
                     final DatabaseReference articleRef = DatabaseManager.databaseReference.child("ARTICLE").push();
 
-                    article.setTitle(_title.getText().toString().trim());
-                    article.setDescription(_description.getText().toString().trim());
+                    article.setTitle(title);
+                    article.setDescription(description);
                     article.setCategory(_spinner.getSelectedItemPosition());
                     article.setUserID(mFirebaseAuth.getCurrentUser().getEmail());
                     article.setArticleID("test");
@@ -515,5 +528,16 @@ public class WriteActivity extends AppCompatActivity {
         cursor.close();
 
         return picturePath;
+    }
+
+    private boolean badwordFilter(String text) {
+        for (String badword : badwords) {
+            if (text.contains(badword)) {
+                badwordToShow = badword;
+                return true;
+            }
+        }
+        badwordToShow = null;
+        return false;
     }
 }
