@@ -144,6 +144,11 @@ public class ArticleActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.modify_article:
+                Intent intent = new Intent(ArticleActivity.this, ModifyActivity.class);
+                intent.putExtra("key", key);
+                startActivity(intent);
+                break;
             case R.id.delete_article:
                 removeArticle();
                 break;

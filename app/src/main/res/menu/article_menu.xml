@@ -8,10 +8,14 @@
         android:title="menu"
         app:showAsAction="always">
         <menu>
+            <item
+                android:id="@+id/modify_article"
+                android:title="수정"/>
 
             <item
                 android:id="@+id/delete_article"
                 android:title="삭제"/>
+
         </menu>
     </item>
 </menu>
