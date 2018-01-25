@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +23,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -355,9 +357,10 @@ public class ArticleActivity extends AppCompatActivity {
         builder.show();
     }
 
-    //Todo : 삭제시 스토리지에서 사진도 삭제하는거 의논해서 삭제
     private void removeArticle() {
         try {
+            StorageManager.storageReference.child("Images").child(article.getKey()).child("option_1").delete();
+            StorageManager.storageReference.child("Images").child(article.getKey()).child("option_2").delete();
             DatabaseManager.databaseReference.child("ARTICLE").child(article.getKey()).removeValue();
             DatabaseManager.databaseReference.child("USER").child(FirebaseAuth.getInstance()
                     .getCurrentUser().getUid()).child("WRITED_ARTICLE").child(article.getKey()).removeValue();
