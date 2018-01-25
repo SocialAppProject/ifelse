@@ -97,7 +97,7 @@ public class ArticleActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Comment comment = new Comment();
                 comment.setName(MainActivity.currentUser.getName());
-                comment.setText(comment_et.getText().toString());
+                comment.setText(badwordFilter(comment_et.getText().toString()));
                 DatabaseManager.databaseReference.child("ARTICLE").child(key).child("Comment").push()
                         .setValue(comment);
                 comment_et.setText("");
@@ -369,5 +369,16 @@ public class ArticleActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // TODO : 댓글 비속어 필터 적용하기
+    private String badwordFilter(String originalText) {
+        String fixedText = "";
+        for (String badword : Constants.badwords) {
+            originalText.replaceAll(badword, "**");
+        }
+        System.out.println("순화 : " + fixedText);
+        System.out.println("순화ori : " + originalText);
+        return fixedText;
     }
 }
