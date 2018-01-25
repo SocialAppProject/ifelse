@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -193,8 +194,7 @@ public class ArticleActivity extends AppCompatActivity {
             Activity activity = ArticleActivity.this;
             if (activity.isFinishing())
                 return;
-            Glide.with(this).load(StorageManager.storageReference.child("Images").child(article.getKey())
-                    .child("option_1")).into(option_1_iv);
+            Glide.with(getApplicationContext()).load(article.getOption1()).into(option_1_iv);
         } else {
             option_1_tv.setVisibility(View.VISIBLE);
             option_1_iv.setVisibility(View.INVISIBLE);
@@ -208,8 +208,7 @@ public class ArticleActivity extends AppCompatActivity {
             Activity activity = ArticleActivity.this;
             if (activity.isFinishing())
                 return;
-            Glide.with(this).load(StorageManager.storageReference.child("Images").child(article.getKey())
-                    .child("option_2")).into(option_2_iv);
+            Glide.with(getApplicationContext()).load(article.getOption2()).into(option_2_iv);
         } else {
             option_2_tv.setVisibility(View.VISIBLE);
             option_2_iv.setVisibility(View.INVISIBLE);

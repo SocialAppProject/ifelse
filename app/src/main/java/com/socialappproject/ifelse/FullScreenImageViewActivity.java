@@ -49,10 +49,8 @@ public class FullScreenImageViewActivity extends AppCompatActivity {
         full_iv = findViewById(R.id.full_iv);
 
         if (select == 1)
-            Glide.with(getApplicationContext()).load(StorageManager.storageReference.child("Images").child(article.getKey())
-                    .child("option_1")).into(full_iv);
+            Glide.with(getApplicationContext()).load(article.getOption1()).into(full_iv);
         else
-            Glide.with(getApplicationContext()).load(StorageManager.storageReference.child("Images").child(article.getKey())
-                    .child("option_2")).into(full_iv);
+            Glide.with(getApplicationContext()).load(article.getOption2()).into(full_iv);
     }
 }

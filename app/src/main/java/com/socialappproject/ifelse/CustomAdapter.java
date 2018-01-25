@@ -70,9 +70,7 @@ public class CustomAdapter extends BaseAdapter {
             if (article.getOption1_flag() == 1) {
                 option_1_iv.setVisibility(View.VISIBLE);
                 option_1_tv.setVisibility(View.INVISIBLE);
-                Glide.with(context).load(StorageManager.storageReference.child("Images").child(article.getKey())
-                        .child("option_1")).into(option_1_iv);
-
+                Glide.with(context).load(article.getOption1()).into(option_1_iv);
             } else {
                 option_1_tv.setVisibility(View.VISIBLE);
                 option_1_iv.setVisibility(View.INVISIBLE);
@@ -83,8 +81,7 @@ public class CustomAdapter extends BaseAdapter {
             if (article.getOption2_flag() == 1) {
                 option_2_iv.setVisibility(View.VISIBLE);
                 option_2_tv.setVisibility(View.INVISIBLE);
-                Glide.with(context).load(StorageManager.storageReference.child("Images").child(article.getKey())
-                        .child("option_2")).into(option_2_iv);
+                Glide.with(context).load(article.getOption2()).into(option_2_iv);
 
             } else {
                 option_2_tv.setVisibility(View.VISIBLE);
