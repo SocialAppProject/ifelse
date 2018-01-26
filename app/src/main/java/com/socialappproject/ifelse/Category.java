@@ -11,13 +11,6 @@ public class Category {
     private String[] category_Name;
     private int num = 8;
 
-    public static Category get() {
-        if (category == null)
-            category = new Category();
-
-        return category;
-    }
-
     private Category() {
         category_isOn = new boolean[8];
         for (int i = 0; i < num; i++)
@@ -32,6 +25,13 @@ public class Category {
         category_Name[5] = "장소";
         category_Name[6] = "뷰티";
         category_Name[7] = "기타";
+    }
+
+    public static Category get() {
+        if (category == null)
+            category = new Category();
+
+        return category;
     }
 
     public String getCategory_Name_byIndex(int i) {

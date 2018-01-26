@@ -1,8 +1,8 @@
 package com.socialappproject.ifelse;
 
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -51,7 +51,7 @@ public class AuthenticationFragment extends PreferenceFragmentCompat {
         star_pf = findPreference("star");
         logout_pf = findPreference("logout");
 
-        if(MainActivity.currentUser == null)
+        if (MainActivity.currentUser == null)
             Toast.makeText(getContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
         else {
             email_pf.setSummary(MainActivity.currentUser.getEmail());

@@ -27,6 +27,10 @@ public class Article {
         return key;
     }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public int getOption1_num() {
         return option1_num;
     }
@@ -39,72 +43,68 @@ public class Article {
         return title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public String getOption1() {
-        return option1;
-    }
-
-    public String getOption2() {
-        return option2;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public int getTarget_min_old() {
-        return target_min_old;
-    }
-
-    public int getTarget_max_old() {
-        return target_max_old;
-    }
-
-    public int getTarget_gender() {
-        return target_gender;
-    }
-
-    public int getCategory() {
-        return category;
-    }
-
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public String getOption1() {
+        return option1;
+    }
+
     public void setOption1(String option1) {
         this.option1 = option1;
+    }
+
+    public String getOption2() {
+        return option2;
     }
 
     public void setOption2(String option2) {
         this.option2 = option2;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public String getTime() {
+        return time;
     }
 
     public void setTime(String time) {
         this.time = time;
     }
 
+    public int getTarget_min_old() {
+        return target_min_old;
+    }
+
     public void setTarget_min_old(int target_min_old) {
         this.target_min_old = target_min_old;
+    }
+
+    public int getTarget_max_old() {
+        return target_max_old;
     }
 
     public void setTarget_max_old(int target_max_old) {
         this.target_max_old = target_max_old;
     }
 
+    public int getTarget_gender() {
+        return target_gender;
+    }
+
     public void setTarget_gender(int target_gender) {
         this.target_gender = target_gender;
+    }
+
+    public int getCategory() {
+        return category;
     }
 
     public void setCategory(int category) {
@@ -147,12 +147,12 @@ class Comment {
         return name;
     }
 
-    public String getText() {
-        return text;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getText() {
+        return text;
     }
 
     public void setText(String text) {

@@ -20,9 +20,9 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,15 +34,12 @@ import java.util.ArrayList;
 
 public class StatisticFragment extends Fragment {
     private static final String TAG = "StatisticFragment";
-
+    private static int NULL_DATA_FLAG = 10000;
+    BarChart _barChart;
+    LineChart _lineChart;
     private DatabaseReference userRef = DatabaseManager.databaseReference.child("USER");
     private DatabaseReference articleRef = DatabaseManager.databaseReference.child("ARTICLE");
     private DatabaseReference voteRef = DatabaseManager.databaseReference.child("VOTED_TIME");
-
-    BarChart _barChart;
-    LineChart _lineChart;
-
-    private static int NULL_DATA_FLAG = 10000;
 
     public StatisticFragment() {
         // Required empty public constructor

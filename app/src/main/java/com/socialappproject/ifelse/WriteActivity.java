@@ -57,27 +57,8 @@ public class WriteActivity extends AppCompatActivity {
     private static final int REQUEST_WRITE = 1;
     private static final int PERMISSIONS_REQUEST_CAMERA = 100;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 200;
-    private Uri fileUri; // file url to store image
-    private String mCurrentPhotoPath;
     private static final String IMAGE_DIRECTORY_NAME = "ifelse";
-
-    private FirebaseAuth mFirebaseAuth;
-
-    private Article article = new Article();
-
     private static final DateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-
-    private Uri uri_option1;
-    private Uri uri_option2;
-
-    private Bitmap bitmap_option1;
-    private Bitmap bitmap_option2;
-
-    private int flag1 = 0;
-    private int flag2 = 0; // 1-카메라, 2-갤러리
-
-    private String badwordToShow;
-
     Spinner _spinner;
     TextView _option1, _option2;
     EditText _title, _description;
@@ -85,6 +66,17 @@ public class WriteActivity extends AppCompatActivity {
     RangeSeekBar _old;
     ProgressDialog progressDialog;
     Toolbar toolbar;
+    private Uri fileUri; // file url to store image
+    private String mCurrentPhotoPath;
+    private FirebaseAuth mFirebaseAuth;
+    private Article article = new Article();
+    private Uri uri_option1;
+    private Uri uri_option2;
+    private Bitmap bitmap_option1;
+    private Bitmap bitmap_option2;
+    private int flag1 = 0;
+    private int flag2 = 0; // 1-카메라, 2-갤러리
+    private String badwordToShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

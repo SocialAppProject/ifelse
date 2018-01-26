@@ -27,7 +27,8 @@ import static android.app.Activity.RESULT_OK;
 public class NewsfeedFragment extends Fragment {
     private static final int REQUEST_WRITE = 0;
     private static final int REQUEST_ARTICLE = 1;
-
+    public static int category_num;
+    public static String queryText;
     private ListView newsfeedListView;
     private CustomAdapter customAdapter;
     private List<Article> articleList;
@@ -35,8 +36,6 @@ public class NewsfeedFragment extends Fragment {
     private Toolbar toolbar;
     private TextView noArticle_tv;
     private Bundle bundle;
-    public static int category_num;
-    public static String queryText;
 
     public NewsfeedFragment() {
 
@@ -144,10 +143,9 @@ public class NewsfeedFragment extends Fragment {
         view.findViewById(R.id.floatingActionButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(MainActivity.currentUser == null) {
+                if (MainActivity.currentUser == null) {
                     Toast.makeText(getContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
-                }
-                else if (MainActivity.currentUser.getStar() >= 5) {
+                } else if (MainActivity.currentUser.getStar() >= 5) {
                     Intent intent = new Intent(getActivity(), WriteActivity.class);
                     startActivityForResult(intent, REQUEST_WRITE);
                 } else {

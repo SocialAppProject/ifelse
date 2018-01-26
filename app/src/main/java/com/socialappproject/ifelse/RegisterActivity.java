@@ -19,9 +19,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -30,13 +27,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
-
-    private FirebaseAuth mFirebaseAuth;
-
-    private RadioButton femaleRadioButton;
-
     @InjectView(R.id.input_email)
     EditText _emailText;
     @InjectView(R.id.input_password)
@@ -51,6 +46,8 @@ public class RegisterActivity extends AppCompatActivity {
     Button _signupButton;
     @InjectView(R.id.link_login)
     TextView _loginLink;
+    private FirebaseAuth mFirebaseAuth;
+    private RadioButton femaleRadioButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -20,6 +20,30 @@ import java.util.ArrayList;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
     private ArrayList<MyData> mDataset;
 
+    public CategoryAdapter(ArrayList<MyData> myDataset) {
+        mDataset = myDataset;
+    }
+
+    @Override
+    public CategoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_category, parent, false);
+
+        ViewHolder vh = new ViewHolder(v);
+        return vh;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.mTextView.setText(mDataset.get(position).text);
+        holder.mImageView.setImageResource(mDataset.get(position).img);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mDataset.size();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView mImageView;
@@ -48,30 +72,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 }
             });
         }
-    }
-
-    public CategoryAdapter(ArrayList<MyData> myDataset) {
-        mDataset = myDataset;
-    }
-
-    @Override
-    public CategoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_category, parent, false);
-
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mTextView.setText(mDataset.get(position).text);
-        holder.mImageView.setImageResource(mDataset.get(position).img);
-    }
-
-    @Override
-    public int getItemCount() {
-        return mDataset.size();
     }
 }
 

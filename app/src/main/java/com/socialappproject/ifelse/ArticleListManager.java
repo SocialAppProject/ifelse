@@ -16,10 +16,9 @@ import java.util.List;
  */
 
 public class ArticleListManager {
+    private static ArticleListManager articleListManager;
     private FirebaseAuth firebaseAuth;
     private String UID;
-
-    private static ArticleListManager articleListManager;
     private List<Article> articleList;
 
     private List<Article> food_articleList;
@@ -39,13 +38,6 @@ public class ArticleListManager {
 
     private boolean attaced;
 
-
-    public static ArticleListManager get(Context context) {
-        if (articleListManager == null)
-            articleListManager = new ArticleListManager(context);
-
-        return articleListManager;
-    }
 
     private ArticleListManager(Context context) {
         firebaseAuth = FirebaseAuth.getInstance();
@@ -74,6 +66,13 @@ public class ArticleListManager {
             update();
             attaced = true;
         }
+    }
+
+    public static ArticleListManager get(Context context) {
+        if (articleListManager == null)
+            articleListManager = new ArticleListManager(context);
+
+        return articleListManager;
     }
 
     private void attachListenerToWholeList() {

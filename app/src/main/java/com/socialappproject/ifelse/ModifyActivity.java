@@ -22,11 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,13 +39,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import org.florescu.android.rangeseekbar.RangeSeekBar;
-
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class ModifyActivity extends AppCompatActivity {
 
@@ -59,33 +51,23 @@ public class ModifyActivity extends AppCompatActivity {
     private static final int REQUEST_WRITE = 1;
     private static final int PERMISSIONS_REQUEST_CAMERA = 100;
     private static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 200;
-
-    private Article article;
-
-    private Uri fileUri; // file url to store image
-    private String mCurrentPhotoPath;
     private static final String IMAGE_DIRECTORY_NAME = "ifelse";
-
-    private FirebaseAuth mFirebaseAuth;
-
     private static final DateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-
-    private Uri uri_option1;
-    private Uri uri_option2;
-
-    private Bitmap bitmap_option1;
-    private Bitmap bitmap_option2;
-
-    private int flag1 = 0;
-    private int flag2 = 0; // 1-카메라, 2-갤러리
-
-    private String badwordToShow;
-
     TextView _option1, _option2;
     EditText _title, _description;
     ProgressDialog progressDialog;
     Toolbar toolbar;
-
+    private Article article;
+    private Uri fileUri; // file url to store image
+    private String mCurrentPhotoPath;
+    private FirebaseAuth mFirebaseAuth;
+    private Uri uri_option1;
+    private Uri uri_option2;
+    private Bitmap bitmap_option1;
+    private Bitmap bitmap_option2;
+    private int flag1 = 0;
+    private int flag2 = 0; // 1-카메라, 2-갤러리
+    private String badwordToShow;
     private String key;
 
     @Override
@@ -143,7 +125,7 @@ public class ModifyActivity extends AppCompatActivity {
 
             }
         });
-        if(article.getOption1_flag() == 1) {
+        if (article.getOption1_flag() == 1) {
             Glide.with(getApplicationContext()).asBitmap().load(article.getOption1()).into(new SimpleTarget<Bitmap>(100, 100) {
                 @Override
                 public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
@@ -168,7 +150,7 @@ public class ModifyActivity extends AppCompatActivity {
 
             }
         });
-        if(article.getOption2_flag() == 1) {
+        if (article.getOption2_flag() == 1) {
             Glide.with(getApplicationContext()).asBitmap().load(article.getOption2()).into(new SimpleTarget<Bitmap>(100, 100) {
                 @Override
                 public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {

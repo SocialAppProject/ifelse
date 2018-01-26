@@ -15,12 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static com.socialappproject.ifelse.MainActivity.currentUser;
 
 public class MymenuFragment extends Fragment {
     private static final int REQUEST_WRITE = 0;

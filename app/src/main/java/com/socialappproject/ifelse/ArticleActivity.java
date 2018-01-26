@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,10 +20,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -95,6 +93,10 @@ public class ArticleActivity extends AppCompatActivity {
         comment_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (comment_et.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "댓글을 입력하세요", Toast.LENGTH_SHORT);
+                    return;
+                }
                 Comment comment = new Comment();
                 comment.setName(MainActivity.currentUser.getName());
                 comment.setText(badwordFilter(comment_et.getText().toString()));
@@ -371,14 +373,10 @@ public class ArticleActivity extends AppCompatActivity {
         }
     }
 
-    // TODO : 댓글 비속어 필터 적용하기
-    private String badwordFilter(String originalText) {
-        String fixedText = "";
-        for (String badword : Constants.badwords) {
-            originalText.replaceAll(badword, "**");
-        }
-        System.out.println("순화 : " + fixedText);
-        System.out.println("순화ori : " + originalText);
-        return fixedText;
+    private String badwordFilter(String text) {
+        for (String badword : Constants.badwords)
+            text = text.replaceAll(badword, "**");
+
+        return text;
     }
 }
