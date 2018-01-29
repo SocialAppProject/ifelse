@@ -42,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "네트워크 오류", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+        } finally {
+            SystemClock.sleep(1000);
+            setContentView(R.layout.activity_main);
         }
-
-        SystemClock.sleep(2000);
-        setContentView(R.layout.activity_main);
 
         fm = getSupportFragmentManager();
 
